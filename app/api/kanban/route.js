@@ -50,36 +50,18 @@ export async function GET() {
       return board;
     }, {});
 
-    return NextResponse.json(kanbanData);
+    // 열(column)을 오름차순으로 정렬
+    const sortedColumns = Object.keys(kanbanData).sort(); // column_name을 오름차순 정렬
+
+    // 정렬된 열에 맞게 데이터 재구성
+    const sortedKanbanData = sortedColumns.reduce((sortedBoard, column) => {
+      sortedBoard[column] = kanbanData[column];
+      return sortedBoard;
+    }, {});
+
+    return NextResponse.json(sortedKanbanData);
   } catch (error) {
     console.error('Error fetching Kanban data:', error);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 }
-
-// // Kanban 보드 초기화
-// const kanbanBoard = new Board({
-//   columns: ['201호', '202호', '203호', '205호', '206호', '207호', '208호', '209호', '201호', '대기'], // 기본 열
-// });
-
-// // 기본 카드 추가
-// kanbanBoard.addCard('대기', { id: 1, title: 'Task 1', description: 'First task' });
-// kanbanBoard.addCard('대기', { id: 2, title: 'Task 2', description: 'Second task' });
-
-// // GET 요청: 보드 데이터 가져오기
-// export async function GET() {
-//   return NextResponse.json(kanbanBoard.toJSON());
-// }
-
-// // POST 요청: 새 카드 추가
-// export async function POST(request) {
-//   const body = await request.json(); // 클라이언트에서 보낸 데이터
-//   const { column, card } = body;
-
-//   try {
-//     kanbanBoard.addCard(column, card); // 지정된 열에 카드 추가
-//     return NextResponse.json({ success: true, board: kanbanBoard.toJSON() });
-//   } catch (error) {
-//     return NextResponse.json({ success: false, message: error.message }, { status: 400 });
-//   }
-// }
