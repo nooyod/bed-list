@@ -25,18 +25,27 @@ export async function GET() {
         ROOM AS column_name,          -- 칸반 보드의 열 이름
         CHARTNO AS card_id,           -- 카드 ID
         PATNAME AS card_title,        -- 카드 제목
-        DOCT + ' (' + INSUSUB + ')' AS card_description -- 카드 설명
+        DOCT AS doct,         -- 의사 정보
+        INSUCLS AS insucls    -- 보험 정보
       FROM SILVER_PATIENT_INFO
       WHERE OUTKIND = '99'            -- outkind가 99인 행만 필터링
     `);
 
+    const insusubMap = {
+      '00': '건강보험',
+      '10': '의료급여',
+      '20': '자동차',
+      '40': '산재',
+    };
+
     // 가져온 데이터를 Kanban 보드 형식으로 변환
     const kanbanData = result.recordset.reduce((board, row) => {
       const column = row.column_name; // 열 이름
+      const insusubDisplay = insusubMap[row.insucls] || 'unknown'; // 매핑되지 않은 값은 'unknown'
       const card = {
         id: row.card_id,            // 카드 ID
         title: row.card_title,      // 카드 제목
-        description: row.card_description, // 카드 설명
+        description: `${row.doct} (${insusubDisplay})`, // 카드 설명
       };
 
       // 열이 없으면 초기화
