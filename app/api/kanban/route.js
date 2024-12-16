@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { Board } from 'kanbanize';
+// import { Board } from 'kanbanize';
 import sql from 'mssql';
 
 // MSSQL 데이터베이스 연결 설정
@@ -57,10 +57,10 @@ export async function GET() {
   }
 }
 
-// Kanban 보드 초기화
-const kanbanBoard = new Board({
-  columns: ['201호', '202호', '203호', '205호', '206호', '207호', '208호', '209호', '201호', '대기'], // 기본 열
-});
+// // Kanban 보드 초기화
+// const kanbanBoard = new Board({
+//   columns: ['201호', '202호', '203호', '205호', '206호', '207호', '208호', '209호', '201호', '대기'], // 기본 열
+// });
 
 // // 기본 카드 추가
 // kanbanBoard.addCard('대기', { id: 1, title: 'Task 1', description: 'First task' });
