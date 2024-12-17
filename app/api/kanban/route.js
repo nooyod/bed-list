@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 // import { Board } from 'kanbanize';
 import sql from 'mssql';
+import { readFile } from 'fs/promises';
+import path from 'path';
 
 // MSSQL 데이터베이스 연결 설정
 const dbConfig = {
@@ -61,6 +63,24 @@ export async function GET() {
         kanbanData[row.column_name].push(card);
       }
     });
+
+    const filePath = path.join(process.cwd(), 'public', 'reserve.json'); // JSON 파일 경로
+    const fileContent = await readFile(filePath, 'utf-8');
+    const jsonData = JSON.parse(fileContent);
+
+    // JSON 데이터 추가
+    jsonData.forEach((row, any) => {
+      const insusubDisplay = insusubMap[row.insucls] || 'unknown'; // 매핑되지 않은 값은 'unknown'
+      const card = {
+        id: row.card_id,
+        title: row.card_title,
+        description: `${row.doct} (${insusubDisplay})`, // 카드 설명
+      };
+      if (kanbanData[row.column_name]) {
+        kanbanData[row.column_name].push(card);
+      }
+    });
+
 
     return NextResponse.json(kanbanData);
   } catch (error) {
