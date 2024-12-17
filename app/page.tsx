@@ -88,7 +88,7 @@ export default function HomePage() {
   return (
     <div className="kanban-container">
       <button onClick={handleAddCard} className="kanban-add-button">
-        카드 추가
+        예약 추가
       </button>
       {Object.entries(board).map(([column, cards], index) => (
         <div key={column} className="kanban-column">
@@ -109,7 +109,7 @@ export default function HomePage() {
       ))}
       {showPopup && (
         <div className="kanban-popup">
-          <h2>새 카드 추가</h2>
+          <h2>새 예약 추가</h2>
           <label>
             Column:
             <input

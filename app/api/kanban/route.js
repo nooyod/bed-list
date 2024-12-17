@@ -27,9 +27,9 @@ export async function GET() {
     // 뷰에서 데이터 가져오기
     const result = await pool.request().query(`
       SELECT 
-        ROOM AS column_name,          -- 칸반 보드의 열 이름
-        CHARTNO AS card_id,           -- 카드 ID
-        PATNAME AS card_title,        -- 카드 제목
+        ROOM AS chart_room,          -- 칸반 보드의 열 이름
+        CHARTNO AS chart_number,           -- 카드 ID
+        PATNAME AS chart_name,        -- 카드 제목
         DOCT AS doct,         -- 의사 정보
         INSUCLS AS insucls    -- 보험 정보
       FROM SILVER_PATIENT_INFO
@@ -54,13 +54,13 @@ export async function GET() {
     result.recordset.forEach((row) => {
       const insusubDisplay = insusubMap[row.insucls] || 'unknown'; // 매핑되지 않은 값은 'unknown'
       const card = {
-        id: row.card_id,
-        title: row.card_title,
+        id: row.chart_number,
+        title: row.chart_name,
         description: `${row.doct} (${insusubDisplay})`, // 카드 설명
       };
       // 열에 카드 추가
-      if (kanbanData[row.column_name]) {
-        kanbanData[row.column_name].push(card);
+      if (kanbanData[row.chart_room]) {
+        kanbanData[row.chart_room].push(card);
       }
     });
 
@@ -72,12 +72,12 @@ export async function GET() {
     jsonData.forEach((row, any) => {
       const insusubDisplay = insusubMap[row.insucls] || 'unknown'; // 매핑되지 않은 값은 'unknown'
       const card = {
-        id: row.card_id,
-        title: row.card_title,
+        id: row.chart_number,
+        title: row.chart_name,
         description: `${row.doct} (${insusubDisplay})`, // 카드 설명
       };
-      if (kanbanData[row.column_name]) {
-        kanbanData[row.column_name].push(card);
+      if (kanbanData[row.chart_room]) {
+        kanbanData[row.chart_room].push(card);
       }
     });
 

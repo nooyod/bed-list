@@ -1,15 +1,15 @@
 [
     {
-      "column_name": "205호",
-      "card_id": "복미자",
-      "card_title": "복미자",
+      "chart_room": "205호",
+      "chart_number": "복미자",
+      "chart_name": "복미자",
       "doct": "",
       "insusub": "10"
     },
     {
-      "column_name": "208호",
-      "card_id": "강대홍",
-      "card_title": "강대홍",
+      "chart_room": "208호",
+      "chart_number": "강대홍",
+      "chart_name": "강대홍",
       "doct": "",
       "insusub": "20"
     }
