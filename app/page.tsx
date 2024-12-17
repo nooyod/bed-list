@@ -63,6 +63,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import './globals.css'; // 전체 스타일
+import './kanban.css'; // 칸반 보드 전용 스타일
 
 interface Card {
   id: string;
@@ -106,44 +108,63 @@ export default function HomePage() {
   if (!board || Object.keys(board).length === 0) return <p>No board data available</p>;
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      gap: '2%', /* 칼럼 간 간격 설정 */
-      padding: '20px', 
-      justifyContent: 'space-between', /* 여유 공간을 양쪽 끝에 배치 */
-      width: '80%', /* 부모 컨테이너의 너비를 80%로 설정 */
-      margin: '10' /* 가운데 정렬 */
-    }}>
+    <div className="kanban-container">
       {Object.entries(board).map(([column, cards]) => (
-        <div key={column} style={{ flex: '0 0 10%' }}>
-          <h2 style={{ textAlign: 'center', backgroundColor: '#eee', padding: '10px' }}>{column}</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {cards.map((card, index) => (
-              <div
-                key={card.id}
+        <div key={column} className="kanban-column">
+          <h2>{column}</h2>
+          <div>
+            {cards.map((card) => (
+              <div key={card.id} className="kanban-card"
                 onClick={() => handleCardClick(card)}
-                style={{
-                  cursor: 'pointer',
-                  padding: '10px',
-                  borderRadius: '5px',
-                  color: '#fff',
-                  textAlign: 'center',
-                  backgroundColor: getCardColor(index),
-                  boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
-                  transition: 'transform 0.2s',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-              >
+                >
                 <strong>{card.title}</strong>
-                <p style={{ fontSize: '0.9em', marginTop: '5px' }}>{card.description}</p>
+                <p>{card.description}</p>
               </div>
             ))}
           </div>
         </div>
       ))}
-    </div>    
+    </div>
   );
+  // return (
+  //   <div style={{ 
+  //     display: 'flex', 
+  //     gap: '1%', /* 칼럼 간 간격 설정 */
+  //     padding: '20px', 
+  //     justifyContent: 'space-between', /* 여유 공간을 양쪽 끝에 배치 */
+  //     width: '80%', /* 부모 컨테이너의 너비를 80%로 설정 */
+  //     margin: '10' /* 가운데 정렬 */
+  //   }}>
+  //     {Object.entries(board).map(([column, cards]) => (
+  //       <div key={column} style={{ flex: '0 0 10%' }}>
+  //         <h2 style={{ textAlign: 'center', backgroundColor: '#eee', padding: '10px' }}>{column}</h2>
+  //         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+  //           {cards.map((card, index) => (
+  //             <div
+  //               key={card.id}
+  //               onClick={() => handleCardClick(card)}
+  //               style={{
+  //                 cursor: 'pointer',
+  //                 padding: '10px',
+  //                 borderRadius: '5px',
+  //                 color: '#fff',
+  //                 textAlign: 'center',
+  //                 backgroundColor: getCardColor(index),
+  //                 boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+  //                 transition: 'transform 0.2s',
+  //               }}
+  //               onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+  //               onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+  //             >
+  //               <strong>{card.title}</strong>
+  //               <p style={{ fontSize: '0.9em', marginTop: '5px' }}>{card.description}</p>
+  //             </div>
+  //           ))}
+  //         </div>
+  //       </div>
+  //     ))}
+  //   </div>    
+  // );
 }
 
 // 카드 색상을 동적으로 지정 (Index를 활용한 색상 배열 순환)
