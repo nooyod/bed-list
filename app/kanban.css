@@ -3,15 +3,15 @@
     display: flex;
     gap: 2%;
     padding: 20px;
-    justify-content: space-between;
+    justify-content: start;
     width: 100%;
     margin: 0 auto; /* 가운데 정렬 */
   }
   
   /* 칼럼 스타일 */
   .kanban-column {
-    flex: 0 0 10%; /* 각 칼럼 너비 10% */
-    background-color: #f4f4f4; /* 칼럼 배경색 */
+    flex: 0 0 7%; /* 각 칼럼 너비 10% */
+    background-color: #48484872; /* 칼럼 배경색 */
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;

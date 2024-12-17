@@ -14,6 +14,9 @@ const dbConfig = {
   },
 };
 
+// 미리 정의된 열 목록
+const predefinedColumns = ['201호', '202호', '203호', '205호', '206호', '207호', '208호', '209호', '210호', '대기'];
+
 export async function GET() {
   try {
     // MSSQL 연결
@@ -38,39 +41,66 @@ export async function GET() {
       '40': '산재',
     };
 
-    // 가져온 데이터를 Kanban 보드 형식으로 변환
-    const kanbanData = result.recordset.reduce((board, row) => {
-      const column = row.column_name; // 열 이름
-      const insusubDisplay = insusubMap[row.insucls] || 'unknown'; // 매핑되지 않은 값은 'unknown'
-      const card = {
-        id: row.card_id,            // 카드 ID
-        title: row.card_title,      // 카드 제목
-        description: `${row.doct} (${insusubDisplay})`, // 카드 설명
-      };
-
-      // 열이 없으면 초기화
-      if (!board[column]) {
-        board[column] = [];
-      }
-
-      // 카드 추가
-      board[column].push(card);
-
+    // 데이터 변환: 열과 카드 매칭
+    const kanbanData = predefinedColumns.reduce((board, columnName) => {
+      // 각 열 이름에 대해 초기 빈 배열 설정
+      board[columnName] = [];
       return board;
     }, {});
 
-    // 열(column)을 오름차순으로 정렬
-    const sortedColumns = Object.keys(kanbanData).sort(); // column_name을 오름차순 정렬
+    // 받아온 데이터 추가
+    result.recordset.forEach((row) => {
+      const insusubDisplay = insusubMap[row.insucls] || 'unknown'; // 매핑되지 않은 값은 'unknown'
+      const card = {
+        id: row.card_id,
+        title: row.card_title,
+        description: `${row.doct} (${insusubDisplay})`, // 카드 설명
+      };
+      // 열에 카드 추가
+      if (kanbanData[row.column_name]) {
+        kanbanData[row.column_name].push(card);
+      }
+    });
 
-    // 정렬된 열에 맞게 데이터 재구성
-    const sortedKanbanData = sortedColumns.reduce((sortedBoard, column) => {
-      sortedBoard[column] = kanbanData[column];
-      return sortedBoard;
-    }, {});
-
-    return NextResponse.json(sortedKanbanData);
+    return NextResponse.json(kanbanData);
   } catch (error) {
     console.error('Error fetching Kanban data:', error);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 }
+//     // 가져온 데이터를 Kanban 보드 형식으로 변환
+//     const kanbanData = result.recordset.reduce((board, row) => {
+//       const column = row.column_name; // 열 이름
+//       const insusubDisplay = insusubMap[row.insucls] || 'unknown'; // 매핑되지 않은 값은 'unknown'
+//       const card = {
+//         id: row.card_id,            // 카드 ID
+//         title: row.card_title,      // 카드 제목
+//         description: `${row.doct} (${insusubDisplay})`, // 카드 설명
+//       };
+
+//       // 열이 없으면 초기화
+//       if (!board[column]) {
+//         board[column] = [];
+//       }
+
+//       // 카드 추가
+//       board[column].push(card);
+
+//       return board;
+//     }, {});
+
+//     // 열(column)을 오름차순으로 정렬
+//     const sortedColumns = Object.keys(kanbanData).sort(); // column_name을 오름차순 정렬
+
+//     // 정렬된 열에 맞게 데이터 재구성
+//     const sortedKanbanData = sortedColumns.reduce((sortedBoard, column) => {
+//       sortedBoard[column] = kanbanData[column];
+//       return sortedBoard;
+//     }, {});
+
+//     return NextResponse.json(sortedKanbanData);
+//   } catch (error) {
+//     console.error('Error fetching Kanban data:', error);
+//     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+//   }
+// }
