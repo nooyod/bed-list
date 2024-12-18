@@ -83,10 +83,30 @@ export async function GET() {
       }
     });
 
-
     return NextResponse.json(kanbanData);
   } catch (error) {
     console.error('Error fetching Kanban data:', error);
+    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    const { id } = await request.json(); // 삭제할 카드의 ID를 클라이언트에서 받음
+
+    const filePath = path.join(process.cwd(), 'public', 'reserve.json');
+    const fileContent = await readFile(filePath, 'utf-8');
+    const jsonData = JSON.parse(fileContent);
+
+    // 데이터에서 해당 ID를 가진 카드 제거
+    const updatedData = jsonData.filter((card) => card.chart_number !== id);
+
+    // 수정된 데이터를 파일에 저장
+    await writeFile(filePath, JSON.stringify(updatedData, null, 2), 'utf-8');
+
+    return NextResponse.json({ success: true, message: 'Card deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting card:', error);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 }

@@ -16,12 +16,18 @@ interface Card {
   description: string;
 }
 
+interface AdditionalCard {
+  index: number; // 추가된 카드의 고유 인덱스
+  title: string;
+  description: string;
+}
 interface KanbanBoard {
   [column: string]: Card[];
 }
 
 export default function HomePage() {
   const [board, setBoard] = useState<KanbanBoard | null>(null);
+  const [additionalCards, setAdditionalCards] = useState<AdditionalCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
   const [newCard, setNewCard] = useState({
@@ -52,24 +58,40 @@ export default function HomePage() {
   }, []);
 
   const handleAddCard = () => {
+    if (additionalCards.length >= 20) {
+    alert('20개 이상의 카드를 추가할 수 없습니다.');
+    return;
+    }
     setShowPopup(true);
   };
 
   const handleSaveCard = async () => {
+    const { column, title, description } = newCard;
+    if (!column || !title || !description) {
+      alert('모든 필드를 입력해야 합니다.');
+      return;
+    }
+  
+    const newCardData: AdditionalCard = {
+      index: additionalCards.length + 1, // 현재 배열 길이 + 1
+      title,
+      description,
+    };
+  
     try {
       const response = await fetch('/api/add-card', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newCard),
+        body: JSON.stringify(newCardData),
       });
-
+  
       if (response.ok) {
-        const updatedBoard = await response.json();
-        setBoard(updatedBoard);
+        const savedCard = await response.json(); // 서버에서 저장된 카드 데이터
+        setAdditionalCards((prevCards) => [...prevCards, { ...savedCard, index: prevCards.length + 1 }]);
         setShowPopup(false);
-        setNewCard({ column: '', id: '', title: '', description: '' }); // 초기화
+        setNewCard({ column: '', id: '', title: '', description: '' }); // 입력 초기화
       } else {
         console.error('Failed to save card');
       }
@@ -77,7 +99,31 @@ export default function HomePage() {
       console.error('Error saving card:', error);
     }
   };
-
+  
+  const handleDeleteCard = async (index: number) => {
+    try {
+      const response = await fetch('/api/delete-card', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ index }), // 삭제할 카드의 인덱스를 서버로 전송
+      });
+  
+      if (response.ok) {
+        setAdditionalCards((prevCards) =>
+          prevCards
+            .filter((card) => card.index !== index) // 해당 인덱스 제거
+            .map((card, idx) => ({ ...card, index: idx + 1 })) // 인덱스 재배열
+        );
+      } else {
+        console.error('Failed to delete card');
+      }
+    } catch (error) {
+      console.error('Error deleting card:', error);
+    }
+  };
+  
   const handleCardClick = (card: Card) => {
     alert(`카드 클릭됨!\n\nID: ${card.id}\nTitle: ${card.title}\nDescription: ${card.description}`);
   };
@@ -100,8 +146,9 @@ export default function HomePage() {
                 className="kanban-card"
                 onClick={() => handleCardClick(card)}
               >
-                <strong>{card.title}</strong>
-                <p>{card.description}</p>
+                <p> {card.id}</p>
+                <p className="kanban-card-title">{card.title}</p>
+                <p className="kanban-card-description">{card.description}</p>
               </div>
             ))}
           </div>

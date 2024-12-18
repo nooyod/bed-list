@@ -32,7 +32,16 @@
     border-radius: 8px;
     margin-top: 70px;
   }
+
+  .kanban-card-title {
+    font-weight: bold; /* Bold 스타일 */
+    /*margin-bottom: 5px;  아래 텍스트와의 간격 */
+  }
   
+  .kanban-card-description {
+    font-weight: normal; /* 일반 텍스트 */
+  }
+
   .kanban-card {
     background-color: white;
     margin: 5px;
