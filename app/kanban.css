@@ -25,21 +25,24 @@
   }
   
   .kanban-column {
-    width: 200px;
+    width: 150px;
     background-color: #f4f4f4;
     margin-right: 10px;
     padding: 5px;
     border-radius: 8px;
     margin-top: 70px;
+    text-align: center;
   }
 
   .kanban-card-title {
     font-weight: bold; /* Bold 스타일 */
     /*margin-bottom: 5px;  아래 텍스트와의 간격 */
+    text-align: left;
   }
   
   .kanban-card-description {
     font-weight: normal; /* 일반 텍스트 */
+    text-align: left;
   }
 
   .kanban-card {

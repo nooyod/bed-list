@@ -12,8 +12,9 @@ import './kanban.css'; // 칸반 보드 전용 스타일
 
 interface Card {
   id: string;
-  title: string;
-  description: string;
+  row1: string;
+  row2: string;
+  row3: string;
 }
 
 interface AdditionalCard {
@@ -125,7 +126,7 @@ export default function HomePage() {
   };
   
   const handleCardClick = (card: Card) => {
-    alert(`카드 클릭됨!\n\nID: ${card.id}\nTitle: ${card.title}\nDescription: ${card.description}`);
+    alert(`카드 클릭됨!\n\nID: ${card.row1}\nTitle: ${card.row2}\nDescription: ${card.row3}`);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -146,9 +147,12 @@ export default function HomePage() {
                 className="kanban-card"
                 onClick={() => handleCardClick(card)}
               >
-                <p> {card.id}</p>
-                <p className="kanban-card-title">{card.title}</p>
-                <p className="kanban-card-description">{card.description}</p>
+                <p className="kanban-card-title">{card.row1}</p>
+                <p className="kanban-card-description">
+                  {card.row2}
+                  <br />
+                  {card.row3}
+                </p>
               </div>
             ))}
           </div>

@@ -32,7 +32,6 @@ export async function GET() {
         DOCT AS chart_doct,         -- 의사 정보
         INSUSUB AS chart_insurance,    -- 보험 정보
         INDAT AS chart_date_adm,     -- 입원 날짜
-        OUTDAT AS chart_date_dc,     -- 퇴원 날짜
         JUMIN AS chart_rrn         -- 주민등록번호
       FROM SILVER_PATIENT_INFO
       WHERE OUTKIND = '99'            -- outkind가 99인 행만 필터링
@@ -45,6 +44,14 @@ export async function GET() {
       '410': '산재',
     };
 
+    const doctorMap = {
+      '류익현': '1과',
+      '이지수': '2과',
+      '김정섭': '재활',
+      '정가현': '침구',
+      '이방원': '통증',
+    };
+
     // 데이터 변환: 열과 카드 매칭
     const kanbanData = predefinedColumns.reduce((board, columnName) => {
       // 각 열 이름에 대해 초기 빈 배열 설정
@@ -55,10 +62,13 @@ export async function GET() {
     // 받아온 데이터 추가
     result.recordset.forEach((row) => {
       const insusubDisplay = insusubMap[row.chart_insurance] || 'unknown'; // 매핑되지 않은 값은 'unknown'
+      const doctDisplay = doctorMap[row.chart_doct] || 'unknown'; // 매핑되지 않은 값은 'unknown'
       const card = {
         id: row.chart_number,
-        title: row.chart_name,
-        description: `${row.chart_doct} (${insusubDisplay})`, // 카드 설명
+        row1: `${row.chart_number.slice(-5)} ${row.chart_name}`, // 뒤의 5자리만 보여줌
+        row2: row.chart_date_adm,
+        row2: `${row.chart_date_adm.slice(0, 4)}-${row.chart_date_adm.slice(4, 6)}-${row.chart_date_adm.slice(6, 8)}`,
+        row3: `${doctDisplay} (${insusubDisplay})`, // 카드 설명
       };
       // 열에 카드 추가
       if (kanbanData[row.chart_room]) {
@@ -75,8 +85,9 @@ export async function GET() {
       const insusubDisplay = insusubMap[row.chart_insurance] || 'unknown'; // 매핑되지 않은 값은 'unknown'
       const card = {
         id: row.chart_number,
-        title: row.chart_name,
-        description: `${row.chart_doct} (${insusubDisplay})`, // 카드 설명
+        row1: row.chart_number,
+        row2: row.chart_date_adm,
+        row3: `${row.chart_doct} (${insusubDisplay})`, // 카드 설명
       };
       if (kanbanData[row.chart_room]) {
         kanbanData[row.chart_room].push(card);
