@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-// import { Board } from 'kanbanize';
 import sql from 'mssql';
 import { readFile } from 'fs/promises';
 import path from 'path';
@@ -30,17 +29,20 @@ export async function GET() {
         ROOM AS chart_room,          -- 칸반 보드의 열 이름
         CHARTNO AS chart_number,           -- 카드 ID
         PATNAME AS chart_name,        -- 카드 제목
-        DOCT AS doct,         -- 의사 정보
-        INSUCLS AS insucls    -- 보험 정보
+        DOCT AS chart_doct,         -- 의사 정보
+        INSUSUB AS chart_insurance,    -- 보험 정보
+        INDAT AS chart_date_adm,     -- 입원 날짜
+        OUTDAT AS chart_date_dc,     -- 퇴원 날짜
+        JUMIN AS chart_rrn         -- 주민등록번호
       FROM SILVER_PATIENT_INFO
       WHERE OUTKIND = '99'            -- outkind가 99인 행만 필터링
     `);
 
     const insusubMap = {
-      '00': '건강보험',
-      '10': '의료급여',
-      '20': '자동차',
-      '40': '산재',
+      '010': '건강보험',
+      '110': '의료급여',
+      '210': '자동차',
+      '410': '산재',
     };
 
     // 데이터 변환: 열과 카드 매칭
@@ -52,11 +54,11 @@ export async function GET() {
 
     // 받아온 데이터 추가
     result.recordset.forEach((row) => {
-      const insusubDisplay = insusubMap[row.insucls] || 'unknown'; // 매핑되지 않은 값은 'unknown'
+      const insusubDisplay = insusubMap[row.chart_insurance] || 'unknown'; // 매핑되지 않은 값은 'unknown'
       const card = {
         id: row.chart_number,
         title: row.chart_name,
-        description: `${row.doct} (${insusubDisplay})`, // 카드 설명
+        description: `${row.chart_doct} (${insusubDisplay})`, // 카드 설명
       };
       // 열에 카드 추가
       if (kanbanData[row.chart_room]) {
@@ -70,11 +72,11 @@ export async function GET() {
 
     // JSON 데이터 추가
     jsonData.forEach((row, any) => {
-      const insusubDisplay = insusubMap[row.insucls] || 'unknown'; // 매핑되지 않은 값은 'unknown'
+      const insusubDisplay = insusubMap[row.chart_insurance] || 'unknown'; // 매핑되지 않은 값은 'unknown'
       const card = {
         id: row.chart_number,
         title: row.chart_name,
-        description: `${row.doct} (${insusubDisplay})`, // 카드 설명
+        description: `${row.chart_doct} (${insusubDisplay})`, // 카드 설명
       };
       if (kanbanData[row.chart_room]) {
         kanbanData[row.chart_room].push(card);

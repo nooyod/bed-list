@@ -3,15 +3,15 @@
       "chart_room": "205호",
       "chart_number": "복미자",
       "chart_name": "복미자",
-      "doct": "",
-      "insusub": "10"
+      "chart_doct": "",
+      "chart_insurance": "10"
     },
     {
       "chart_room": "208호",
       "chart_number": "강대홍",
       "chart_name": "강대홍",
-      "doct": "",
-      "insusub": "20"
+      "chart_doct": "",
+      "chart_insurance": "20"
     }
   ]
   
