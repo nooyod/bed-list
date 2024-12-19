@@ -457,6 +457,8 @@ export default function HomePage() {
   const [showPopup, setShowPopup] = useState(false);
   const [showCardPopup, setShowCardPopup] = useState(false);
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+  const [cardDetails, setCardDetails] = useState<AdditionalCard | null>(null);
+  const [popupLoading, setPopupLoading] = useState(true);
   const [newCard, setNewCard] = useState({
     chart_name: '',
     chart_room: '',
@@ -557,15 +559,30 @@ export default function HomePage() {
     }
   };
 
-  const handleCardClick = (card: Card) => {
-    setSelectedCard(card);
+  const handleCardClick = async (card: Card) => {
+    setSelectedCard(card); // 선택된 카드 저장
+    setPopupLoading(true);
     setShowCardPopup(true);
+  
+    try {
+      const response = await fetch(`/api/kanban/retrieve?key=${card.id}`); // RETRIEVE API 호출
+      if (!response.ok) {
+        throw new Error('Failed to fetch card details');
+      }
+      const data: AdditionalCard = await response.json();
+      setCardDetails(data); // 데이터 설정
+    } catch (error) {
+      console.error('Error fetching card details:', error);
+      setCardDetails(null); // 데이터가 없을 때
+    } finally {
+      setPopupLoading(false);
+    }
   };
 
-  const handleSavePopup = () => {
-    // 선택된 카드의 수정사항 저장 로직 (추후 구현)
-    setShowCardPopup(false);
-  };
+  // const handleSavePopup = () => {
+  //   // 선택된 카드의 수정사항 저장 로직 (추후 구현)
+  //   setShowCardPopup(false);
+  // };
 
   if (loading) return <p>Loading...</p>;
   if (!board || Object.keys(board).length === 0) return <p>No board data available</p>;
@@ -650,14 +667,21 @@ export default function HomePage() {
       {showCardPopup && selectedCard && (
         <div className="kanban-popup">
           <h2>카드 세부정보</h2>
-          <p>ID: {selectedCard.row1}</p>
-          <p>Title: {selectedCard.row2}</p>
-          <p>Description: {selectedCard.row3}</p>
-          <button onClick={handleSavePopup} className="kanban-save-button">
-            저장
-          </button>
+          {popupLoading ? (
+            <p>Loading...</p>
+          ) : cardDetails ? (
+            <div>
+              <p>이름: {cardDetails.chart_name}</p>
+              <p>병실: {cardDetails.chart_room}</p>
+              <p>보험: {cardDetails.chart_insurance}</p>
+              <p>입원일자: {cardDetails.chart_date_adm}</p>
+              <p>담당의: {cardDetails.chart_doct}</p>
+            </div>
+          ) : (
+            <p>카드 데이터를 가져오지 못했습니다.</p>
+          )}
           <button onClick={() => setShowCardPopup(false)} className="kanban-cancel-button">
-            취소
+            닫기
           </button>
         </div>
       )}
