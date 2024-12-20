@@ -10,15 +10,6 @@
   },
   {
     "index": 2,
-    "chart_room": "202호",
-    "chart_name": "이영희",
-    "chart_gender": "여",
-    "chart_date_adm": "20231220",
-    "chart_insurance": "110",
-    "chart_funnel": "전화"
-  },
-  {
-    "index": 3,
     "chart_name": "이이이",
     "chart_room": "210호",
     "chart_date_adm": "20241225",
@@ -26,7 +17,7 @@
     "chart_funnel": "전화"
   },
   {
-    "index": 4,
+    "index": 3,
     "chart_name": "가가가가",
     "chart_date_adm": "20241229",
     "chart_insurance": "310",

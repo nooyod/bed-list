@@ -284,7 +284,7 @@ const readData = () => {
 };
 
 const writeData = (data) => {
-  fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
+  fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf8');
 };
 
 export async function GET() {
@@ -386,7 +386,7 @@ export async function DELETE(request) {
     const data = readData();
 
     const updatedData = data
-      .filter((entry) => String(entry.index) !== body.key && String(entry.chart_number) !== body.key) // key로 비교
+      .filter((entry) => String(entry.index) !== String(body.key))// && String(entry.chart_number) !== String(body.key)) // key로 비교
       .map((entry, idx) => ({ ...entry, index: idx + 1 })); // 인덱스 재배열
 
     writeData(updatedData);
