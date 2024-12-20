@@ -1,20 +1,21 @@
 import fs from 'fs';
 import path from 'path';
 import sql from 'mssql';
+import { getDbPool } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
 const dataFilePath = path.join(process.cwd(), 'public', 'reserve.json');
 
-const dbConfig = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_SERVER,
-  database: process.env.DB_DATABASE,
-  options: {
-    encrypt: false,
-    enableArithAbort: true,
-  },
-};
+// const dbConfig = {
+//   user: process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   server: process.env.DB_SERVER,
+//   database: process.env.DB_DATABASE,
+//   options: {
+//     encrypt: false,
+//     enableArithAbort: true,
+//   },
+// };
 
 const readData = () => {
   if (!fs.existsSync(dataFilePath)) {
@@ -35,7 +36,8 @@ export async function GET(request) {
     try {
       // 1. MSSQL 데이터 검색
       // await pool.connect(dbConfig);
-      const pool = await sql.connect(dbConfig);
+      // const pool = await sql.connect(dbConfig);
+      const pool = await getDbPool();
       const queryResult = await pool
         .request()
         .input('key', sql.VarChar, key)

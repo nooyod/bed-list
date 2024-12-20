@@ -256,21 +256,22 @@
 
 import fs from 'fs';
 import path from 'path';
-import sql from 'mssql';
+// import sql from 'mssql';
+import { getDbPool } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
 const dataFilePath = path.join(process.cwd(), 'public', 'reserve.json');
 
-const dbConfig = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_SERVER,
-  database: process.env.DB_DATABASE,
-  options: {
-    encrypt: false,
-    enableArithAbort: true,
-  },
-};
+// const dbConfig = {
+//   user: process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   server: process.env.DB_SERVER,
+//   database: process.env.DB_DATABASE,
+//   options: {
+//     encrypt: false,
+//     enableArithAbort: true,
+//   },
+// };
 
 const predefinedColumns = ['201호', '202호', '203호', '205호', '206호', '207호', '208호', '209호', '210호', '대기'];
 
@@ -288,8 +289,8 @@ const writeData = (data) => {
 
 export async function GET() {
   try {
-    const pool = await sql.connect(dbConfig);
-
+    // const pool = await sql.connect(dbConfig);
+    const pool = await getDbPool();
     const result = await pool.request().query(`
       SELECT 
         ROOM AS chart_room, 
