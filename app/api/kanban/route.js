@@ -288,19 +288,19 @@ const writeData = (data) => {
 
 export async function GET() {
   try {
-    // const pool = await sql.connect(dbConfig);
+    const pool = await sql.connect(dbConfig);
 
-    // const result = await pool.request().query(`
-    //   SELECT 
-    //     ROOM AS chart_room, 
-    //     CHARTNO AS chart_number, 
-    //     PATNAME AS chart_name, 
-    //     DOCT AS chart_doct, 
-    //     INSUSUB AS chart_insurance, 
-    //     INDAT AS chart_date_adm
-    //   FROM SILVER_PATIENT_INFO
-    //   WHERE OUTKIND = '99'
-    // `);
+    const result = await pool.request().query(`
+      SELECT 
+        ROOM AS chart_room, 
+        CHARTNO AS chart_number, 
+        PATNAME AS chart_name, 
+        DOCT AS chart_doct, 
+        INSUSUB AS chart_insurance, 
+        INDAT AS chart_date_adm
+      FROM SILVER_PATIENT_INFO
+      WHERE OUTKIND = '99'
+    `);
 
     const insusubMap = {
       '010': '건강보험',
@@ -322,17 +322,17 @@ export async function GET() {
       return board;
     }, {});
 
-    // result.recordset.forEach((row) => {
-    //   const card = {
-    //     id: row.chart_number,
-    //     row1: `${row.chart_number.slice(-5)} ${row.chart_name}`,
-    //     row2: `${row.chart_date_adm.slice(0, 4)}-${row.chart_date_adm.slice(4, 6)}-${row.chart_date_adm.slice(6, 8)}`,
-    //     row3: `${doctorMap[row.chart_doct] || 'unknown'} (${insusubMap[row.chart_insurance] || 'unknown'})`,
-    //   };
-    //   if (kanbanData[row.chart_room]) {
-    //     kanbanData[row.chart_room].push(card);
-    //   }
-    // });
+    result.recordset.forEach((row) => {
+      const card = {
+        id: row.chart_number,
+        row1: `${row.chart_number.slice(-5)} ${row.chart_name}`,
+        row2: `${row.chart_date_adm.slice(0, 4)}-${row.chart_date_adm.slice(4, 6)}-${row.chart_date_adm.slice(6, 8)}`,
+        row3: `${doctorMap[row.chart_doct] || 'unknown'} (${insusubMap[row.chart_insurance] || 'unknown'})`,
+      };
+      if (kanbanData[row.chart_room]) {
+        kanbanData[row.chart_room].push(card);
+      }
+    });
 
     const fileContent = readData();
 
@@ -385,13 +385,14 @@ export async function DELETE(request) {
     const data = readData();
 
     const updatedData = data
-      .filter((entry) => entry.index !== body.index)
-      .map((entry, idx) => ({ ...entry, index: idx + 1 }));
+      .filter((entry) => String(entry.index) !== body.key && String(entry.chart_number) !== body.key) // key로 비교
+      .map((entry, idx) => ({ ...entry, index: idx + 1 })); // 인덱스 재배열
 
     writeData(updatedData);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
+    console.error('Error in DELETE function:', error);
     return NextResponse.json({ error: 'Failed to delete data' }, { status: 500 });
   }
 }

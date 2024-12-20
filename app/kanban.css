@@ -85,6 +85,20 @@
     border-radius: 4px;
     cursor: pointer;
   }
+
+  .kanban-delete-button {
+    background-color: red;
+    color: white;
+    padding: 8px 16px;
+    margin-left: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .kanban-delete-button:hover {
+    background-color: darkred;
+  }
   
   .kanban-save-button:hover, .kanban-cancel-button:hover {
     background-color: #0056b3;

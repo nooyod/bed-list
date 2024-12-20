@@ -535,22 +535,32 @@ export default function HomePage() {
     }
   };
 
-  const handleDeleteCard = async (index: number) => {
+  const handleDeleteCard = async (key: string) => {
     try {
       const response = await fetch('/api/kanban', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ index }), // 삭제할 카드의 인덱스를 서버로 전송
+        body: JSON.stringify({ key }), // 삭제할 카드의 key를 전송
       });
-
+  
       if (response.ok) {
-        setAdditionalCards((prevCards) =>
-          prevCards
-            .filter((card) => card.index !== index) // 해당 인덱스 제거
-            .map((card, idx) => ({ ...card, index: idx + 1 })) // 인덱스 재배열
-        );
+        setBoard((prevBoard) => {
+          if (!prevBoard) return null;
+  
+          // 삭제된 카드 제외
+          const updatedBoard = Object.fromEntries(
+            Object.entries(prevBoard).map(([column, cards]) => [
+              column,
+              cards.filter((card) => card.id !== key),
+            ])
+          );
+  
+          return updatedBoard;
+        });
+  
+        setShowCardPopup(false); // 팝업 닫기
       } else {
         console.error('Failed to delete card');
       }
@@ -558,6 +568,7 @@ export default function HomePage() {
       console.error('Error deleting card:', error);
     }
   };
+  
 
   const handleCardClick = async (card: Card) => {
     setSelectedCard(card); // 선택된 카드 저장
@@ -683,6 +694,12 @@ export default function HomePage() {
           <button onClick={() => setShowCardPopup(false)} className="kanban-cancel-button">
             닫기
           </button>
+          <button
+          onClick={() => handleDeleteCard(selectedCard.id)} // 삭제 버튼에 이벤트 연결
+          className="kanban-delete-button"
+        >
+          삭제
+        </button>
         </div>
       )}
     </div>

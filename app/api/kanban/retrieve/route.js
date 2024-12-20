@@ -34,14 +34,25 @@ export async function GET(request) {
   
     try {
       // 1. MSSQL 데이터 검색
-    //   await pool.connect();
-      // const queryResult = await pool
-      //   .request()
-      //   .input('key', sql.VarChar, key)
-      //   .query('SELECT * FROM your_table WHERE chart_number = @key');
-      // if (queryResult.recordset.length > 0) {
-      //   return NextResponse.json(queryResult.recordset[0]); // 데이터가 있으면 반환
-      // }
+      // await pool.connect(dbConfig);
+      const pool = await sql.connect(dbConfig);
+      const queryResult = await pool
+        .request()
+        .input('key', sql.VarChar, key)
+        .query(`
+          SELECT 
+            ROOM AS chart_room, 
+            CHARTNO AS chart_number, 
+            PATNAME AS chart_name, 
+            DOCT AS chart_doct, 
+            INSUSUB AS chart_insurance, 
+            INDAT AS chart_date_adm
+          FROM SILVER_PATIENT_INFO
+          WHERE CAST(CHARTNO AS VARCHAR) = @key
+        `)
+      if (queryResult.recordset.length > 0) {
+        return NextResponse.json(queryResult.recordset[0]); // 데이터가 있으면 반환
+      }
   
       // 2. reserve.json 데이터 검색
       const jsonData = await readData();
@@ -57,7 +68,7 @@ export async function GET(request) {
     } catch (error) {
       console.error('Error in RETRIEVE function:', error);
       return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
-    }// } finally {
+    // } finally {
     //   pool.close();
-    // }
+    }
   }
