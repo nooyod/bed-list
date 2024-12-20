@@ -256,7 +256,7 @@
 
 import fs from 'fs';
 import path from 'path';
-// import sql from 'mssql';
+import sql from 'mssql';
 import { getDbPool } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
@@ -341,8 +341,8 @@ export async function GET() {
       const card = {
         id: row.index,
         row1: row.chart_name,
-        row2: row.chart_date_adm,
-        row3: `${row.chart_funnel} (${insusubMap[row.chart_insurance] || 'unknown'})`,
+        row2: `${row.chart_date_adm.slice(0, 4)}-${row.chart_date_adm.slice(4, 6)}-${row.chart_date_adm.slice(6, 8)}`,
+        row3: `${row.chart_funnel} (${row.chart_insurance})`,
       };
       if (kanbanData[row.chart_room]) {
         kanbanData[row.chart_room].push(card);

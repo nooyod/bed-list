@@ -23,5 +23,13 @@
     "chart_insurance": "310",
     "chart_funnel": "아무로",
     "chart_room": "209호"
+  },
+  {
+    "index": 4,
+    "chart_name": "라라라",
+    "chart_date_adm": "",
+    "chart_insurance": "210",
+    "chart_funnel": "",
+    "chart_room": "대기"
   }
 ]
