@@ -259,6 +259,7 @@ import path from 'path';
 import sql from 'mssql';
 import { getDbPool } from '@/lib/db';
 import { NextResponse } from 'next/server';
+import { syncCurrentData } from '@/lib/syncData';
 
 const dataFilePath = path.join(process.cwd(), 'public', 'reserve.json');
 
@@ -290,18 +291,18 @@ const writeData = (data) => {
 export async function GET() {
   try {
     // const pool = await sql.connect(dbConfig);
-    const pool = await getDbPool();
-    const result = await pool.request().query(`
-      SELECT 
-        ROOM AS chart_room, 
-        CHARTNO AS chart_number, 
-        PATNAME AS chart_name, 
-        DOCT AS chart_doct, 
-        INSUSUB AS chart_insurance, 
-        INDAT AS chart_date_adm
-      FROM SILVER_PATIENT_INFO
-      WHERE OUTKIND = '99'
-    `);
+    // const pool = await getDbPool();
+    // const result = await pool.request().query(`
+    //   SELECT 
+    //     ROOM AS chart_room, 
+    //     CHARTNO AS chart_number, 
+    //     PATNAME AS chart_name, 
+    //     DOCT AS chart_doct, 
+    //     INSUSUB AS chart_insurance, 
+    //     INDAT AS chart_date_adm
+    //   FROM SILVER_PATIENT_INFO
+    //   WHERE OUTKIND = '99'
+    // `);
 
     const insusubMap = {
       '010': '건강보험',
@@ -323,6 +324,7 @@ export async function GET() {
       return board;
     }, {});
 
+    const result = await syncCurrentData();
     result.recordset.forEach((row) => {
       const card = {
         id: row.chart_number,
