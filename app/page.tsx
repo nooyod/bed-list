@@ -456,10 +456,17 @@ interface RoomStatistics {
   current: number;
   remaining: number | null;
 }
+interface Total {
+  gender: string;
+  "2인실": number;
+  "4인실": number;
+  "다인실": number;
+}
 
 interface Statistics {
   doctors: Record<string, number>;
   rooms: RoomStatistics[];
+  total: Total[];
 }
 
 // type Stats = {
@@ -481,6 +488,7 @@ export default function HomePage() {
   const [statistics, setStatistics] = useState<Statistics>({
     doctors: {},
     rooms: [],
+    total: [],
   });
   const [newCard, setNewCard] = useState({
     chart_name: '',
@@ -697,9 +705,15 @@ export default function HomePage() {
                   {doctor}: {count}명
                 </li>
               ))}
-              {statistics.rooms.map((room: RoomStatistics) => (
+              <br></br>
+              {/* {statistics.rooms.map((room: RoomStatistics) => (
                 <li key={room.room}>
                   {room.room}: {room.current}명, 남은 자리: {room.remaining ?? 'N/A'}명
+                </li>
+              ))} */}
+              {statistics.total.map((total: Total) => (
+                <li key={total.gender}>
+                  {total.gender}: {total["2인실"]+total["4인실"]+total["다인실"]}, (2: {total["2인실"] ?? 'N/A'}, 4: {total["4인실"] ?? 'N/A'}, 다인: {total["다인실"] ?? 'N/A'})
                 </li>
               ))}
             </ul>
