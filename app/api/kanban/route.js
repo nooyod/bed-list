@@ -325,7 +325,7 @@ export async function GET() {
     }, {});
 
     const result = await syncCurrentData();
-    result.recordset.forEach((row) => {
+    result.forEach((row) => {
       const card = {
         id: row.chart_number,
         row1: `${row.chart_number.slice(-5)} ${row.chart_name}`,
