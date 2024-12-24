@@ -713,11 +713,11 @@ export default function HomePage() {
               ))} */}
               {statistics.total.map((total: Total) => (
                 <li key={total.gender}>
-                  {total.gender}: {total["2인실"]+total["4인실"]+total["다인실"]}, (2: {total["2인실"] ?? 'N/A'}, 4: {total["4인실"] ?? 'N/A'}, 다인: {total["다인실"] ?? 'N/A'})
+                  {total.gender}: {total["2인실"]+total["4인실"]+total["다인실"]}, (2인 {total["2인실"] ?? 'N/A'}, 4인 {total["4인실"] ?? 'N/A'}, 다인 {total["다인실"] ?? 'N/A'})
                 </li>
               ))}
             </ul>
-            <button onClick={handleCloseStats}>닫기</button>
+            <button onClick={handleCloseStats} className="kanban-save-button">닫기</button>
           </div>
         </div>
       )}
