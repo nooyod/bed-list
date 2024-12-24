@@ -288,7 +288,7 @@
     "chart_memo": ""
   },
   {
-    "chart_room": "205호",
+    "chart_room": "208호",
     "chart_number": "0000020681",
     "chart_name": "박효임",
     "chart_doct": "이방원",
@@ -336,6 +336,22 @@
     "chart_memo": ""
   },
   {
+    "chart_room": "209호",
+    "chart_number": "0000005323",
+    "chart_name": "송성애",
+    "chart_doct": "김정섭",
+    "chart_insurance": "010",
+    "chart_date_adm": "20241224",
+    "chart_status": "99",
+    "chart_jumin": "5811302vNMjXQqbvQCaPJBTGMPYpg==",
+    "chart_gender": "여자",
+    "chart_birth": "19581130",
+    "chart_age": 66,
+    "chart_date_dc": "",
+    "chart_doct2": "",
+    "chart_memo": ""
+  },
+  {
     "chart_room": "206호",
     "chart_number": "0000020359",
     "chart_name": "양정수",
@@ -347,6 +363,22 @@
     "chart_gender": "남자",
     "chart_birth": "19560320",
     "chart_age": 68,
+    "chart_date_dc": "",
+    "chart_doct2": "",
+    "chart_memo": ""
+  },
+  {
+    "chart_room": "205호",
+    "chart_number": "0000020742",
+    "chart_name": "왕계현",
+    "chart_doct": "정가현",
+    "chart_insurance": "210",
+    "chart_date_adm": "20241224",
+    "chart_status": "99",
+    "chart_jumin": "68062324LlVxw7EBxO13mard7+yTQ==",
+    "chart_gender": "여자",
+    "chart_birth": "19680623",
+    "chart_age": 56,
     "chart_date_dc": "",
     "chart_doct2": "",
     "chart_memo": ""
@@ -467,8 +499,8 @@
     "chart_room": "202호",
     "chart_number": "0000010457",
     "chart_name": "천계수",
-    "chart_doct": "류익현",
-    "chart_insurance": "010",
+    "chart_doct": "이방원",
+    "chart_insurance": "290",
     "chart_date_adm": "20241223",
     "chart_status": "99",
     "chart_jumin": "5810102F0hppkBTGw3urqBRTWaMUw==",
