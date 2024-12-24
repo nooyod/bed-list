@@ -433,22 +433,6 @@
   },
   {
     "chart_room": "207호",
-    "chart_number": "0000020728",
-    "chart_name": "정상기",
-    "chart_doct": "김정섭",
-    "chart_insurance": "210",
-    "chart_date_adm": "20241220",
-    "chart_status": "99",
-    "chart_jumin": "7208111LtArg3Z/5d8EH3FPDW1LNQ==",
-    "chart_gender": "남자",
-    "chart_birth": "19720811",
-    "chart_age": 52,
-    "chart_date_dc": "",
-    "chart_doct2": "",
-    "chart_memo": ""
-  },
-  {
-    "chart_room": "207호",
     "chart_number": "0000020665",
     "chart_name": "조성기",
     "chart_doct": "김정섭",

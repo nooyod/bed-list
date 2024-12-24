@@ -711,11 +711,29 @@ export default function HomePage() {
                   {room.room}: {room.current}명, 남은 자리: {room.remaining ?? 'N/A'}명
                 </li>
               ))} */}
-              {statistics.total.map((total: Total) => (
+              {/* {statistics.total.map((total: Total) => (
                 <li key={total.gender}>
                   {total.gender}: {total["2인실"]+total["4인실"]+total["다인실"]}, (2인 {total["2인실"] ?? 'N/A'}, 4인 {total["4인실"] ?? 'N/A'}, 다인 {total["다인실"] ?? 'N/A'})
                 </li>
-              ))}
+              ))} */}
+              {statistics.total.map((total: Total) => {
+                // "2인실", "4인실", "다인실" 중 값이 0이 아닌 것만 필터링
+                const roomDetails = Object.entries(total)
+                  .filter(([key, value]) => key !== "gender" && value > 0)
+                  .map(([key, value]) => `${key} ${value}`)
+                  .join(", ");
+
+                // 총 인원을 계산
+                const totalPeople = total["2인실"] + total["4인실"] + total["다인실"];
+
+                return (
+                  totalPeople > 0 && ( // 총 인원이 0일 경우 출력하지 않음
+                    <li key={total.gender}>
+                      {total.gender}: {totalPeople}, ({roomDetails})
+                    </li>
+                  )
+                );
+              })}
             </ul>
             <button onClick={handleCloseStats} className="kanban-save-button">닫기</button>
           </div>
