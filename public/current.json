@@ -48,22 +48,6 @@
     "chart_memo": ""
   },
   {
-    "chart_room": "208호",
-    "chart_number": "0000014199",
-    "chart_name": "권혁신",
-    "chart_doct": "이지수",
-    "chart_insurance": "110",
-    "chart_date_adm": "20240930",
-    "chart_status": "99",
-    "chart_jumin": "57020221dD0ZyqFOpTum65oxkt/3Q==",
-    "chart_gender": "여자",
-    "chart_birth": "19570202",
-    "chart_age": 67,
-    "chart_date_dc": "",
-    "chart_doct2": "",
-    "chart_memo": ""
-  },
-  {
     "chart_room": "206호",
     "chart_number": "0000016945",
     "chart_name": "김대홍",
@@ -192,7 +176,7 @@
     "chart_memo": ""
   },
   {
-    "chart_room": "203호",
+    "chart_room": "208호",
     "chart_number": "0000020738",
     "chart_name": "김정애",
     "chart_doct": "이방원",
@@ -206,6 +190,22 @@
     "chart_date_dc": "",
     "chart_doct2": "김정섭",
     "chart_memo": "메모"
+  },
+  {
+    "chart_room": "206호",
+    "chart_number": "0000020744",
+    "chart_name": "김종혁",
+    "chart_doct": "이지수",
+    "chart_insurance": "210",
+    "chart_date_adm": "20241225",
+    "chart_status": "99",
+    "chart_jumin": "5305051nGo7qsbmLELQAK9wZqpu6g==",
+    "chart_gender": "남자",
+    "chart_birth": "19530505",
+    "chart_age": 71,
+    "chart_date_dc": "",
+    "chart_doct2": "",
+    "chart_memo": ""
   },
   {
     "chart_room": "205호",
@@ -224,7 +224,7 @@
     "chart_memo": ""
   },
   {
-    "chart_room": "206호",
+    "chart_room": "210호",
     "chart_number": "0000020726",
     "chart_name": "민경후",
     "chart_doct": "김정섭",
@@ -256,22 +256,6 @@
     "chart_memo": ""
   },
   {
-    "chart_room": "206호",
-    "chart_number": "0000020685",
-    "chart_name": "박안기",
-    "chart_doct": "김정섭",
-    "chart_insurance": "110",
-    "chart_date_adm": "20241212",
-    "chart_status": "99",
-    "chart_jumin": "6309111pdJ+4tNtG15WT7HvWOG+sg==",
-    "chart_gender": "남자",
-    "chart_birth": "19630911",
-    "chart_age": 61,
-    "chart_date_dc": "",
-    "chart_doct2": "",
-    "chart_memo": ""
-  },
-  {
     "chart_room": "207호",
     "chart_number": "0000020583",
     "chart_name": "박지훈",
@@ -283,6 +267,22 @@
     "chart_gender": "남자",
     "chart_birth": "19860804",
     "chart_age": 38,
+    "chart_date_dc": "",
+    "chart_doct2": "",
+    "chart_memo": ""
+  },
+  {
+    "chart_room": "205호",
+    "chart_number": "0000020743",
+    "chart_name": "박창희",
+    "chart_doct": "정가현",
+    "chart_insurance": "110",
+    "chart_date_adm": "20241224",
+    "chart_status": "99",
+    "chart_jumin": "3609112mtOIE0qjnUc6ljvFPiYpIg==",
+    "chart_gender": "여자",
+    "chart_birth": "19360911",
+    "chart_age": 88,
     "chart_date_dc": "",
     "chart_doct2": "",
     "chart_memo": ""
