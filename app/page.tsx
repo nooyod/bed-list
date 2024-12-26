@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import './globals.css'; // 전체 스타일
 import './kanban.css'; // 칸반 보드 전용 스타일
+import CardPopup from './components/CardPopup'; // CardPopup 컴포넌트 가져오기
 
 interface Card {
   id: string;
@@ -196,7 +197,6 @@ export default function HomePage() {
     }
   };
   
-
   const handleCardClick = async (card: Card) => {
     setSelectedCard(card); // 선택된 카드 저장
     setPopupLoading(true);
@@ -205,7 +205,7 @@ export default function HomePage() {
     try {
       const response = await fetch(`/api/kanban/retrieve?key=${card.id}`); // RETRIEVE API 호출
       if (!response.ok) {
-        throw new Error('Failed to fetch card details');
+        throw new Error('Error: ${response.status} - ${response.statusText}Failed to fetch card details');
       }
       const data: AdditionalCard = await response.json();
       setCardDetails(data); // 데이터 설정
@@ -214,6 +214,40 @@ export default function HomePage() {
       setCardDetails(null); // 데이터가 없을 때
     } finally {
       setPopupLoading(false);
+    }
+  };
+
+  const handleSaveCardDetails = async (updatedCard: Card) => {
+    try {
+      const response = await fetch('/api/kanban/retrieve', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedCard),
+      });
+  
+      if (response.ok) {
+        alert('카드 정보가 성공적으로 수정되었습니다!');
+        setBoard((prevBoard) => {
+          if (!prevBoard) return null;
+  
+          // 수정된 카드 업데이트
+          const updatedBoard = Object.fromEntries(
+            Object.entries(prevBoard).map(([column, cards]) => [
+              column,
+              cards.map((card) => (card.id === updatedCard.id ? updatedCard : card)),
+            ])
+          );
+          return updatedBoard;
+        });
+        setShowCardPopup(false); // 팝업 닫기
+      } else {
+        alert('카드 정보 수정에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('Error updating card details:', error);
+      alert('카드 정보 수정 중 오류가 발생했습니다.');
     }
   };
 
@@ -351,6 +385,13 @@ export default function HomePage() {
         </div>
       )}
       {showCardPopup && selectedCard && (
+        <CardPopup
+          cardId={selectedCard.id}
+          onSave={(updatedData) => console.log("Updated data:", updatedData)}
+          onClose={() => setShowCardPopup(false)}
+        />
+      )}
+      {/* {showCardPopup && selectedCard && (
         <div className="kanban-popup">
           <h2>카드 세부정보</h2>
           {popupLoading ? (
@@ -377,7 +418,7 @@ export default function HomePage() {
           삭제
         </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
