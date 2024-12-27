@@ -360,44 +360,44 @@ export async function GET() {
   }
 }
 
-export async function POST(request) {
-  try {
-    const body = await request.json();
-    const data = readData();
+// export async function POST(request) {
+//   try {
+//     const body = await request.json();
+//     const data = readData();
 
-    const newEntry = {
-      index: data.length + 1,
-      chart_name: body.chart_name,
-      chart_gender: body.chart_gender,
-      chart_date_adm: body.chart_date_adm,
-      chart_insurance: body.chart_insurance,
-      chart_funnel: body.chart_funnel,
-      chart_room: body.chart_room,
-    };
+//     const newEntry = {
+//       index: data.length + 1,
+//       chart_name: body.chart_name,
+//       chart_gender: body.chart_gender,
+//       chart_date_adm: body.chart_date_adm,
+//       chart_insurance: body.chart_insurance,
+//       chart_funnel: body.chart_funnel,
+//       chart_room: body.chart_room,
+//     };
 
-    data.push(newEntry);
-    writeData(data);
+//     data.push(newEntry);
+//     writeData(data);
 
-    return NextResponse.json(newEntry, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to save data' }, { status: 500 });
-  }
-}
+//     return NextResponse.json(newEntry, { status: 201 });
+//   } catch (error) {
+//     return NextResponse.json({ error: 'Failed to save data' }, { status: 500 });
+//   }
+// }
 
-export async function DELETE(request) {
-  try {
-    const body = await request.json();
-    const data = readData();
+// export async function DELETE(request) {
+//   try {
+//     const body = await request.json();
+//     const data = readData();
 
-    const updatedData = data
-      .filter((entry) => String(entry.index) !== String(body.key))// && String(entry.chart_number) !== String(body.key)) // key로 비교
-      .map((entry, idx) => ({ ...entry, index: idx + 1 })); // 인덱스 재배열
+//     const updatedData = data
+//       .filter((entry) => String(entry.index) !== String(body.key))// && String(entry.chart_number) !== String(body.key)) // key로 비교
+//       .map((entry, idx) => ({ ...entry, index: idx + 1 })); // 인덱스 재배열
 
-    writeData(updatedData);
+//     writeData(updatedData);
 
-    return NextResponse.json({ success: true }, { status: 200 });
-  } catch (error) {
-    console.error('Error in DELETE function:', error);
-    return NextResponse.json({ error: 'Failed to delete data' }, { status: 500 });
-  }
-}
+//     return NextResponse.json({ success: true }, { status: 200 });
+//   } catch (error) {
+//     console.error('Error in DELETE function:', error);
+//     return NextResponse.json({ error: 'Failed to delete data' }, { status: 500 });
+//   }
+// }

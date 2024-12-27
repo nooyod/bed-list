@@ -4,5 +4,12 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
-  "remoteUser": "root"
+"remoteUser": "root",
+"customizations": {
+	"vscode": {
+		"extensions": [
+			"Dheovani.svg-viewer"
+		]
+	}
+}
 }

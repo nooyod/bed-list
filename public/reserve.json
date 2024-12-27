@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "index": 1,
+    "chart_name": "나나나",
+    "chart_gender": "남자",
+    "chart_date_adm": "모름",
+    "chart_insurance": "자동차",
+    "chart_funnel": "전화",
+    "chart_room": "대기",
+    "chart_doct": "김정섭"
+  }
+]
