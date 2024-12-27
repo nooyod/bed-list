@@ -96,11 +96,30 @@ export async function GET() {
       };
     });
 
+    // Reserve 통계 계산
+    const reserveByDate = reserveData.reduce((acc, item) => {
+      const date = item.chart_date_adm; // 입원 날짜
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push({
+        name: item.chart_name,
+        gender: item.chart_gender,
+      });
+      return acc;
+    }, {});
+
+    const reserve = Object.entries(reserveByDate).map(([date, patients]) => ({
+      date,
+      patients,
+    }));
+
     // JSON 응답 생성
     const response = {
       doctors,
       rooms: rooms.filter((room) => room.room !== '대기'),
       total,
+      reserve, // 새로 추가된 항목
     };
 
     return NextResponse.json(response);

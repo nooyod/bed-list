@@ -11,7 +11,7 @@
     "chart_gender": "여자",
     "chart_birth": "19481208",
     "chart_age": 76,
-    "chart_date_dc": "20241231",
+    "chart_date_dc": "",
     "chart_doct2": "",
     "chart_memo": ""
   },
@@ -91,7 +91,7 @@
     "chart_gender": "여자",
     "chart_birth": "19460425",
     "chart_age": 78,
-    "chart_date_dc": "",
+    "chart_date_dc": "20250103",
     "chart_doct2": "",
     "chart_memo": ""
   },
@@ -123,6 +123,22 @@
     "chart_gender": "여자",
     "chart_birth": "19391006",
     "chart_age": 85,
+    "chart_date_dc": "",
+    "chart_doct2": "",
+    "chart_memo": ""
+  },
+  {
+    "chart_room": "205호",
+    "chart_number": "0000002167",
+    "chart_name": "김영미",
+    "chart_doct": "김정섭",
+    "chart_insurance": "110",
+    "chart_date_adm": "20241227",
+    "chart_status": "99",
+    "chart_jumin": "6210042dcvA93RW+a4W9rfLcn0l0A==",
+    "chart_gender": "여자",
+    "chart_birth": "19621004",
+    "chart_age": 62,
     "chart_date_dc": "",
     "chart_doct2": "",
     "chart_memo": ""
@@ -267,22 +283,6 @@
     "chart_gender": "남자",
     "chart_birth": "19860804",
     "chart_age": 38,
-    "chart_date_dc": "",
-    "chart_doct2": "",
-    "chart_memo": ""
-  },
-  {
-    "chart_room": "205호",
-    "chart_number": "0000020743",
-    "chart_name": "박창희",
-    "chart_doct": "정가현",
-    "chart_insurance": "110",
-    "chart_date_adm": "20241224",
-    "chart_status": "99",
-    "chart_jumin": "3609112mtOIE0qjnUc6ljvFPiYpIg==",
-    "chart_gender": "여자",
-    "chart_birth": "19360911",
-    "chart_age": 88,
     "chart_date_dc": "",
     "chart_doct2": "",
     "chart_memo": ""
@@ -476,7 +476,7 @@
     "chart_birth": "19791013",
     "chart_age": 45,
     "chart_date_dc": "",
-    "chart_doct2": "",
+    "chart_doct2": "류익현",
     "chart_memo": ""
   },
   {
@@ -540,7 +540,7 @@
     "chart_birth": "19581010",
     "chart_age": 66,
     "chart_date_dc": "",
-    "chart_doct2": "",
+    "chart_doct2": "류익현",
     "chart_memo": ""
   },
   {
@@ -556,7 +556,7 @@
     "chart_birth": "20721025",
     "chart_age": -48,
     "chart_date_dc": "",
-    "chart_doct2": "",
+    "chart_doct2": "이지수",
     "chart_memo": ""
   },
   {
@@ -576,17 +576,17 @@
     "chart_memo": ""
   },
   {
-    "chart_room": "205호",
-    "chart_number": "0000020720",
-    "chart_name": "허한순",
+    "chart_room": "207호",
+    "chart_number": "0000019945",
+    "chart_name": "최형근",
     "chart_doct": "이지수",
-    "chart_insurance": "110",
-    "chart_date_adm": "20241221",
+    "chart_insurance": "210",
+    "chart_date_adm": "20241227",
     "chart_status": "99",
-    "chart_jumin": "4707072grf+uXfP/VPkRBfL88zt/A==",
-    "chart_gender": "여자",
-    "chart_birth": "19470707",
-    "chart_age": 77,
+    "chart_jumin": "7306111Pc16KigtDZ6X9Q8ECrOCww==",
+    "chart_gender": "남자",
+    "chart_birth": "19730611",
+    "chart_age": 51,
     "chart_date_dc": "",
     "chart_doct2": "",
     "chart_memo": ""

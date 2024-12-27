@@ -445,6 +445,10 @@ interface AdditionalCard {
   chart_doct: string;
   chart_funnel: string;
   chart_gender: string;
+  chart_age: string;
+  chart_date_dc: string;
+  chart_doct2: string;
+  chart_memo: string;
 }
 
 interface KanbanBoard {
@@ -467,6 +471,7 @@ interface Statistics {
   doctors: Record<string, number>;
   rooms: RoomStatistics[];
   total: Total[];
+  reserve: { date: string; patients: { name: string; gender: string }[] }[];
 }
 
 // type Stats = {
@@ -491,6 +496,7 @@ export default function HomePage() {
     doctors: {},
     rooms: [],
     total: [],
+    reserve: [],
   });
   const [newCard, setNewCard] = useState({
     chart_name: '',
@@ -500,6 +506,10 @@ export default function HomePage() {
     chart_doct: '',
     chart_funnel: '',
     chart_gender: '',
+    chart_age: '',
+    chart_date_dc: '',
+    chart_doct2: '',
+    chart_memo: '',
   });
 
   useEffect(() => {
@@ -574,7 +584,7 @@ export default function HomePage() {
   };
 
   const handleSaveCard = async () => {
-    const { chart_name, chart_room, chart_insurance, chart_date_adm, chart_doct, chart_funnel, chart_gender } = newCard;
+    const { chart_name, chart_room, chart_insurance, chart_date_adm, chart_doct, chart_funnel, chart_gender, chart_age, chart_date_dc, chart_doct2, chart_memo, } = newCard;
     if (!chart_name || !chart_room ) {
       alert('이름과 병실은은 입력해야 합니다.');
       return;
@@ -588,7 +598,11 @@ export default function HomePage() {
       chart_date_adm,
       chart_doct,
       chart_funnel,
-      chart_gender
+      chart_gender,
+      chart_age,
+      chart_date_dc,
+      chart_doct2,
+      chart_memo,
     };
 
     try {
@@ -604,7 +618,7 @@ export default function HomePage() {
         const savedCard = await response.json(); // 서버에서 저장된 카드 데이터
         setAdditionalCards((prevCards) => [...prevCards, { ...savedCard, index: prevCards.length + 1 }]);
         setShowPopup(false);
-        setNewCard({ chart_name: '', chart_room: '', chart_insurance: '', chart_date_adm: '', chart_doct: '', chart_funnel: '', chart_gender }); // 입력 초기화
+        setNewCard({ chart_name: '', chart_room: '', chart_insurance: '', chart_date_adm: '', chart_doct: '', chart_funnel: '', chart_gender: '', chart_age: '', chart_date_dc: '', chart_doct2: '', chart_memo: '', }); // 입력 초기화
       } else {
         console.error('Failed to save card');
       }
@@ -764,6 +778,21 @@ export default function HomePage() {
                   )
                 );
               })}
+              <br></br>
+                {statistics.reserve.map((entry: { date: string; patients: { name: string; gender: string }[] }) => (
+                <li key={entry.date}>
+                  {/* 날짜 출력 */}
+                  {entry.date}
+                  <ul>
+                    {/* 해당 날짜의 환자 목록 출력 */}
+                    {entry.patients.map((patient, index) => (
+                      <li key={index}>
+                        {patient.name}({patient.gender})
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
             </ul>
             <button onClick={handleCloseStats} className="kanban-save-button">닫기</button>
           </div>
@@ -868,17 +897,17 @@ export default function HomePage() {
                     />
                   </label>
                   <label>
-                    보험: 
+                    담당: 
                     <input
                       type="text"
-                      value={editedDetails.chart_insurance || ''}
+                      value={editedDetails.chart_doct2 || ''}
                       onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_insurance: e.target.value }))
+                        setEditedDetails((prev) => ({ ...prev, chart_doct2: e.target.value }))
                       }
                     />
                   </label>
                   <label>
-                    입원일자: 
+                    입원: 
                     <input
                       type="text"
                       value={editedDetails.chart_date_adm || ''}
@@ -888,12 +917,22 @@ export default function HomePage() {
                     />
                   </label>
                   <label>
-                    담당의: 
+                    퇴원: 
                     <input
                       type="text"
-                      value={editedDetails.chart_doct || ''}
+                      value={editedDetails.chart_date_dc || ''}
                       onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_doct: e.target.value }))
+                        setEditedDetails((prev) => ({ ...prev, chart_date_dc: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    메모: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_memo || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_memo: e.target.value }))
                       }
                     />
                   </label>
@@ -902,10 +941,12 @@ export default function HomePage() {
                 <div>
                   <p>이름: {cardDetails.chart_name}</p>
                   <p>성별: {cardDetails.chart_gender}</p>
+                  <p>나이: {cardDetails.chart_age}</p>
                   <p>병실: {cardDetails.chart_room}</p>
-                  <p>보험: {cardDetails.chart_insurance}</p>
-                  <p>입원일자: {cardDetails.chart_date_adm}</p>
-                  <p>담당의: {cardDetails.chart_doct}</p>
+                  <p>담당: {cardDetails.chart_doct}</p>
+                  <p>입원: {cardDetails.chart_date_adm}</p>
+                  <p>퇴원: {cardDetails.chart_date_dc}</p>
+                  <p>메모: {cardDetails.chart_memo}</p>
                 </div>
               )}
             </div>

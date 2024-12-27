@@ -67,6 +67,10 @@ export async function POST(request) {
       chart_insurance: body.chart_insurance,
       chart_funnel: body.chart_funnel,
       chart_room: body.chart_room,
+      chart_age: body.chart_age,
+      chart_date_dc: body.chart_date_dc,
+      chart_doct2: body.chart_doct2,
+      chart_memo: body.chart_memo,
     };
 
     reserveData.push(newEntry);
