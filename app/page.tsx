@@ -275,7 +275,7 @@ export default function HomePage() {
         예약 추가
       </button>
       <button onClick={handleShowStats} className="stats-button">통계</button>
-      {Object.entries(board).map(([column, cards], index) => (
+      {Object.entries(board).map(([column, cards]) => (
         <div key={column} className="kanban-column">
           <h2>{column}</h2>
           <div>

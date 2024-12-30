@@ -1,7 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import sql from 'mssql';
-import { getDbPool } from '@/lib/db';
 import { NextResponse } from 'next/server';
 import { syncCurrentData } from '@/lib/syncData';
 import { insusubMap, doctorMap, predefinedColumns } from '@/lib/config';
