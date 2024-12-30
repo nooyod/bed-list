@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import './globals.css'; // 전체 스타일
 import './kanban.css'; // 칸반 보드 전용 스타일
+import { predefinedColumns } from '@/lib/config';
 
 interface Card {
   id: string;
@@ -81,25 +82,46 @@ export default function HomePage() {
     chart_memo: '',
   });
 
-  useEffect(() => {
-    const fetchBoard = async () => {
-      try {
-        const response = await fetch('/api/kanban'); // API 호출
-        if (!response.ok) {
-          throw new Error('Failed to fetch board data');
-        }
-        const data: KanbanBoard = await response.json();
-        setBoard(data);
-      } catch (error) {
-        console.error('Error fetching board data:', error);
-        setBoard(null); // 데이터가 없을 경우 null로 설정
-      } finally {
-        setLoading(false);
-      }
-    };
+  // fetchBoard 함수 정의
+const fetchBoard = async () => {
+  try {
+    const response = await fetch('/api/kanban'); // API 호출
+    if (!response.ok) {
+      throw new Error('Failed to fetch board data');
+    }
+    const data: KanbanBoard = await response.json();
+    setBoard(data); // 상태 업데이트
+  } catch (error) {
+    console.error('Error fetching board data:', error);
+    setBoard(null); // 데이터가 없을 경우 null로 설정
+  } finally {
+    setLoading(false);
+  }
+};
 
-    fetchBoard();
-  }, []);
+useEffect(() => {
+  fetchBoard(); // 데이터 가져오기
+}, []);
+
+  // useEffect(() => {
+  //   const fetchBoard = async () => {
+  //     try {
+  //       const response = await fetch('/api/kanban'); // API 호출
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch board data');
+  //       }
+  //       const data: KanbanBoard = await response.json();
+  //       setBoard(data);
+  //     } catch (error) {
+  //       console.error('Error fetching board data:', error);
+  //       setBoard(null); // 데이터가 없을 경우 null로 설정
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchBoard();
+  // }, []);
 
   useEffect(() => {
     if (cardDetails) {
@@ -175,6 +197,7 @@ export default function HomePage() {
         setAdditionalCards((prevCards) => [...prevCards, { ...savedCard, index: prevCards.length + 1 }]);
         setShowPopup(false);
         setNewCard({ chart_name: '', chart_room: '', chart_insurance: '', chart_date_adm: '', chart_doct: '', chart_funnel: '', chart_gender: '', chart_age: '', chart_date_dc: '', chart_doct2: '', chart_memo: '', }); // 입력 초기화
+        await fetchBoard(); // 보드 데이터 다시 가져오기
       } else {
         console.error('Failed to save card');
       }
@@ -260,6 +283,7 @@ export default function HomePage() {
       setCardDetails(updatedData); // 수정된 데이터로 카드 세부정보 갱신
       setIsEditing(false);
       setShowCardPopup(false);
+      await fetchBoard(); // 보드 데이터 다시 가져오기
     } catch (error) {
       console.error('Error updating card details:', error);
       alert('카드 수정에 실패했습니다.');
@@ -366,11 +390,17 @@ export default function HomePage() {
           </label>
           <label>
             병실:
-            <input
-              type="text"
+            <select
               value={newCard.chart_room}
               onChange={(e) => setNewCard({ ...newCard, chart_room: e.target.value })}
-            />
+              >
+                <option value="" disabled>병실을 선택하세요</option>
+                {predefinedColumns.map((room) => (
+                  <option key={room} value={room}>
+                    {room}
+                  </option>
+                ))}
+            </select>
           </label>
           <label>
             보험:
@@ -435,13 +465,17 @@ export default function HomePage() {
                   </label>
                   <label>
                     병실: 
-                    <input
-                      type="text"
-                      value={editedDetails.chart_room || ''}
-                      onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_room: e.target.value }))
-                      }
-                    />
+                    <select
+                      value={editedDetails.chart_room}
+                      onChange={(e) => setEditedDetails((prev) => ({ ...prev, chart_room: e.target.value }))}
+                      >
+                        <option value="" disabled>병실을 선택하세요</option>
+                        {predefinedColumns.map((room) => (
+                          <option key={room} value={room}>
+                            {room}
+                          </option>
+                        ))}
+                    </select>
                   </label>
                   <label>
                     담당: 
@@ -450,6 +484,16 @@ export default function HomePage() {
                       value={editedDetails.chart_doct2 || ''}
                       onChange={(e) =>
                         setEditedDetails((prev) => ({ ...prev, chart_doct2: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    유입: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_funnel || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_funnel: e.target.value }))
                       }
                     />
                   </label>

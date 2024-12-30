@@ -13,6 +13,13 @@
     --foreground: #ededed;
   }
 } */
+html { 
+  transform: scale(0.9); /* 90%로 줄이기 */ 
+  transform-origin: top left; /* 변환 기준점 설정 */
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
 
 body {
   color: var(--foreground);
@@ -20,7 +27,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
-  height: 100vh; /* 화면 전체 높이를 사용 */
+  height: 100%; /* 화면 전체 높이를 사용 */
+  width: 100%;
 }
 
 header {
@@ -28,6 +36,7 @@ header {
   color: white;
   padding: 1rem;
   text-align: left;
+  width: 110%;
 }
 
 footer {
@@ -35,7 +44,7 @@ footer {
   color: white;
   padding: 1rem;
   text-align: center;
-  width: 100%;
+  width: 110%;
   margin-top: auto; /* 화면 하단에 위치하도록 설정 */
 }
 
