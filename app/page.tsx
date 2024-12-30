@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import './globals.css'; // 전체 스타일
 import './kanban.css'; // 칸반 보드 전용 스타일
-import CardPopup from './components/CardPopup'; // CardPopup 컴포넌트 가져오기
 
 interface Card {
   id: string;
@@ -21,6 +20,10 @@ interface AdditionalCard {
   chart_doct: string;
   chart_funnel: string;
   chart_gender: string;
+  chart_age: string;
+  chart_date_dc: string;
+  chart_doct2: string;
+  chart_memo: string;
 }
 
 interface KanbanBoard {
@@ -43,6 +46,7 @@ interface Statistics {
   doctors: Record<string, number>;
   rooms: RoomStatistics[];
   total: Total[];
+  reserve: { date: string; patients: { name: string; gender: string }[] }[];
 }
 
 export default function HomePage() {
@@ -55,10 +59,13 @@ export default function HomePage() {
   const [cardDetails, setCardDetails] = useState<AdditionalCard | null>(null);
   const [popupLoading, setPopupLoading] = useState(true);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedDetails, setEditedDetails] = useState<Partial<AdditionalCard>>({});
   const [statistics, setStatistics] = useState<Statistics>({
     doctors: {},
     rooms: [],
     total: [],
+    reserve: [],
   });
   const [newCard, setNewCard] = useState({
     chart_name: '',
@@ -68,6 +75,10 @@ export default function HomePage() {
     chart_doct: '',
     chart_funnel: '',
     chart_gender: '',
+    chart_age: '',
+    chart_date_dc: '',
+    chart_doct2: '',
+    chart_memo: '',
   });
 
   useEffect(() => {
@@ -88,8 +99,13 @@ export default function HomePage() {
     };
 
     fetchBoard();
-
   }, []);
+
+  useEffect(() => {
+    if (cardDetails) {
+      setEditedDetails({ ...cardDetails });
+    }
+  }, [cardDetails]);
 
   const fetchStatistics = async () => {
     try {
@@ -124,7 +140,7 @@ export default function HomePage() {
   };
 
   const handleSaveCard = async () => {
-    const { chart_name, chart_room, chart_insurance, chart_date_adm, chart_doct, chart_funnel, chart_gender } = newCard;
+    const { chart_name, chart_room, chart_insurance, chart_date_adm, chart_doct, chart_funnel, chart_gender, chart_age, chart_date_dc, chart_doct2, chart_memo, } = newCard;
     if (!chart_name || !chart_room ) {
       alert('이름과 병실은은 입력해야 합니다.');
       return;
@@ -138,11 +154,15 @@ export default function HomePage() {
       chart_date_adm,
       chart_doct,
       chart_funnel,
-      chart_gender
+      chart_gender,
+      chart_age,
+      chart_date_dc,
+      chart_doct2,
+      chart_memo,
     };
 
     try {
-      const response = await fetch('/api/kanban', {
+      const response = await fetch('/api/kanban/retrieve', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -154,7 +174,7 @@ export default function HomePage() {
         const savedCard = await response.json(); // 서버에서 저장된 카드 데이터
         setAdditionalCards((prevCards) => [...prevCards, { ...savedCard, index: prevCards.length + 1 }]);
         setShowPopup(false);
-        setNewCard({ chart_name: '', chart_room: '', chart_insurance: '', chart_date_adm: '', chart_doct: '', chart_funnel: '', chart_gender }); // 입력 초기화
+        setNewCard({ chart_name: '', chart_room: '', chart_insurance: '', chart_date_adm: '', chart_doct: '', chart_funnel: '', chart_gender: '', chart_age: '', chart_date_dc: '', chart_doct2: '', chart_memo: '', }); // 입력 초기화
       } else {
         console.error('Failed to save card');
       }
@@ -165,7 +185,7 @@ export default function HomePage() {
 
   const handleDeleteCard = async (key: string) => {
     try {
-      const response = await fetch('/api/kanban', {
+      const response = await fetch('/api/kanban/retrieve', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -197,10 +217,12 @@ export default function HomePage() {
     }
   };
   
+
   const handleCardClick = async (card: Card) => {
     setSelectedCard(card); // 선택된 카드 저장
     setPopupLoading(true);
     setShowCardPopup(true);
+    setIsEditing(true);
   
     try {
       const response = await fetch(`/api/kanban/retrieve?key=${card.id}`); // RETRIEVE API 호출
@@ -217,37 +239,30 @@ export default function HomePage() {
     }
   };
 
-  const handleSaveCardDetails = async (updatedCard: Card) => {
+  const handleSavePopup = async () => {
     try {
       const response = await fetch('/api/kanban/retrieve', {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedCard),
+        body: JSON.stringify({
+          key: selectedCard?.id || '',
+          updates: editedDetails,
+        }),
       });
   
-      if (response.ok) {
-        alert('카드 정보가 성공적으로 수정되었습니다!');
-        setBoard((prevBoard) => {
-          if (!prevBoard) return null;
-  
-          // 수정된 카드 업데이트
-          const updatedBoard = Object.fromEntries(
-            Object.entries(prevBoard).map(([column, cards]) => [
-              column,
-              cards.map((card) => (card.id === updatedCard.id ? updatedCard : card)),
-            ])
-          );
-          return updatedBoard;
-        });
-        setShowCardPopup(false); // 팝업 닫기
-      } else {
-        alert('카드 정보 수정에 실패했습니다.');
+      if (!response.ok) {
+        throw new Error('Failed to update card details');
       }
+  
+      const updatedData = await response.json();
+      setCardDetails(updatedData); // 수정된 데이터로 카드 세부정보 갱신
+      setIsEditing(false);
+      setShowCardPopup(false);
     } catch (error) {
       console.error('Error updating card details:', error);
-      alert('카드 정보 수정 중 오류가 발생했습니다.');
+      alert('카드 수정에 실패했습니다.');
     }
   };
 
@@ -292,16 +307,6 @@ export default function HomePage() {
                 </li>
               ))}
               <br></br>
-              {/* {statistics.rooms.map((room: RoomStatistics) => (
-                <li key={room.room}>
-                  {room.room}: {room.current}명, 남은 자리: {room.remaining ?? 'N/A'}명
-                </li>
-              ))} */}
-              {/* {statistics.total.map((total: Total) => (
-                <li key={total.gender}>
-                  {total.gender}: {total["2인실"]+total["4인실"]+total["다인실"]}, (2인 {total["2인실"] ?? 'N/A'}, 4인 {total["4인실"] ?? 'N/A'}, 다인 {total["다인실"] ?? 'N/A'})
-                </li>
-              ))} */}
               {statistics.total.map((total: Total) => {
                 // "2인실", "4인실", "다인실" 중 값이 0이 아닌 것만 필터링
                 const roomDetails = Object.entries(total)
@@ -320,6 +325,21 @@ export default function HomePage() {
                   )
                 );
               })}
+              <br></br>
+                {statistics.reserve.map((entry: { date: string; patients: { name: string; gender: string }[] }) => (
+                <li key={entry.date}>
+                  {/* 날짜 출력 */}
+                  {entry.date}
+                  <ul>
+                    {/* 해당 날짜의 환자 목록 출력 */}
+                    {entry.patients.map((patient, index) => (
+                      <li key={index}>
+                        {patient.name}({patient.gender})
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
             </ul>
             <button onClick={handleCloseStats} className="kanban-save-button">닫기</button>
           </div>
@@ -385,25 +405,97 @@ export default function HomePage() {
         </div>
       )}
       {showCardPopup && selectedCard && (
-        <CardPopup
-          cardId={selectedCard.id}
-          onSave={(updatedData) => console.log("Updated data:", updatedData)}
-          onClose={() => setShowCardPopup(false)}
-        />
-      )}
-      {/* {showCardPopup && selectedCard && (
         <div className="kanban-popup">
           <h2>카드 세부정보</h2>
           {popupLoading ? (
             <p>Loading...</p>
-          ) : cardDetails ? (
+          ) : cardDetails ? ( 
             <div>
-              <p>이름: {cardDetails.chart_name}</p>
-              <p>성별: {cardDetails.chart_gender}</p>
-              <p>병실: {cardDetails.chart_room}</p>
-              <p>보험: {cardDetails.chart_insurance}</p>
-              <p>입원일자: {cardDetails.chart_date_adm}</p>
-              <p>담당의: {cardDetails.chart_doct}</p>
+              {isEditing ? (
+                <div>
+                  <label>
+                    이름: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_name || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_name: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    성별: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_gender || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_gender: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    병실: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_room || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_room: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    담당: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_doct2 || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_doct2: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    입원: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_date_adm || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_date_adm: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    퇴원: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_date_dc || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_date_dc: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    메모: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_memo || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_memo: e.target.value }))
+                      }
+                    />
+                  </label>
+                </div>
+              ) : (
+                <div>
+                  {/* <p>이름: {cardDetails.chart_name}</p>
+                  <p>성별: {cardDetails.chart_gender}</p>
+                  <p>나이: {cardDetails.chart_age}</p>
+                  <p>병실: {cardDetails.chart_room}</p>
+                  <p>담당: {cardDetails.chart_doct}</p>
+                  <p>입원: {cardDetails.chart_date_adm}</p>
+                  <p>퇴원: {cardDetails.chart_date_dc}</p>
+                  <p>메모: {cardDetails.chart_memo}</p> */}
+                </div>
+              )}
             </div>
           ) : (
             <p>카드 데이터를 가져오지 못했습니다.</p>
@@ -411,14 +503,26 @@ export default function HomePage() {
           <button onClick={() => setShowCardPopup(false)} className="kanban-cancel-button">
             닫기
           </button>
+          <button onClick={handleSavePopup} className="kanban-save-button">
+            저장
+          </button>
+          {/* {isEditing ? (
+            <button onClick={handleSavePopup} className="kanban-save-button">
+              저장
+            </button>
+          ) : (
+            <button onClick={() => setIsEditing(true)} className="kanban-save-button">
+              수정
+            </button>
+          )} */}
           <button
-          onClick={() => handleDeleteCard(selectedCard.id)} // 삭제 버튼에 이벤트 연결
-          className="kanban-delete-button"
-        >
-          삭제
-        </button>
+            onClick={() => handleDeleteCard(selectedCard.id)}
+            className="kanban-delete-button"
+          >
+            삭제
+          </button>
         </div>
-      )} */}
+      )}
     </div>
   );
 }
