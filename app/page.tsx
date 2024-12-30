@@ -227,7 +227,7 @@ export default function HomePage() {
     try {
       const response = await fetch(`/api/kanban/retrieve?key=${card.id}`); // RETRIEVE API 호출
       if (!response.ok) {
-        throw new Error('Error: ${response.status} - ${response.statusText}Failed to fetch card details');
+        throw new Error('Failed to fetch card details');
       }
       const data: AdditionalCard = await response.json();
       setCardDetails(data); // 데이터 설정
