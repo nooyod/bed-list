@@ -1,31 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
-
-// 최대 수용 인원 설정
-const MAX_CAPACITY = {
-  "201호": 3,
-  "202호": 2,
-  "203호": 6,
-  "205호": 8,
-  "206호": 8,
-  "207호": 8,
-  "208호": 4,
-  "209호": 2,
-  "210호": 2,
-};
-
-const ROOM_TYPE = {
-  "201호": "4인실",
-  "202호": "2인실",
-  "203호": "다인실",
-  "205호": "다인실",
-  "206호": "다인실",
-  "207호": "다인실",
-  "208호": "4인실",
-  "209호": "2인실",
-  "210호": "2인실",
-};
+import { MAX_CAPACITY, ROOM_TYPE } from '@/lib/config';
 
 // JSON 파일 경로
 const CURRENT_JSON_PATH = path.join(process.cwd(), 'public', 'current.json');
