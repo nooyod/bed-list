@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
 
-const currentFilePath = path.join(process.cwd(), 'public', 'current.json');
-const reserveFilePath = path.join(process.cwd(), 'public', 'reserve.json');
+const currentFilePath = path.join(process.cwd(), 'data', 'current.json');
+const reserveFilePath = path.join(process.cwd(), 'data', 'reserve.json');
 
 // 파일 읽기 유틸리티
 const readDataFromFile = (filePath) => {

@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 import { syncCurrentData } from '@/lib/syncData';
 import { insusubMap, doctorMap, predefinedColumns } from '@/lib/config';
 
-const dataFilePath = path.join(process.cwd(), 'public', 'reserve.json');
+const dataFilePath = path.join(process.cwd(), 'data', 'reserve.json');
 
 const readData = () => {
   if (!fs.existsSync(dataFilePath)) {

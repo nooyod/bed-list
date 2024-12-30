@@ -4,8 +4,8 @@ import { NextResponse } from 'next/server';
 import { MAX_CAPACITY, ROOM_TYPE } from '@/lib/config';
 
 // JSON 파일 경로
-const CURRENT_JSON_PATH = path.join(process.cwd(), 'public', 'current.json');
-const RESERVE_JSON_PATH = path.join(process.cwd(), 'public', 'reserve.json');
+const CURRENT_JSON_PATH = path.join(process.cwd(), 'data', 'current.json');
+const RESERVE_JSON_PATH = path.join(process.cwd(), 'data', 'reserve.json');
 
 export async function GET() {
   try {
