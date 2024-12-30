@@ -1,19 +1,6 @@
 [
   {
     "index": 1,
-    "chart_name": "진금순",
-    "chart_gender": "여자",
-    "chart_date_adm": "20241228",
-    "chart_insurance": "건강보험",
-    "chart_funnel": "",
-    "chart_room": "203호",
-    "chart_age": "",
-    "chart_date_dc": "",
-    "chart_doct2": "",
-    "chart_memo": ""
-  },
-  {
-    "index": 2,
     "chart_name": "조영은",
     "chart_gender": "여자",
     "chart_date_adm": "20241230",
