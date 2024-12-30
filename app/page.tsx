@@ -222,6 +222,7 @@ export default function HomePage() {
     setSelectedCard(card); // 선택된 카드 저장
     setPopupLoading(true);
     setShowCardPopup(true);
+    setIsEditing(true);
   
     try {
       const response = await fetch(`/api/kanban/retrieve?key=${card.id}`); // RETRIEVE API 호출
@@ -485,14 +486,14 @@ export default function HomePage() {
                 </div>
               ) : (
                 <div>
-                  <p>이름: {cardDetails.chart_name}</p>
+                  {/* <p>이름: {cardDetails.chart_name}</p>
                   <p>성별: {cardDetails.chart_gender}</p>
                   <p>나이: {cardDetails.chart_age}</p>
                   <p>병실: {cardDetails.chart_room}</p>
                   <p>담당: {cardDetails.chart_doct}</p>
                   <p>입원: {cardDetails.chart_date_adm}</p>
                   <p>퇴원: {cardDetails.chart_date_dc}</p>
-                  <p>메모: {cardDetails.chart_memo}</p>
+                  <p>메모: {cardDetails.chart_memo}</p> */}
                 </div>
               )}
             </div>
@@ -502,7 +503,10 @@ export default function HomePage() {
           <button onClick={() => setShowCardPopup(false)} className="kanban-cancel-button">
             닫기
           </button>
-          {isEditing ? (
+          <button onClick={handleSavePopup} className="kanban-save-button">
+            저장
+          </button>
+          {/* {isEditing ? (
             <button onClick={handleSavePopup} className="kanban-save-button">
               저장
             </button>
@@ -510,7 +514,7 @@ export default function HomePage() {
             <button onClick={() => setIsEditing(true)} className="kanban-save-button">
               수정
             </button>
-          )}
+          )} */}
           <button
             onClick={() => handleDeleteCard(selectedCard.id)}
             className="kanban-delete-button"
