@@ -93,7 +93,14 @@ export async function GET() {
       return acc;
     }, {});
 
-    const reserve = Object.entries(reserveByDate).map(([date, patients]) => ({
+    const sortedReserveByDate = Object.keys(reserveByDate)
+  .sort((a, b) => a.localeCompare(b)) // 문자열 비교로 정렬
+  .reduce((acc, date) => {
+    acc[date] = reserveByDate[date];
+    return acc;
+  }, {});
+
+    const reserve = Object.entries(sortedReserveByDate).map(([date, patients]) => ({
       date,
       patients,
     }));
@@ -101,7 +108,7 @@ export async function GET() {
     // JSON 응답 생성
     const response = {
       sortedDoctors,
-      rooms: rooms.filter((room) => room.room !== '대기'),
+      rooms: rooms.filter((room) => room.room !== '대기' && room.room !== '변경'),
       total,
       reserve, // 새로 추가된 항목
     };
