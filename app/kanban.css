@@ -43,9 +43,9 @@
   }
   
   .kanban-column {
-    width: 150px;
+    width: 140px;
     background-color: #f4f4f4;
-    margin-right: 10px;
+    margin-right: 5px;
     padding: 5px;
     border-radius: 8px;
     margin-top: 70px; 
