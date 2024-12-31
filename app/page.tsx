@@ -84,8 +84,6 @@ export default function HomePage() {
     chart_memo: '',
   });
 
-const today = new Date().toISOString().split('T')[0];
-
   // fetchBoard 함수 정의
 const fetchBoard = async () => {
   try {
@@ -391,8 +389,8 @@ useEffect(() => {
           <label>
             성별:
             <select
-              value={newCard.chart_room}
-              onChange={(e) => setNewCard({ ...newCard, chart_room: e.target.value })}
+              value={newCard.chart_gender}
+              onChange={(e) => setNewCard({ ...newCard, chart_gender: e.target.value })}
               >
                 <option value="" disabled></option>
                 <option value="남자">남</option>
