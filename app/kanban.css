@@ -75,7 +75,11 @@
   }
 
   .kanban-card-reserve {
-    background-color: bisque;
+    background-color: gold;
+  }
+
+  .kanban-card-today {
+    background-color: tomato;
   }
   
   .kanban-card:hover {

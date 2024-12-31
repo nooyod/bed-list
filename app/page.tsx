@@ -11,6 +11,7 @@ interface Card {
   row2: string;
   row3: string;
   origin: string;
+  today: string;
 }
 
 interface AdditionalCard {
@@ -82,6 +83,8 @@ export default function HomePage() {
     chart_doct2: '',
     chart_memo: '',
   });
+
+const today = new Date().toISOString().split('T')[0];
 
   // fetchBoard 함수 정의
 const fetchBoard = async () => {
@@ -307,7 +310,11 @@ useEffect(() => {
             {cards.map((card) => (
               <div
                 key={card.id}
-                className={`kanban-card ${card.origin === "reserve" ? "kanban-card-reserve" : "kanban-card-current"}`}
+                // className={`kanban-card ${card.origin === "reserve" ? "kanban-card-reserve" : "kanban-card-current"}`}
+                className={`kanban-card 
+                  ${card.origin === "reserve" ? "kanban-card-reserve" : "kanban-card-current"} 
+                  ${card.today === "today" ? "kanban-card-today" : ""}`}
+                
                 onClick={() => handleCardClick(card)}
               >
                 <p className="kanban-card-title">{card.row1}</p>
@@ -399,7 +406,7 @@ useEffect(() => {
               value={newCard.chart_room}
               onChange={(e) => setNewCard({ ...newCard, chart_room: e.target.value })}
               >
-                <option value="" disabled>병실을 선택하세요</option>
+                <option value="" disabled>병실</option>
                 {predefinedColumns.map((room) => (
                   <option key={room} value={room}>
                     {room}

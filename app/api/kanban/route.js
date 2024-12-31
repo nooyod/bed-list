@@ -2,7 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
 import { syncCurrentData } from '@/lib/syncData';
-import { insusubMap, doctorMap, predefinedColumns } from '@/lib/config';
+import { insusubMap, predefinedColumns } from '@/lib/config';
+
+const today = new Date().toISOString().split('T')[0];
 
 const dataFilePath = path.join(process.cwd(), 'data', 'reserve.json');
 
@@ -29,6 +31,7 @@ export async function GET() {
         row2: `${row.chart_date_dc}`,
         row3: `${row.chart_doct} (${insusubMap[row.chart_insurance] || 'unknown'})`,
         origin: 'current',
+        today: row.chart_date_dc === today ? 'today' : 'default', // 색상 결정
       };
       if (kanbanData[row.chart_room]) {
         kanbanData[row.chart_room].push(card);
