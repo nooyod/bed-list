@@ -514,12 +514,19 @@ useEffect(() => {
                     />
                   </label>
                   <label>
-                    입원: 
+                    입원:
                     <input
                       type="date"
-                      value={editedDetails.chart_date_adm || ''}
+                      value={
+                        editedDetails.chart_date_adm
+                          ? `${editedDetails.chart_date_adm.slice(0, 4)}-${editedDetails.chart_date_adm.slice(4, 6)}-${editedDetails.chart_date_adm.slice(6, 8)}`
+                          : ''
+                      }
                       onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_date_adm: e.target.value }))
+                        setEditedDetails((prev) => ({
+                          ...prev,
+                          chart_date_adm: e.target.value.replace(/-/g, ''), // date 형식을 yyyymmdd로 변환
+                        }))
                       }
                     />
                   </label>
