@@ -23,7 +23,8 @@ interface AdditionalCard {
   chart_doct: string;
   chart_funnel: string;
   chart_gender: string;
-  chart_age: string;
+  chart_age: number;
+  chart_date_stay: number;
   chart_date_dc: string;
   chart_doct2: string;
   chart_memo: string;
@@ -166,7 +167,7 @@ useEffect(() => {
   const handleSaveCard = async () => {
     const { chart_name, chart_room, chart_insurance, chart_date_adm, chart_doct, chart_funnel, chart_gender, chart_age, chart_date_dc, chart_doct2, chart_memo, } = newCard;
     if (!chart_name || !chart_room ) {
-      alert('이름과 병실은은 입력해야 합니다.');
+      alert('이름과 병실은 입력해야 합니다.');
       return;
     }
 
@@ -179,8 +180,9 @@ useEffect(() => {
       chart_doct,
       chart_funnel,
       chart_gender,
-      chart_age,
+      chart_age: Number(chart_age),
       chart_date_dc,
+      chart_date_stay: 0,
       chart_doct2,
       chart_memo,
     };
@@ -464,6 +466,16 @@ useEffect(() => {
                     />
                   </label>
                   <label>
+                    나이: 
+                    <input
+                      type="number"
+                      value={editedDetails.chart_age || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_age: Number(e.target.value) }))
+                      }
+                    />
+                  </label>
+                  <label>
                     성별: 
                     <select
                       value={editedDetails.chart_gender}
@@ -512,6 +524,19 @@ useEffect(() => {
                         setEditedDetails((prev) => ({ ...prev, chart_funnel: e.target.value }))
                       }
                     />
+                  </label>
+                  <label>
+                    기간: 
+                    <input
+                      type="number"
+                      value={editedDetails.chart_date_stay || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_date_stay: Number(e.target.value) }))
+                      }
+                      className='stay-input'
+                      disabled
+                    />
+                    일
                   </label>
                   <label>
                     입원:
