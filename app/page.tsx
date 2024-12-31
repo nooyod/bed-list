@@ -382,11 +382,15 @@ useEffect(() => {
           </label>
           <label>
             성별:
-            <input
-              type="text"
-              value={newCard.chart_gender}
-              onChange={(e) => setNewCard({ ...newCard, chart_gender: e.target.value })}
-            />
+            <select
+              value={newCard.chart_room}
+              onChange={(e) => setNewCard({ ...newCard, chart_room: e.target.value })}
+              >
+                <option value="" disabled></option>
+                <option value="남자">남</option>
+                <option value="여자">여</option>
+                <option value="모름">모름</option>
+            </select>
           </label>
           <label>
             병실:
@@ -455,13 +459,15 @@ useEffect(() => {
                   </label>
                   <label>
                     성별: 
-                    <input
-                      type="text"
-                      value={editedDetails.chart_gender || ''}
-                      onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_gender: e.target.value }))
-                      }
-                    />
+                    <select
+                      value={editedDetails.chart_gender}
+                      onChange={(e) => setEditedDetails((prev) => ({ ...prev, chart_gender: e.target.value }))}
+                      >
+                        <option value="" disabled></option>
+                        <option value="남자">남</option>
+                        <option value="여자">여</option>
+                        <option value="모름">모름</option>
+                    </select>
                   </label>
                   <label>
                     병실: 
