@@ -10,6 +10,7 @@ interface Card {
   row1: string;
   row2: string;
   row3: string;
+  origin: string;
 }
 
 interface AdditionalCard {
@@ -306,7 +307,7 @@ useEffect(() => {
             {cards.map((card) => (
               <div
                 key={card.id}
-                className="kanban-card"
+                className={`kanban-card ${card.origin === "reserve" ? "kanban-card-reserve" : "kanban-card-current"}`}
                 onClick={() => handleCardClick(card)}
               >
                 <p className="kanban-card-title">{card.row1}</p>
