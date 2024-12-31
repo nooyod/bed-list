@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
-import { MAX_CAPACITY, ROOM_TYPE } from '@/lib/config';
+import { MAX_CAPACITY, ROOM_TYPE, doctorMap } from '@/lib/config';
 
 // JSON 파일 경로
 const CURRENT_JSON_PATH = path.join(process.cwd(), 'data', 'current.json');
@@ -27,6 +27,14 @@ export async function GET() {
       return acc;
     }, {});
 
+    const sortedDoctors = Object.keys(doctorMap).reduce((acc, doctorName) => {
+      const mappedDepartment = doctorMap[doctorName];
+      if (doctors[mappedDepartment] > 0) {
+        acc[mappedDepartment] = doctors[mappedDepartment];
+      }
+      return acc;
+    }, {});
+   
     // Rooms 통계 계산
     const rooms = Object.keys(MAX_CAPACITY).map((room) => {
       const occupants = allData.filter((entry) => entry.chart_room === room);
@@ -92,7 +100,7 @@ export async function GET() {
 
     // JSON 응답 생성
     const response = {
-      doctors,
+      sortedDoctors,
       rooms: rooms.filter((room) => room.room !== '대기'),
       total,
       reserve, // 새로 추가된 항목

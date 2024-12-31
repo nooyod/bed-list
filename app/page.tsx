@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import './globals.css'; // 전체 스타일
 import './kanban.css'; // 칸반 보드 전용 스타일
-import { predefinedColumns } from '@/lib/config';
+import { predefinedColumns, doctorMap } from '@/lib/config';
 
 interface Card {
   id: string;
@@ -44,7 +44,7 @@ interface Total {
 }
 
 interface Statistics {
-  doctors: Record<string, number>;
+  sortedDoctors: Record<string, number>;
   rooms: RoomStatistics[];
   total: Total[];
   reserve: { date: string; patients: { name: string; gender: string }[] }[];
@@ -63,7 +63,7 @@ export default function HomePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedDetails, setEditedDetails] = useState<Partial<AdditionalCard>>({});
   const [statistics, setStatistics] = useState<Statistics>({
-    doctors: {},
+    sortedDoctors: {},
     rooms: [],
     total: [],
     reserve: [],
@@ -325,7 +325,7 @@ useEffect(() => {
           <div className="kanban-popup">
             <h2>통계</h2>
             <ul>
-              {Object.entries(statistics.doctors).map(([doctor, count]) => (
+              {Object.entries(statistics.sortedDoctors).map(([doctor, count]) => (
                 <li key={doctor}>
                   {doctor}: {count}명
                 </li>
@@ -479,13 +479,17 @@ useEffect(() => {
                   </label>
                   <label>
                     담당: 
-                    <input
-                      type="text"
-                      value={editedDetails.chart_doct2 || ''}
-                      onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_doct2: e.target.value }))
-                      }
-                    />
+                    <select
+                      value={editedDetails.chart_doct2}
+                      onChange={(e) => setEditedDetails((prev) => ({ ...prev, chart_doct2: e.target.value }))}
+                      >
+                        <option value="" disabled>원장님</option>
+                        {Object.values(doctorMap).map((department, index) => (
+                        <option key={index} value={department}>
+                          {department}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     유입: 
