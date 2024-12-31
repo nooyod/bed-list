@@ -413,7 +413,7 @@ useEffect(() => {
           <label>
             입원일자:
             <input
-              type="text"
+              type="date"
               value={newCard.chart_date_adm}
               onChange={(e) => setNewCard({ ...newCard, chart_date_adm: e.target.value })}
             />
@@ -500,7 +500,7 @@ useEffect(() => {
                   <label>
                     입원: 
                     <input
-                      type="text"
+                      type="date"
                       value={editedDetails.chart_date_adm || ''}
                       onChange={(e) =>
                         setEditedDetails((prev) => ({ ...prev, chart_date_adm: e.target.value }))
@@ -510,7 +510,7 @@ useEffect(() => {
                   <label>
                     퇴원: 
                     <input
-                      type="text"
+                      type="date"
                       value={editedDetails.chart_date_dc || ''}
                       onChange={(e) =>
                         setEditedDetails((prev) => ({ ...prev, chart_date_dc: e.target.value }))

@@ -26,7 +26,7 @@ export async function GET() {
       const card = {
         id: row.chart_number,
         row1: `${row.chart_number.slice(-5)} ${row.chart_name}`,
-        row2: `${row.chart_date_dc.slice(0, 4)}-${row.chart_date_dc.slice(4, 6)}-${row.chart_date_dc.slice(6, 8)}`,
+        row2: `${row.chart_date_dc}`,
         row3: `${doctorMap[row.chart_doct] || 'unknown'} (${insusubMap[row.chart_insurance] || 'unknown'})`,
       };
       if (kanbanData[row.chart_room]) {
@@ -40,7 +40,7 @@ export async function GET() {
       const card = {
         id: row.index,
         row1: row.chart_name,
-        row2: `${row.chart_date_adm.slice(0, 4)}-${row.chart_date_adm.slice(4, 6)}-${row.chart_date_adm.slice(6, 8)}`,
+        row2: `${row.chart_date_adm}`,
         row3: `${row.chart_funnel} (${row.chart_insurance})`,
       };
       if (kanbanData[row.chart_room]) {
