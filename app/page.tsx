@@ -26,6 +26,7 @@ interface AdditionalCard {
   chart_age: number;
   chart_date_stay: number;
   chart_date_dc: string;
+  chart_check_dc: string;
   chart_doct2: string;
   chart_memo: string;
 }
@@ -183,6 +184,7 @@ useEffect(() => {
       chart_age: Number(chart_age),
       chart_date_dc,
       chart_date_stay: 0,
+      chart_check_dc: '',
       chart_doct2,
       chart_memo,
     };
@@ -562,6 +564,19 @@ useEffect(() => {
                       value={editedDetails.chart_date_dc || ''}
                       onChange={(e) =>
                         setEditedDetails((prev) => ({ ...prev, chart_date_dc: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    퇴원확정:
+                    <input
+                      type="checkbox"
+                      checked={!!editedDetails.chart_date_dc}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({
+                          ...prev,
+                          chart_date_dc: e.target.checked ? new Date().toISOString().split('T')[0].replace(/-/g, '') : ''
+                        }))
                       }
                     />
                   </label>
