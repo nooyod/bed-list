@@ -81,6 +81,10 @@
   .kanban-card-today {
     background-color: tomato;
   }
+
+  .kanban-card-change {
+    background-color: lightblue;
+  }
   
   .kanban-card:hover {
     transform: scale(1.05);

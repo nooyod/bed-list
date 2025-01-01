@@ -41,13 +41,20 @@ export async function GET() {
     const fileContent = readData();
 
     fileContent.forEach((row) => {
-      const card = {
+      const card = row.chart_check_dc
+      ? {
         id: row.index,
         row1: `(${row.index}) ${row.chart_name}`,
         row2: `${row.chart_date_adm.slice(0, 4)}-${row.chart_date_adm.slice(4, 6)}-${row.chart_date_adm.slice(6, 8)}`,
-        // row2: `${row.chart_date_adm}`,
         row3: `${row.chart_funnel} (${row.chart_insurance})`,
         origin: 'reserve',
+      }
+      : {
+        id: row.index,
+        row1: `(${row.index}) ${row.chart_name}`,
+        row2: row.chart_date_adm,
+        row3: row.chart_memo,
+        origin: 'change',
       };
       if (kanbanData[row.chart_room]) {
         kanbanData[row.chart_room].push(card);

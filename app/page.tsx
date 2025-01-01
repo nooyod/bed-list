@@ -314,7 +314,7 @@ useEffect(() => {
                 key={card.id}
                 // className={`kanban-card ${card.origin === "reserve" ? "kanban-card-reserve" : "kanban-card-current"}`}
                 className={`kanban-card 
-                  ${card.origin === "reserve" ? "kanban-card-reserve" : "kanban-card-current"} 
+                  ${card.origin === "reserve" ? "kanban-card-reserve" : card.origin === "change" ? "kanban-card-change" : "kanban-card-current"} 
                   ${card.today === "today" ? "kanban-card-today" : ""}`}
                 
                 onClick={() => handleCardClick(card)}
