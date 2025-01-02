@@ -37,7 +37,18 @@ export async function GET() {
    
     // Rooms 통계 계산
     const rooms = Object.keys(MAX_CAPACITY).map((room) => {
-      const occupants = allData.filter((entry) => entry.chart_room === room);
+      const occupants = allData.filter((entry) => {
+        const isChartDateDcToday =
+          entry.chart_date_dc === new Date().toISOString().slice(0, 10); // 오늘 날짜 확인
+        const hasChartCheckDc = Boolean(entry.chart_check_dc); // 값이 있는지 확인
+    
+        // 조건을 만족하지 않는 데이터만 포함
+        return (
+          entry.chart_room === room &&
+          !(isChartDateDcToday && hasChartCheckDc) // 두 조건 모두 만족하면 제외
+        );
+      });
+
       const genderCounts = occupants.reduce(
         (acc, entry) => {
           if (entry.chart_gender === '남자') acc.male += 1;
@@ -59,7 +70,8 @@ export async function GET() {
       return {
         room,
         gender,
-        remaining: MAX_CAPACITY[room] - occupants.length,
+        // remaining: MAX_CAPACITY[room] - occupants.length,
+        remaining: Math.max(0, MAX_CAPACITY[room] - occupants.length), // 음수 방지
       };
     });
 
