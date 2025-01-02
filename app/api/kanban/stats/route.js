@@ -83,6 +83,10 @@ export async function GET() {
     // Reserve 통계 계산
     const reserveByDate = reserveData.reduce((acc, item) => {
       const date = item.chart_date_adm; // 입원 날짜
+        // chart_room이 "대기"인 사람 제외
+      if (item.chart_room === "전실") {
+        return acc; // 현재 항목을 건너뜀
+      }
       if (!acc[date]) {
         acc[date] = [];
       }

@@ -365,7 +365,8 @@ useEffect(() => {
                 {statistics.reserve.map((entry: { date: string; patients: { name: string; gender: string }[] }) => (
                 <li key={entry.date}>
                   {/* 날짜 출력 */}
-                  {entry.date}
+                  {entry.date.slice(4, 6)}/{entry.date.slice(6, 8)}
+                  {/* {entry.date} */}
                   <ul>
                     {/* 해당 날짜의 환자 목록 출력 */}
                     {entry.patients.map((patient, index) => (
