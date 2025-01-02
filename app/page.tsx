@@ -356,7 +356,7 @@ useEffect(() => {
                 return (
                   totalPeople > 0 && ( // 총 인원이 0일 경우 출력하지 않음
                     <li key={total.gender}>
-                      {total.gender}: {totalPeople}, ({roomDetails})
+                      {total.gender}: {totalPeople} ({roomDetails})
                     </li>
                   )
                 );
@@ -420,7 +420,7 @@ useEffect(() => {
             </select>
           </label>
           <label>
-            보험:
+            유형:
             <input
               type="text"
               value={newCard.chart_insurance}
@@ -532,6 +532,16 @@ useEffect(() => {
                       value={editedDetails.chart_funnel || ''}
                       onChange={(e) =>
                         setEditedDetails((prev) => ({ ...prev, chart_funnel: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    유형: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_insurance || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_insurance: e.target.value }))
                       }
                     />
                   </label>
