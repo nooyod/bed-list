@@ -626,7 +626,11 @@ useEffect(() => {
             </button>
           )} */}
           <button
-            onClick={() => handleDeleteCard(selectedCard.id)}
+            onClick={() => {
+              if (window.confirm("정말로 삭제하시겠습니까?")) {
+              handleDeleteCard(selectedCard.id)}
+            }
+          }
             className="kanban-delete-button"
           >
             삭제
