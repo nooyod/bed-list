@@ -3,7 +3,6 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 import { syncCurrentData } from '@/lib/syncData';
 import { insusubMap, predefinedColumns } from '@/lib/config';
-import React from 'react';
 
 const today = new Date().toISOString().split('T')[0];
 
