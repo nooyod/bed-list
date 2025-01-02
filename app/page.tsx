@@ -322,6 +322,8 @@ useEffect(() => {
                 <p className="kanban-card-title">{card.row1}</p>
                 <p className="kanban-card-description">
                   {card.row2}
+                  {/* {typeof card.row2 === 'object' ? JSON.stringify(card.row2) : card.row2} */}
+
                   <br />
                   {card.row3}
                 </p>
@@ -495,7 +497,7 @@ useEffect(() => {
                       value={editedDetails.chart_room}
                       onChange={(e) => setEditedDetails((prev) => ({ ...prev, chart_room: e.target.value }))}
                       >
-                        <option value="" disabled>병실을 선택하세요</option>
+                        <option value="" disabled>병실</option>
                         {predefinedColumns.map((room) => (
                           <option key={room} value={room}>
                             {room}
@@ -571,24 +573,24 @@ useEffect(() => {
                     퇴원확정:
                     <input
                       type="checkbox"
-                      checked={!!editedDetails.chart_date_dc}
+                      checked={!!editedDetails.chart_check_dc}
                       onChange={(e) =>
                         setEditedDetails((prev) => ({
                           ...prev,
-                          chart_date_dc: e.target.checked ? new Date().toISOString().split('T')[0].replace(/-/g, '') : ''
+                          chart_check_dc: e.target.checked ? new Date().toISOString().split('T')[0].replace(/-/g, '') : ''
                         }))
                       }
                     />
                   </label>
                   <label>
                     메모: 
-                    <input
-                      type="text"
+                    <textarea
                       value={editedDetails.chart_memo || ''}
                       onChange={(e) =>
                         setEditedDetails((prev) => ({ ...prev, chart_memo: e.target.value }))
                       }
-                    />
+                      className='memo-input'
+                    ></textarea>
                   </label>
                 </div>
               ) : (

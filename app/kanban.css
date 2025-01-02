@@ -144,3 +144,7 @@
     } */
     text-align: right;
   }
+  
+  .memo-input {
+    vertical-align: top;
+  }

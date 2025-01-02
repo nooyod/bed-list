@@ -3,6 +3,7 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 import { syncCurrentData } from '@/lib/syncData';
 import { insusubMap, predefinedColumns } from '@/lib/config';
+import React from 'react';
 
 const today = new Date().toISOString().split('T')[0];
 
@@ -41,21 +42,30 @@ export async function GET() {
     const fileContent = readData();
 
     fileContent.forEach((row) => {
-      const card = row.chart_check_dc
-      ? {
-        id: row.index,
-        row1: `(${row.index}) ${row.chart_name}`,
-        row2: `${row.chart_date_adm.slice(0, 4)}-${row.chart_date_adm.slice(4, 6)}-${row.chart_date_adm.slice(6, 8)}`,
-        row3: `${row.chart_funnel} (${row.chart_insurance})`,
-        origin: 'reserve',
+      let card;
+
+      if (row.chart_room === '전실') {
+        card = {
+          id: row.index,
+          row1: `[${row.index}] ${row.chart_name}`, // 이름과 인덱스
+          row2: row.chart_memo, // 메모
+          // row2: row.chart_memo.split('\n').map((line, index) => (
+          //   <React.Fragment key={index}>
+          //     {line}
+          //     <br />
+          //   </React.Fragment>
+          // )),
+          origin: 'change', // 'change'로 변경
+        };
+      } else {
+        card = {
+          id: row.index,
+          row1: `[${row.index}]${row.chart_name}`, // 이름과 인덱스
+          row2: `${row.chart_date_adm.slice(0, 4)}-${row.chart_date_adm.slice(4, 6)}-${row.chart_date_adm.slice(6, 8)}`, // 날짜 형식 변환
+          row3: `${row.chart_funnel} (${row.chart_insurance})`, // 추가 정보
+          origin: 'reserve', // 'reserve'로 기본 설정
+        };
       }
-      : {
-        id: row.index,
-        row1: `(${row.index}) ${row.chart_name}`,
-        row2: row.chart_date_adm,
-        row3: row.chart_memo,
-        origin: 'change',
-      };
       if (kanbanData[row.chart_room]) {
         kanbanData[row.chart_room].push(card);
       }
