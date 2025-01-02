@@ -431,8 +431,13 @@ useEffect(() => {
             입원일자:
             <input
               type="date"
-              value={newCard.chart_date_adm}
-              onChange={(e) => setNewCard({ ...newCard, chart_date_adm: e.target.value })}
+              // value={newCard.chart_date_adm}
+              value={
+                newCard.chart_date_adm
+                  ? `${newCard.chart_date_adm.slice(0, 4)}-${newCard.chart_date_adm.slice(4, 6)}-${newCard.chart_date_adm.slice(6, 8)}`
+                  : ''
+              }
+              onChange={(e) => setNewCard({ ...newCard, chart_date_adm: e.target.value.replace(/-/g, '') })}
             />
           </label>
           <label>
