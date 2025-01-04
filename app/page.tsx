@@ -87,45 +87,25 @@ export default function HomePage() {
   });
 
   // fetchBoard 함수 정의
-const fetchBoard = async () => {
-  try {
-    const response = await fetch('/api/kanban'); // API 호출
-    if (!response.ok) {
-      throw new Error('Failed to fetch board data');
+  const fetchBoard = async () => {
+    try {
+      const response = await fetch('/api/kanban'); // API 호출
+      if (!response.ok) {
+        throw new Error('Failed to fetch board data');
+      }
+      const data: KanbanBoard = await response.json();
+      setBoard(data); // 상태 업데이트
+    } catch (error) {
+      console.error('Error fetching board data:', error);
+      setBoard(null); // 데이터가 없을 경우 null로 설정
+    } finally {
+      setLoading(false);
     }
-    const data: KanbanBoard = await response.json();
-    setBoard(data); // 상태 업데이트
-  } catch (error) {
-    console.error('Error fetching board data:', error);
-    setBoard(null); // 데이터가 없을 경우 null로 설정
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
-useEffect(() => {
-  fetchBoard(); // 데이터 가져오기
-}, []);
-
-  // useEffect(() => {
-  //   const fetchBoard = async () => {
-  //     try {
-  //       const response = await fetch('/api/kanban'); // API 호출
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch board data');
-  //       }
-  //       const data: KanbanBoard = await response.json();
-  //       setBoard(data);
-  //     } catch (error) {
-  //       console.error('Error fetching board data:', error);
-  //       setBoard(null); // 데이터가 없을 경우 null로 설정
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchBoard();
-  // }, []);
+  useEffect(() => {
+    fetchBoard(); // 데이터 가져오기
+  }, []);
 
   useEffect(() => {
     if (cardDetails) {
@@ -312,7 +292,6 @@ useEffect(() => {
             {cards.map((card) => (
               <div
                 key={card.id}
-                // className={`kanban-card ${card.origin === "reserve" ? "kanban-card-reserve" : "kanban-card-current"}`}
                 className={`kanban-card 
                   ${card.origin === "reserve" ? "kanban-card-reserve" : card.origin === "change" ? "kanban-card-change" : "kanban-card-current"} 
                   ${card.today === "today" ? "kanban-card-today" : ""}`}
@@ -322,8 +301,6 @@ useEffect(() => {
                 <p className="kanban-card-title">{card.row1}</p>
                 <p className="kanban-card-description">
                   {card.row2}
-                  {/* {typeof card.row2 === 'object' ? JSON.stringify(card.row2) : card.row2} */}
-
                   <br />
                   {card.row3}
                 </p>
@@ -366,7 +343,6 @@ useEffect(() => {
                 <li key={entry.date}>
                   {/* 날짜 출력 */}
                   {entry.date.slice(4, 6)}/{entry.date.slice(6, 8)}
-                  {/* {entry.date} */}
                   <ul>
                     {/* 해당 날짜의 환자 목록 출력 */}
                     {entry.patients.map((patient, index) => (
@@ -431,7 +407,6 @@ useEffect(() => {
             입원일자:
             <input
               type="date"
-              // value={newCard.chart_date_adm}
               value={
                 newCard.chart_date_adm
                   ? `${newCard.chart_date_adm.slice(0, 4)}-${newCard.chart_date_adm.slice(4, 6)}-${newCard.chart_date_adm.slice(6, 8)}`
@@ -611,14 +586,6 @@ useEffect(() => {
                 </div>
               ) : (
                 <div>
-                  {/* <p>이름: {cardDetails.chart_name}</p>
-                  <p>성별: {cardDetails.chart_gender}</p>
-                  <p>나이: {cardDetails.chart_age}</p>
-                  <p>병실: {cardDetails.chart_room}</p>
-                  <p>담당: {cardDetails.chart_doct}</p>
-                  <p>입원: {cardDetails.chart_date_adm}</p>
-                  <p>퇴원: {cardDetails.chart_date_dc}</p>
-                  <p>메모: {cardDetails.chart_memo}</p> */}
                 </div>
               )}
             </div>
@@ -631,15 +598,6 @@ useEffect(() => {
           <button onClick={handleSavePopup} className="kanban-save-button">
             저장
           </button>
-          {/* {isEditing ? (
-            <button onClick={handleSavePopup} className="kanban-save-button">
-              저장
-            </button>
-          ) : (
-            <button onClick={() => setIsEditing(true)} className="kanban-save-button">
-              수정
-            </button>
-          )} */}
           <button
             onClick={() => {
               if (window.confirm("정말로 삭제하시겠습니까?")) {

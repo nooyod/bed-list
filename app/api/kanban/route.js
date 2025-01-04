@@ -48,12 +48,6 @@ export async function GET() {
           id: row.index,
           row1: `[${row.index}] ${row.chart_name}`, // 이름과 인덱스
           row2: row.chart_memo, // 메모
-          // row2: row.chart_memo.split('\n').map((line, index) => (
-          //   <React.Fragment key={index}>
-          //     {line}
-          //     <br />
-          //   </React.Fragment>
-          // )),
           origin: 'change', // 'change'로 변경
         };
       } else {

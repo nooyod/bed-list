@@ -70,7 +70,6 @@ export async function GET() {
       return {
         room,
         gender,
-        // remaining: MAX_CAPACITY[room] - occupants.length,
         remaining: Math.max(0, MAX_CAPACITY[room] - occupants.length), // 음수 방지
       };
     });

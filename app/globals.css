@@ -13,8 +13,8 @@
     --foreground: #ededed;
   }
 } */
+ 
 html { 
-  /* transform: scale(0.9); 90%로 줄이기  */
   transform-origin: top left; /* 변환 기준점 설정 */
   height: 100%;
   width: 100%;
