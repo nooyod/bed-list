@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 function Header() {
   return (
     <header className="header">
+      <img src="logo.svg" alt="Description of the image" className="header-image"/>
       <h1>입원 현황</h1>
     </header>
   );
@@ -29,7 +30,7 @@ function Header() {
 function Footer() {
   return (
     <footer className="footer">
-      <p>&copy; {new Date().getFullYear()} 서울제일한방병원. All rights reserved.</p>
+      <p>Copyright &copy; {new Date().getFullYear()} 서울제일한방병원. All rights reserved.</p>
     </footer>
   );
 }

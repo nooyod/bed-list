@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
-    padding: 20px;
+    padding: 10px;
     position: relative;
   }
   

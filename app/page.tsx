@@ -433,7 +433,7 @@ export default function HomePage() {
       )}
       {showCardPopup && selectedCard && (
         <div className="kanban-popup">
-          <h2>카드 세부정보</h2>
+          <h2>환자 세부 정보</h2>
           {popupLoading ? (
             <p>Loading...</p>
           ) : cardDetails ? ( 

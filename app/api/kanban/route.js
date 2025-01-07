@@ -4,8 +4,6 @@ import { NextResponse } from 'next/server';
 import { syncCurrentData } from '@/lib/syncData';
 import { insusubMap, predefinedColumns } from '@/lib/config';
 
-const today = new Date().toISOString().split('T')[0];
-
 const dataFilePath = path.join(process.cwd(), 'data', 'reserve.json');
 
 const readData = () => {
@@ -22,6 +20,8 @@ export async function GET() {
       board[columnName] = [];
       return board;
     }, {});
+    
+    const today = new Date().toISOString().split('T')[0];
 
     const result = await syncCurrentData();
     result.forEach((row) => {
