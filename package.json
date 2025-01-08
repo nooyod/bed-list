@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "kanbanize": "^1.0.5",
     "mssql": "^11.0.1",
     "next": "15.1.0",
     "react": "^19.0.0",
