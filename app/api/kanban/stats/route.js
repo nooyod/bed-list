@@ -19,7 +19,9 @@ export async function GET() {
     const allData = [...currentData, ...reserveData];
 
     // Doctors 통계 계산
-    const doctors = allData.reduce((acc, entry) => {
+    const doctors = allData
+    .filter(entry => !(entry.chart_check_dc && entry.chart_date_dc === new Date().toISOString().slice(0, 10)))
+    .reduce((acc, entry) => {
       const doctor = entry.chart_doct2 || entry.chart_doct;
       if (doctor) {
         acc[doctor] = (acc[doctor] || 0) + 1;
