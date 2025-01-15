@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from 'next/link'
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -21,7 +22,15 @@ function Header() {
   return (
     <header className="header">
       <img src="logo.svg" alt="Description of the image" className="header-image"/>
-      <h1>입원 현황</h1>
+      <nav className="header-nav">
+        <Link href="/">
+          <h1 className="nav-item">입원 현황</h1>
+        </Link>
+        <div className="nav-divider"></div>
+        <Link href="/patient">
+          <h1 className="nav-item">환자 현황</h1>
+        </Link>
+      </nav>
     </header>
   );
 }
@@ -41,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="kr">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
