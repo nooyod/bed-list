@@ -137,7 +137,7 @@ export default function PatientPage() {
         <p>퇴원: {stats.todaydc}명</p>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 flex flex-wrap gap-4">
         <Chart series={insuranceData} labels={insuranceLabels} title="보험 구분" />
       </div>
     </div>
