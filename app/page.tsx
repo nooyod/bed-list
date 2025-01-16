@@ -218,6 +218,7 @@ export default function HomePage() {
         });
   
         setShowCardPopup(false); // 팝업 닫기
+        await fetchBoard(); // 보드 데이터 다시 가져오기
       } else {
         console.error('Failed to delete card');
       }
