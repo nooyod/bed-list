@@ -70,19 +70,50 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Chart from "@/components/Chart";
+// import Chart from "@/components/Chart";
+import PieChart from "@/components/PieChart";
+
+interface PatientStats {
+  silverStats: {
+    totalinpatient: number;
+    todayadm: number;
+    todaydc: number;
+    insurance0: number;
+    insurance1: number;
+    insurance2: number;
+    insurance3: number;
+    insurance5: number;
+  };
+  jubStats: {
+    in_total: number;
+    in_new: number;
+    in_first: number;
+    in_again: number;
+    in_total_0: number;
+    in_total_1: number;
+    in_total_2: number;
+    filteredList: {
+      jubCham: string;
+      jubChoJae: number;
+      chamWhanja: string;
+      partName: string;
+      jubTprt: number;
+      chamMemo2: string;
+    }[];
+  };
+}
 
 export default function PatientPage() {
   const [date, setDate] = useState<string>(() => {
     const today = new Date();
     return today.toISOString().slice(0, 10).replace(/-/g, ""); // YYYYMMDD
   });
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<PatientStats | null>(null);
 
   const fetchStats = async () => {
     try {
       const response = await fetch(`/api/patient?date=${date}`);
-      const data = await response.json();
+      const data: PatientStats = await response.json();
       setStats(data);
     } catch (error) {
       console.error("Error fetching patient stats:", error);
@@ -144,9 +175,13 @@ export default function PatientPage() {
       </div>
 
       {/* 보험 구분 차트 */}
+      {/* <div className="mt-6 flex flex-wrap gap-4"> */}
+        {/* <Chart series={insuranceData} labels={insuranceLabels} title="보험 구분" /> */}
+      {/* </div> */}
       <div className="mt-6 flex flex-wrap gap-4">
-        <Chart series={insuranceData} labels={insuranceLabels} title="보험 구분" />
+        <PieChart data={insuranceData} labels={insuranceLabels} />
       </div>
+
       <div>
         <p>외래: {stats.jubStats.in_total}명</p>
         <p>재진: {stats.jubStats.in_again}명</p>
@@ -155,8 +190,11 @@ export default function PatientPage() {
       </div>
 
       {/* 외래 구분 차트 */}
+      {/* <div className="mt-6 flex flex-wrap gap-4"> */}
+        {/* <Chart series={outpatientData} labels={outpatientLabels} title="외래 구분" /> */}
+      {/* </div> */}
       <div className="mt-6 flex flex-wrap gap-4">
-        <Chart series={outpatientData} labels={outpatientLabels} title="외래 구분" />
+        <PieChart data={outpatientData} labels={outpatientLabels} />
       </div>
 
       {/* 목록 출력 */}
@@ -172,7 +210,7 @@ export default function PatientPage() {
             </tr>
           </thead>
           <tbody>
-            {filteredList.map((row: any, index: number) => (
+            {filteredList.map((row, index) => (
               <tr key={index}>
                 <td className="border border-gray-300 px-4 py-2">{row.jubCham}</td>
                 <td className="border border-gray-300 px-4 py-2">{row.chamWhanja}</td>
@@ -186,3 +224,4 @@ export default function PatientPage() {
     </div>
   );
 }
+
