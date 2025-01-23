@@ -1,10 +1,12 @@
+// import { Icon } from "next/dist/lib/metadata/types/metadata-types";
 import React from "react";
+import { IconType } from "react-icons";
 
 interface StatCardProps {
   title: string;
   value: string | number;
   description?: string;
-  icon?: React.ReactNode;
+  icon?: IconType;
   color?: string;
 }
 
@@ -16,7 +18,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, description, icon, co
       } text-gray-800`}
     >
       <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-100">
-        {icon}
+        {icon && React.createElement(icon)}
       </div>
       <div>
         <h3 className="text-lg font-semibold">{title}</h3>
