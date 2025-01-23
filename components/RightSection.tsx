@@ -8,7 +8,7 @@ interface RightSectionProps {
   date: string;
 }
 
-export default function RightSection({ stats, date }: RightSectionProps) {
+export default function RightSection({ stats }: RightSectionProps) {
   if (!stats) {
     return <p>데이터를 불러오는 중입니다...</p>;
   }

@@ -71,8 +71,6 @@
 
 import { useState, useEffect } from "react";
 // import Chart from "@/components/Chart";
-import PieChart from "@/components/PieChart";
-import StatCard from "@/components/StatCard";
 import TopSection from "@/components/TopSection";
 import LeftSection from "@/components/LeftSection";
 import RightSection from "@/components/RightSection";
@@ -120,7 +118,7 @@ export default function PatientPage() {
       return today.toISOString().slice(0, 10).replace(/-/g, ""); // YYYYMMDD
     });
   const [stats, setStats] = useState<PatientStats | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   const fetchStats = async (selectedDate: string) => {
     setLoading(true);

@@ -54,7 +54,7 @@ export default function LeftSection({ stats, date }: LeftSectionProps) {
         <div className="mt-4">
           <Table
             headers={["번호", "이름", "유형", "유입"]}
-            rows={filteredList.map((item: any) => [
+            rows={filteredList.map((item: { jubCham: string; chamWhanja: string; partName: string; chamMemo2: string }) => [
               item.jubCham,
               item.chamWhanja,
               item.partName,
