@@ -39,6 +39,8 @@ type PieChartProps = {
             {slices.map((slice, index) => (
               <path key={index} d={slice.d} fill={slice.fill} />
             ))}
+                      {/* 가운데 도넛 공간 */}
+          <circle cx="50" cy="50" r="20" fill="white" />
           </svg>
         </div>
         

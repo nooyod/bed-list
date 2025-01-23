@@ -56,7 +56,7 @@ main {
 }
 
 .header-image {
-  width: 200px; /* 원하는 크기로 조정 가능 */
+  width: 250px; /* 원하는 크기로 조정 가능 */
   height: auto; /* 비율을 유지 */
   margin-right: 10px;
   object-fit: cover;

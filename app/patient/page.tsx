@@ -72,6 +72,8 @@
 import { useState, useEffect } from "react";
 // import Chart from "@/components/Chart";
 import PieChart from "@/components/PieChart";
+import StatCard from "@/components/StatCard";
+import { FaHospital, FaUserPlus, FaUserCheck } from "react-icons/fa";
 
 interface PatientStats {
   silverStats: {
@@ -163,7 +165,39 @@ export default function PatientPage() {
           id="date"
           value={date.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")}
           onChange={handleDateChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          className="mt-1 block rounded-md border-gray-300 shadow-sm"
+        />
+      </div>
+      
+      {/* 환자 통계 카드 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          title="현재 환자"
+          value={stats.silverStats.totalinpatient}
+          description="총 입원 환자 수"
+          icon={<FaHospital size={24} />}
+          color="bg-blue-100"
+        />
+        <StatCard
+          title="입원 환자"
+          value={stats.silverStats.todayadm}
+          description="오늘 입원한 환자"
+          icon={<FaUserPlus size={24} />}
+          color="bg-green-100"
+        />
+        <StatCard
+          title="퇴원 환자"
+          value={stats.silverStats.todaydc}
+          description="오늘 퇴원한 환자"
+          icon={<FaUserCheck size={24} />}
+          color="bg-yellow-100"
+        />
+        <StatCard
+          title="외래 환자"
+          value={stats.jubStats.in_total}
+          description="현재 외래 환자"
+          icon={<FaHospital size={24} />}
+          color="bg-purple-100"
         />
       </div>
 
@@ -200,7 +234,7 @@ export default function PatientPage() {
       {/* 목록 출력 */}
       <div className="mt-6">
         <h2 className="text-lg font-semibold">초진 환자</h2>
-        <table className="min-w-full mt-4 border-collapse border border-gray-300">
+        <table className="mt-4 border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
               <th className="border border-gray-300 px-4 py-2">챠트번호</th>
