@@ -3,22 +3,24 @@ import { PatientStats } from "@/types/PatientStats";
 import Card from "@/components/StatCard";
 import DonutChart from "@/components/PieChart";
 import Table from "@/components/Table";
-import { FaHospital, FaUserPlus, FaUserCheck } from "react-icons/fa";
+import LineChart from "@/components/LineChart";
+import { FaHospitalAlt, FaHospitalUser, FaUserPlus, FaUserCheck } from "react-icons/fa";
 
 interface LeftSectionProps {
   stats: PatientStats | null;
-  date: string;
+  dates: string[];
+  patientCounts: number[];
 }
 
-export default function LeftSection({ stats, date }: LeftSectionProps) {
+export default function LeftSection({ stats, dates, patientCounts }: LeftSectionProps) {
   if (!stats) {
     return <p>데이터를 불러오는 중입니다...</p>;
   }
 
   // 카드 데이터
   const outpatientCards = [
-    { title: "총 외래", value: stats.jubStats.in_total, description:"총 입원 환자 수", icon:FaHospital, color:"bg-blue-100" },
-    { title: "신규 환자", value: stats.jubStats.in_new, description: "신규 환자 수", icon: FaUserPlus, color: "bg-green-100" },
+    { title: "총 외래", value: stats.jubStats.in_total, description:"총 외래 환자 수", icon:FaHospitalAlt, color:"bg-blue-100" },
+    { title: "신규 환자", value: stats.jubStats.in_new, description: "신규 환자 수", icon: FaHospitalUser, color: "bg-green-100" },
     { title: "초진 환자", value: stats.jubStats.in_first, description: "초진 환자 수", icon: FaUserCheck, color: "bg-yellow-100" },
     { title: "재진 환자", value: stats.jubStats.in_again, description: "재진 환자 수", icon: FaUserCheck, color: "bg-red-100" },
   ];
@@ -49,8 +51,13 @@ export default function LeftSection({ stats, date }: LeftSectionProps) {
         <DonutChart data={pieData} labels={pieLabels} />
       </div>
 
+      <h2 className="text-xl font-bold mb-4">외래 통계</h2>
+      <div className="mb-6">
+        <LineChart dates={dates} patientCounts={patientCounts} />
+      </div>
+
       {/* 리스트 */}
-      <h3 className="text-lg font-semibold mb-2">초진 환자 목록 ({date})</h3>
+      <h3 className="text-lg font-semibold mb-2">초진 환자 목록 </h3>
         <div className="mt-4">
           <Table
             headers={["번호", "이름", "유형", "유입"]}

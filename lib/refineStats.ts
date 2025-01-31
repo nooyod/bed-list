@@ -1,3 +1,5 @@
+import { ImInsertTemplate } from "react-icons/im";
+
 interface JubData {
     jubCham: string;
     jubChoJae: number;
@@ -34,5 +36,91 @@ interface JubData {
         chamMemo2: row.chamMemo2,
       })),
     };
+  };
+  
+  interface RawInpatientData {
+    INDAT: string;  // 입원 날짜 (yyyymmdd 형식)
+    OUTDAT: string; // 퇴원 날짜 (yyyymmdd 형식 또는 공백)
+    INSUCLS: string; // 보험 코드
+    OUTKIND: string; // 입원 종류 (e.g., "99" for 입원)
+  }
+  
+  interface InpatientStats {
+    date: string; // 날짜 (yyyymmdd 형식)
+    totalinpatient: number; // 현재 입원 환자 수
+    todayadm: number; // 오늘 입원한 환자 수
+    todaydc: number; // 오늘 퇴원한 환자 수
+    insurance00: number; // 보험 종류 0
+    insurance10: number; // 보험 종류 1
+    insurance20: number; // 보험 종류 2
+    insurance30: number; // 보험 종류 3
+    insurance50: number; // 보험 종류 5
+  }
+  
+  export const refineInpatientData = (
+    rawData: RawInpatientData[], 
+    startDate: string, 
+    endDate: string
+  ): InpatientStats[] => {
+    const start = new Date(
+      parseInt(startDate.slice(0, 4)), 
+      parseInt(startDate.slice(4, 6)) - 1, 
+      parseInt(startDate.slice(6, 8))
+    );
+    const end = new Date(
+      parseInt(endDate.slice(0, 4)), 
+      parseInt(endDate.slice(4, 6)) - 1, 
+      parseInt(endDate.slice(6, 8))
+    );
+    // Helper function to format date to yyyymmdd
+    const formatDate = (date: Date) =>
+      date.toISOString().slice(0, 10).replace(/-/g, "");
+  
+    const stats: InpatientStats[] = [];
+  
+    // Iterate over each date in the range
+    for (let d = new Date(end); d >= start; d.setDate(d.getDate() - 1)) {
+      const currentDate = formatDate(d);
+      // Filter and calculate data for the current date
+      const filteredData = rawData.filter(item =>
+        item.INDAT <= currentDate &&
+        (item.OUTDAT > currentDate || item.OUTDAT.trim() === "")
+      );
+      
+      const todayAdm = rawData.filter(item => item.INDAT === currentDate).length;
+      const todayDc = rawData.filter(item => item.OUTDAT === currentDate).length;
+
+      const insuranceCounts = filteredData.reduce(
+        (acc, item) => {
+          // INSUCLS 값을 기반으로 키 생성 (문자열 그대로 사용)
+          const key = `insurance${item.INSUCLS}`;
+          if (key in acc) {
+            acc[key] += 1; // 해당 키의 값을 1 증가
+          }
+          return acc;
+        },
+        {
+          insurance00: 0,
+          insurance10: 0,
+          insurance20: 0,
+          insurance30: 0,
+          insurance50: 0,
+        } as Record<string, number>
+      );
+  
+      stats.push({
+        date: String(parseInt(currentDate)),
+        totalinpatient: filteredData.length,
+        todayadm: todayAdm,
+        todaydc: todayDc,
+        insurance00: insuranceCounts.insurance00,
+        insurance10: insuranceCounts.insurance10,
+        insurance20: insuranceCounts.insurance20,
+        insurance30: insuranceCounts.insurance30,
+        insurance50: insuranceCounts.insurance50,
+      });
+    }
+  
+    return stats;
   };
   

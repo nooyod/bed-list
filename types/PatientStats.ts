@@ -3,11 +3,11 @@ export interface PatientStats {
       totalinpatient: number;
       todayadm: number;
       todaydc: number;
-      insurance0: number;
-      insurance1: number;
-      insurance2: number;
-      insurance3: number;
-      insurance5: number;
+      insurance00: number;
+      insurance10: number;
+      insurance20: number;
+      insurance30: number;
+      insurance50: number;
     };
     jubStats: {
       in_total: number;
@@ -26,5 +26,16 @@ export interface PatientStats {
         chamMemo2: string;
       }[];
     };
+    inPatientStats: {
+      date: string;
+      totalinpatient: number;
+      todayadm: number;
+      todaydc: number;
+      insurance00: number;
+      insurance10: number;
+      insurance20: number;
+      insurance30: number;
+      insurance50: number;
+    }[];
   }
   
