@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import './globals.css'; // 전체 스타일
 import './kanban.css'; // 칸반 보드 전용 스타일
 import { predefinedColumns, doctorMap } from '@/lib/config';
+import StatsTable from "@/components/StatsTable";
 
 interface Card {
   id: string;
@@ -12,6 +13,13 @@ interface Card {
   row3: string;
   origin: string;
   today: string;
+  gender: string;
+  name: string;
+  number: string;
+  date_dc: string;
+  dcte_dc_check: string;
+  doct: string;
+  insurance: string;
 }
 
 interface AdditionalCard {
@@ -105,6 +113,7 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchBoard(); // 데이터 가져오기
+    fetchStatistics(); // 통계 데이터 가져오기
   }, []);
 
   useEffect(() => {
@@ -277,15 +286,48 @@ export default function HomePage() {
     }
   };
 
+  const insuranceClass = (insurance: string) => {
+    switch (insurance) {
+      case "급1":
+        return "bg-blue-200 text-blue-800";
+      case "산재":
+        return "bg-red-200 text-red-800";
+      case "자보":
+        return "bg-yellow-200 text-yellow-800";
+      case "건보":
+        return "bg-green-200 text-green-800";
+      default:
+        return "bg-gray-200 text-gray-800"; // 기본 색상
+    }
+  };
+
+  const doctorClass = (doctor: string) => {
+    switch (doctor) {
+      case "1":
+        return "bg-green-600 text-white";
+      case "2":
+        return "bg-red-600 text-white";
+      case "ㅊ":
+        return "bg-yellow-200 text-black";
+      case "ㅈ":
+        return "bg-blue-600 text-white";
+      case "ㅌ":
+        return "bg-purple-600 text-white";
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (!board || Object.keys(board).length === 0) return <p>No board data available</p>;
 
   return (
     <div className="kanban-container">
-      <button onClick={handleAddCard} className="kanban-add-button">
-        예약 추가
-      </button>
+    <div className="kanban-header flex items-center justify-between gap-4">
+    <div className="flex gap-2">
+      <button onClick={handleAddCard} className="kanban-add-button">추가</button>
       <button onClick={handleShowStats} className="stats-button">통계</button>
+    </div>
+      <div className="stats-table-container flex-grow"><StatsTable data={statistics.sortedDoctors} /></div>
+      </div>
       {Object.entries(board).map(([column, cards]) => (
         <div key={column} className="kanban-column">
           <h2>{column}</h2>
@@ -295,16 +337,38 @@ export default function HomePage() {
                 key={card.id}
                 className={`kanban-card 
                   ${card.origin === "reserve" ? "kanban-card-reserve" : card.origin === "change" ? "kanban-card-change" : "kanban-card-current"} 
-                  ${card.today === "today" ? "kanban-card-today" : ""}`}
+                  ${card.today === "today" ? "kanban-card-today" : ""}
+                  ${card.gender === "남자" || card.gender === "남" ? "kanban-card-male" : card.gender === "여자" || card.gender === "여" ? "kanban-card-female" : ""}
+                  `}
                 
                 onClick={() => handleCardClick(card)}
               >
-                <p className="kanban-card-title">{card.row1}</p>
+                    {card.origin === "current" ? (
+      <>
+                <div className="flex items-center justify-between">
+                <p className="kanban-card-title items-left mr-2 text-l font-bold">{card.name}</p>
+                <span className="inline-flex items-right text-gray-500">{card.number}</span>
+                </div>
+
+                {card.row2 === " " ? <br /> : <p className="kanban-card-date">{card.row2}</p>}
+                <div className="flex items-center row3">                
+                <span className={`inline-flex items-center justify-center rounded-full custom-circle
+                   ${doctorClass(card.doct)}`}>{card.doct}</span>
+                <span className={`inline-flex items-center px-2 py-0.4 rounded-full text-xs font-semibold
+                   ${insuranceClass(card.insurance)}`}>{card.insurance}</span>
+                </div>
+                </>
+    ) : (
+      <div className="alternative-content">
+        {/* reserve와 change의 경우 다른 내용 출력 */}
+        <p className="kanban-card-title">{card.row1}</p>
                 <p className="kanban-card-description">
                   {card.row2}
                   <br />
                   {card.row3}
                 </p>
+      </div>
+    )}
               </div>
             ))}
           </div>

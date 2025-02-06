@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
 import { syncCurrentData } from '@/lib/syncData';
-import { insusubMap, predefinedColumns } from '@/lib/config';
+import { doctorIconMap, insusubMap, predefinedColumns } from '@/lib/config';
 
 const dataFilePath = path.join(process.cwd(), 'data', 'reserve.json');
 
@@ -28,10 +28,17 @@ export async function GET() {
       const card = {
         id: row.chart_number,
         row1: `${row.chart_number.slice(-5)} ${row.chart_name}`,
-        row2: `${row.chart_date_dc} ${row.chart_check_dc ? '✅' : ''}`,
-        row3: `${row.chart_doct} (${insusubMap[row.chart_insurance] || 'unknown'})`,
+        row2: `${row.chart_date_dc} ${row.chart_check_dc ? '📌' : ''}`,
+        row3: `${doctorIconMap[row.chart_doct]} (${insusubMap[row.chart_insurance] || 'unknown'})`,
         origin: 'current',
         today: row.chart_date_dc === today ? 'today' : 'default', // 색상 결정
+        gender: row.chart_gender, // 성별에 따라 아이콘 결정
+        name: row.chart_name, // 이름
+        number: row.chart_number.slice(-5), // 번호
+        date_dc: row.chart_date_dc, // 퇴원 날짜
+        dcte_dc_check: row.chart_check_dc, // 퇴원 확인 여부
+        doct: doctorIconMap[row.chart_doct], // 담당 의사
+        insurance: insusubMap[row.chart_insurance], // 보험 정보
       };
       if (kanbanData[row.chart_room]) {
         kanbanData[row.chart_room].push(card);
