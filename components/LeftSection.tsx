@@ -3,16 +3,16 @@ import { PatientStats } from "@/types/PatientStats";
 import Card from "@/components/StatCard";
 import DonutChart from "@/components/PieChart";
 import Table from "@/components/Table";
-import LineChart from "@/components/LineChart";
-import { FaHospitalAlt, FaHospitalUser, FaUserPlus, FaUserCheck } from "react-icons/fa";
+// import LineChart from "@/components/LineChart";
+import { FaHospitalAlt, FaHospitalUser, FaUserCheck } from "react-icons/fa";
 
 interface LeftSectionProps {
   stats: PatientStats | null;
-  dates: string[];
-  patientCounts: number[];
+  date: string;
+  // patientCounts: number[];
 }
 
-export default function LeftSection({ stats, dates, patientCounts }: LeftSectionProps) {
+export default function LeftSection({ stats }: LeftSectionProps) {
   if (!stats) {
     return <p>데이터를 불러오는 중입니다...</p>;
   }
@@ -20,9 +20,9 @@ export default function LeftSection({ stats, dates, patientCounts }: LeftSection
   // 카드 데이터
   const outpatientCards = [
     { title: "총 외래", value: stats.jubStats.in_total, description:"총 외래 환자 수", icon:FaHospitalAlt, color:"bg-blue-100" },
+    { title: "재진 환자", value: stats.jubStats.in_again, description: "재진 환자 수", icon: FaUserCheck, color: "bg-red-100" },
     { title: "신규 환자", value: stats.jubStats.in_new, description: "신규 환자 수", icon: FaHospitalUser, color: "bg-green-100" },
     { title: "초진 환자", value: stats.jubStats.in_first, description: "초진 환자 수", icon: FaUserCheck, color: "bg-yellow-100" },
-    { title: "재진 환자", value: stats.jubStats.in_again, description: "재진 환자 수", icon: FaUserCheck, color: "bg-red-100" },
   ];
 
   // 파이차트 데이터
@@ -53,7 +53,7 @@ export default function LeftSection({ stats, dates, patientCounts }: LeftSection
 
       <h2 className="text-xl font-bold mb-4">외래 통계</h2>
       <div className="mb-6">
-        <LineChart dates={dates} patientCounts={patientCounts} />
+        {/* <LineChart dates={date} patientCounts={patientCounts} /> */}
       </div>
 
       {/* 리스트 */}
