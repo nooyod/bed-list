@@ -379,6 +379,16 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+            {/* 고스트 카드 추가 */}
+  {(() => {
+    const roomData = statistics.rooms.find((room) => room.room === column);
+    const remainingSlots = roomData && roomData.remaining !== null ? roomData.remaining : 0;
+    return Array.from({ length: remainingSlots }).map((_, index) => (
+      <div key={`ghost-${column}-${index}`} className="kanban-card kanban-card-ghost">
+        {/* 빈 카드 형태만 표시 */}
+      </div>
+    ));
+  })()}
         </div>
       ))}
       {showStatsPopup && (

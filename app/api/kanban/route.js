@@ -28,7 +28,7 @@ export async function GET() {
       const card = {
         id: row.chart_number,
         row1: `${row.chart_number.slice(-5)} ${row.chart_name}`,
-        row2: `${row.chart_date_dc.slice(-5)} ${row.chart_check_dc ? '📌' : ''}`,
+        row2: `${row.chart_date_dc.slice(-5).replace('-', '/')} ${row.chart_check_dc ? '📌' : ''}`,
         row3: `${doctorIconMap[row.chart_doct]} (${insusubMap[row.chart_insurance] || 'unknown'})`,
         origin: 'current',
         today: row.chart_date_dc === today ? 'today' : 'default', // 색상 결정
@@ -61,7 +61,7 @@ export async function GET() {
         card = {
           id: row.index,
           row1: `[${row.index}]${row.chart_name}`, // 이름과 인덱스
-          row2: `${row.chart_date_adm.slice(0, 4)}-${row.chart_date_adm.slice(4, 6)}-${row.chart_date_adm.slice(6, 8)}`, // 날짜 형식 변환
+          row2: `${row.chart_date_adm.slice(4, 6)}/${row.chart_date_adm.slice(6, 8)}`, // 날짜 형식 변환
           row3: `${row.chart_funnel} (${row.chart_insurance})`, // 추가 정보
           origin: 'reserve', // 'reserve'로 기본 설정
         };

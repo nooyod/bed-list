@@ -93,6 +93,7 @@
     font-weight: normal; /* 일반 텍스트 */
     text-align: left;
     font-family: 'GmarketSans';
+    color: black;
   }
 
   .kanban-card {
@@ -108,7 +109,14 @@
     margin-bottom: 8px;
     width: 8.8rem;
     height: 5.5rem;
+    color : black;
   }
+  .kanban-card-ghost {
+    opacity: 0.7;
+    border: 2px dashed #232323;
+  }
+  
+
 .kanban-card-male {
   border-top: 3px solid #2f6bd4; /* 구분선 추가 */
 }
