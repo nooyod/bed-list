@@ -28,7 +28,7 @@ export async function GET() {
       const card = {
         id: row.chart_number,
         row1: `${row.chart_number.slice(-5)} ${row.chart_name}`,
-        row2: `${row.chart_date_dc} ${row.chart_check_dc ? '📌' : ''}`,
+        row2: `${row.chart_date_dc.slice(-5)} ${row.chart_check_dc ? '📌' : ''}`,
         row3: `${doctorIconMap[row.chart_doct]} (${insusubMap[row.chart_insurance] || 'unknown'})`,
         origin: 'current',
         today: row.chart_date_dc === today ? 'today' : 'default', // 색상 결정

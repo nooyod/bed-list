@@ -53,13 +53,24 @@
     width: 150px;
     background-color: #f4f4f4;
     background-image: 
-    linear-gradient(#bc7070 30px, transparent 0px);
+    linear-gradient(#9d00ff 30px, transparent 0px);
     /* repeating-linear-gradient(to bottom, #bc3a3a 70px, #ceb6b6 70px); */
     margin-right: 5px;
     padding: 5px;
     border-radius: 8px;
     margin-top: 70px; 
     text-align: center;
+    color: white;
+  }
+
+  .kanban-column-male {
+    background-image: 
+    linear-gradient(#0048ff 30px, transparent 0px);
+  }
+
+  .kanban-column-female {
+    background-image: 
+    linear-gradient(#ff3131 30px, transparent 0px);
   }
 
   .kanban-card-title {
@@ -68,12 +79,14 @@
     text-align: left;
     /* background-color: aquamarine; */
     font-family: 'GmarketSans';
+    color: black;
   }
   
   .kanban-card-date {
     font-weight: normal; /* 일반 텍스트 */
     text-align: left;
     font-family: 'GmarketSans';
+    color: black;
   }
 
   .kanban-card-description {

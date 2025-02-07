@@ -45,6 +45,7 @@ interface KanbanBoard {
 
 interface RoomStatistics {
   room: string;
+  gender: string;
   current: number;
   remaining: number | null;
 }
@@ -329,7 +330,13 @@ export default function HomePage() {
       <div className="stats-table-container flex-grow"><StatsTable data={statistics.sortedDoctors} /></div>
       </div>
       {Object.entries(board).map(([column, cards]) => (
-        <div key={column} className="kanban-column">
+          <div 
+          key={column} 
+          className={`kanban-column ${
+            (statistics.rooms.find((room) => room.room === column)?.gender === "남자") ? "kanban-column-male" : 
+            (statistics.rooms.find((room) => room.room === column)?.gender === "여자") ? "kanban-column-female" : ""
+          }`}
+        >
           <h2>{column}</h2>
           <div>
             {cards.map((card) => (
