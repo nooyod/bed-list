@@ -7,7 +7,7 @@ interface TableProps {
 
 export default function Table({ headers, rows }: TableProps) {
   return (
-    <table className="w-full border-collapse border border-gray-300">
+    <table className=" border-collapse border border-gray-300">
       <thead className="bg-white-100">
         <tr>
           {headers.map((header, index) => (
@@ -22,7 +22,7 @@ export default function Table({ headers, rows }: TableProps) {
         rows.map((row, index) => (
           <tr key={index}>
             {row.map((cell, idx) => (
-              <td key={idx} className="border border-gray-300 px-4 py-2">
+              <td key={idx} className="bg-white justify-center border border-gray-300 px-4 py-2">
                 {cell}
               </td>
             ))}

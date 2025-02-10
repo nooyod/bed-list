@@ -11,7 +11,14 @@ const StatsTable: React.FC<StatsTableProps> = ({ data }) => {
     <tr>
       {/* <th>과</th> */}
       {Object.keys(data).map((department) => (
-        <th key={department}>{department}</th>
+        <th key={department}
+        // style={{ backgroundColor: ["#16A34A", "#DC2626", "#CA8A04", "#2563EB", "#7C3AED "][index % 5],
+        // color: "white",
+        // fontWeight: "semibold",
+        //  }}
+         >
+          {department}
+         </th>
       ))}
     </tr>
   </thead>

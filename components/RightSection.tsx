@@ -26,14 +26,14 @@ export default function RightSection({ stats, date }: RightSectionProps) {
   
   // 카드 데이터
   const inpatientCards = [
-    { title: "현재 입원", value: totalinpatient, description:"현재 입원 환자 수", icon:FaWheelchair, color:"bg-blue-100" },
+    { title: "현재", value: totalinpatient, description:"현재 입원 환자 수", icon:FaWheelchair, color:"bg-blue-100" },
     { title: "", value: "", description: "", icon: undefined, color:"bg-gray-100" },
-    { title: "오늘 입원", value: todayadm, description: "오늘 입원 환자 수", icon: FaUserPlus, color: "bg-green-100" },
-    { title: "오늘 퇴원", value: todaydc, description: "오늘 퇴원 환자 수", icon: FaUserMinus, color: "bg-red-100" },
+    { title: "입원", value: todayadm, description: "오늘 입원 환자 수", icon: FaUserPlus, color: "bg-green-100" },
+    { title: "퇴원", value: todaydc, description: "오늘 퇴원 환자 수", icon: FaUserMinus, color: "bg-yellow-100" },
   ];
 
   // 파이차트 데이터
-  const pieLabels = ["건보", "급여", "자보", "산재", "일반"];
+  const pieLabels = ["건보", "산재", "자보", "급여", "일반"];
   const pieData = [
     insurance00,
     insurance10,

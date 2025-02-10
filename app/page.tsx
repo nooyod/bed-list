@@ -327,7 +327,7 @@ export default function HomePage() {
       <button onClick={handleAddCard} className="kanban-add-button">추가</button>
       <button onClick={handleShowStats} className="stats-button">통계</button>
     </div>
-      <div className="stats-table-container flex-grow"><StatsTable data={statistics.sortedDoctors} /></div>
+      <div className="stats-table-container"><StatsTable data={statistics.sortedDoctors} /></div>
       </div>
       {Object.entries(board).map(([column, cards]) => (
           <div 
@@ -394,14 +394,13 @@ export default function HomePage() {
       {showStatsPopup && (
         <div className="popup">
           <div className="kanban-popup">
-            <h2>통계</h2>
             <ul>
-              {Object.entries(statistics.sortedDoctors).map(([doctor, count]) => (
+              {/* {Object.entries(statistics.sortedDoctors).map(([doctor, count]) => (
                 <li key={doctor}>
                   {doctor}: {count}명
                 </li>
-              ))}
-              <br></br>
+              ))} */}
+              <h1>[남은 자리]</h1>
               {statistics.total.map((total: Total) => {
                 // "2인실", "4인실", "다인실" 중 값이 0이 아닌 것만 필터링
                 const roomDetails = Object.entries(total)
@@ -421,10 +420,12 @@ export default function HomePage() {
                 );
               })}
               <br></br>
+              <h1>[입원 예정]</h1>
                 {statistics.reserve.map((entry: { date: string; patients: { name: string; gender: string }[] }) => (
                 <li key={entry.date}>
                   {/* 날짜 출력 */}
-                  {entry.date.slice(4, 6)}/{entry.date.slice(6, 8)}
+                  {entry.date ? `${entry.date.slice(4, 6)}/${entry.date.slice(6, 8)}` : "[대기]"}
+                  {/* {entry.date.slice(4, 6)}/{entry.date.slice(6, 8)} */}
                   <ul>
                     {/* 해당 날짜의 환자 목록 출력 */}
                     {entry.patients.map((patient, index) => (
@@ -432,6 +433,7 @@ export default function HomePage() {
                         {patient.name}({patient.gender})
                       </li>
                     ))}
+                    <br></br>
                   </ul>
                 </li>
               ))}

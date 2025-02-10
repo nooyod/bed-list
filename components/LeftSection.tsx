@@ -20,9 +20,9 @@ export default function LeftSection({ stats }: LeftSectionProps) {
   // 카드 데이터
   const outpatientCards = [
     { title: "총 외래", value: stats.jubStats.in_total, description:"총 외래 환자 수", icon:FaHospitalAlt, color:"bg-blue-100" },
-    { title: "재진 환자", value: stats.jubStats.in_again, description: "재진 환자 수", icon: FaUserCheck, color: "bg-red-100" },
-    { title: "신규 환자", value: stats.jubStats.in_new, description: "신규 환자 수", icon: FaHospitalUser, color: "bg-green-100" },
-    { title: "초진 환자", value: stats.jubStats.in_first, description: "초진 환자 수", icon: FaUserCheck, color: "bg-yellow-100" },
+    { title: "재진", value: stats.jubStats.in_again, description: "오늘 재진 환자 수", icon: FaUserCheck, color: "bg-red-100" },
+    { title: "신규", value: stats.jubStats.in_new, description: "오늘 신규 환자 수", icon: FaHospitalUser, color: "bg-green-100" },
+    { title: "초진", value: stats.jubStats.in_first, description: "오늘 초진 환자 수", icon: FaUserCheck, color: "bg-yellow-100" },
   ];
 
   // 파이차트 데이터
@@ -62,10 +62,10 @@ export default function LeftSection({ stats }: LeftSectionProps) {
           <Table
             headers={["번호", "이름", "유형", "유입"]}
             rows={filteredList.map((item: { jubCham: string; chamWhanja: string; partName: string; chamMemo2: string }) => [
-              item.jubCham,
-              item.chamWhanja,
-              item.partName,
-              item.chamMemo2,
+              item.jubCham.slice(-5),
+              item.chamWhanja.trim(),
+              item.partName.trim(),
+              item.chamMemo2.replace("/SMS거부","").replace("/sms거부",""),
             ])}
           />
         </div>

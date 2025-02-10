@@ -7,7 +7,7 @@ type PieChartProps = {
   
   const PieChart: React.FC<PieChartProps> = ({ data, labels, colors, size = 200 }) => {
     const total = data.reduce((sum, value) => sum + value, 0);
-    const defaultColors = ["#4caf50", "#2196f3", "#ff9800", "#f44336", "#9c27b0"];
+    const defaultColors = ["#4ADE80", "#F87171", "#FBBF24", "#60A5FA", "#A78BFA"];
     const chartColors = colors || defaultColors;
   
     let cumulativePercentage = 0;

@@ -46,31 +46,31 @@
     z-index: 100;
     border-radius: 8px;
     margin-top: 0px;
-    margin-left: 200px;
+    margin-left: 170px;
   }
   
   .kanban-column {
     width: 150px;
-    background-color: #f4f4f4;
+    background-color: #F5F5F5;
     background-image: 
-    linear-gradient(#9d00ff 30px, transparent 0px);
+    linear-gradient(#8A2BE2 30px, transparent 0px);
     /* repeating-linear-gradient(to bottom, #bc3a3a 70px, #ceb6b6 70px); */
     margin-right: 5px;
     padding: 5px;
     border-radius: 8px;
-    margin-top: 70px; 
+    margin-top: 60px; 
     text-align: center;
     color: white;
   }
 
   .kanban-column-male {
     background-image: 
-    linear-gradient(#0048ff 30px, transparent 0px);
+    linear-gradient(#1E90FF 30px, transparent 0px);
   }
 
   .kanban-column-female {
     background-image: 
-    linear-gradient(#ff3131 30px, transparent 0px);
+    linear-gradient(#ff4500 30px, transparent 0px);
   }
 
   .kanban-card-title {
@@ -98,7 +98,7 @@
 
   .kanban-card {
     background-color: white;
-    margin-top: 4px;
+    margin-top: 5px;
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -106,9 +106,9 @@
     transition: transform 0.2s;
     border-top: 3px solid #2fd44b; /* 구분선 추가 */
     padding-bottom: 8px; /* 카드 간격 조정 */
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
     width: 8.8rem;
-    height: 5.5rem;
+    height: 5.2rem;
     color : black;
   }
   .kanban-card-ghost {
@@ -118,10 +118,10 @@
   
 
 .kanban-card-male {
-  border-top: 3px solid #2f6bd4; /* 구분선 추가 */
+  border-top: 3px solid #1E90FF; /* 구분선 추가 */
 }
 .kanban-card-female {
-  border-top: 3px solid #d42fb0; /* 구분선 추가 */
+  border-top: 3px solid #ff4500; /* 구분선 추가 */
 }
 
   .kanban-divider {
@@ -131,7 +131,7 @@
   }  
 
   .kanban-card-reserve {
-    background-color: rgb(255, 253, 140);
+    background-color: #FFEB3B;
   }
 
   .kanban-card-today {
@@ -140,7 +140,7 @@
   }
 
   .kanban-card-change {
-    background-color: rgb(167, 224, 234);
+    background-color: #E0F8EC;
   }
   
   .kanban-card:hover {
@@ -206,17 +206,24 @@
   }
 
   .stats-table-container {
-    flex-grow: 1; /* 표가 남은 공간을 차지하도록 설정 */
+    flex-grow: 0; /* 표가 남은 공간을 차지하도록 설정 */
     max-width: 600px; /* 표의 최대 너비 설정 */
     overflow-x: auto; /* 긴 표가 있으면 가로 스크롤 */
-    margin-top: -900px;
+    /* margin-top: -1000px; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 25%;
+    height: 10%;
+    margin-left: 480px;
   }
   
   .stats-table {
     width: 400px; /* 표가 컨테이너에 맞게 늘어나도록 설정 */
     border-collapse: collapse;
     position: absolute;
-    margin-left: 470px;
+    margin-left: 0px;
   }
   
   .stats-table th,
