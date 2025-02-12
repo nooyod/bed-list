@@ -48,8 +48,6 @@ export default function RightSection({ stats, date }: RightSectionProps) {
     insurance50,
   ];
 
-//   const filteredList = stats.jubStats.filteredList;
-
   return (
     <section className="left-section p-4 bg-gray-100 rounded-md">
       <h2 className="text-xl font-bold mb-4">입원 정보</h2>
@@ -72,20 +70,6 @@ export default function RightSection({ stats, date }: RightSectionProps) {
       style={{ height: "250px", width: "710px", backgroundColor: "white" }}>
         <LineChart stats={stats} date={date} />
       </div>
-
-      {/* 리스트 */}
-      {/* <h3 className="text-lg font-semibold mb-2">초진 환자 목록 ({date})</h3>
-        <div className="mt-4">
-          <Table
-            headers={["번호", "이름", "유형", "유입"]}
-            rows={filteredList.map((item: any) => [
-              item.jubCham,
-              item.chamWhanja,
-              item.partName,
-              item.chamMemo2,
-            ])}
-          />
-        </div> */}
     </section>
   );
 }

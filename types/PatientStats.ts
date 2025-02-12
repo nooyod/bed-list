@@ -1,14 +1,4 @@
 export interface PatientStats {
-    silverStats: {
-      totalinpatient: number;
-      todayadm: number;
-      todaydc: number;
-      insurance00: number;
-      insurance10: number;
-      insurance20: number;
-      insurance30: number;
-      insurance50: number;
-    };
     jubStats: {
       in_total: number;
       in_new: number;

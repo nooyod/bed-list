@@ -1,5 +1,3 @@
-// import { ImInsertTemplate } from "react-icons/im";
-
 interface JubData {
     jubCham: string;
     jubChoJae: number;

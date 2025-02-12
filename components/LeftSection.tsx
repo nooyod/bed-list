@@ -3,7 +3,6 @@ import { PatientStats } from "@/types/PatientStats";
 import Card from "@/components/StatCard";
 import DonutChart from "@/components/PieChart";
 import Table from "@/components/Table";
-// import LineChart from "@/components/LineChart";
 import { FaHospitalAlt, FaHospitalUser, FaUserCheck } from "react-icons/fa";
 
 interface LeftSectionProps {
