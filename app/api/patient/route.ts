@@ -55,7 +55,7 @@ export async function GET(request: Request) {
     parseInt(date.slice(4, 6)) - 1,  // Month (0-based index)
     parseInt(date.slice(6, 8))       // Day
   );
-  providedDate.setDate(providedDate.getDate() - 19);
+  providedDate.setDate(providedDate.getDate() - 14);
   const startDate = providedDate.toISOString().slice(0, 10).replace(/-/g, "");
 
   try {

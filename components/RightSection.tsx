@@ -2,6 +2,7 @@ import React from "react";
 import { PatientStats } from "@/types/PatientStats";
 import Card from "@/components/StatCard";
 import DonutChart from "@/components/PieChart";
+import LineChart from "@/components/LineChart";
 import { FaWheelchair, FaUserPlus, FaUserMinus } from "react-icons/fa";
 
 interface RightSectionProps {
@@ -23,10 +24,15 @@ export default function RightSection({ stats, date }: RightSectionProps) {
   const insurance20 = selectedData ? selectedData.insurance20 : 0;
   const insurance30 = selectedData ? selectedData.insurance30 : 0;
   const insurance50 = selectedData ? selectedData.insurance50 : 0;
+
+  const yesterdayData = stats?.inPatientStats.find((item) => item.date === (parseInt(date) - 1).toString());
+  const totalinpatient_yesterday = yesterdayData ? yesterdayData.totalinpatient : 0;
+  const difference = totalinpatient - totalinpatient_yesterday;
+  const differenceText = difference === 0 ? "변동 없음" : difference > 0 ? `${difference}명 증가` : `${Math.abs(difference)}명 감소`;
   
   // 카드 데이터
   const inpatientCards = [
-    { title: "현재", value: totalinpatient, description:"현재 입원 환자 수", icon:FaWheelchair, color:"bg-blue-100" },
+    { title: "현재", value: totalinpatient, description: `현재 입원 환자 수 [전일 대비 ${differenceText}]`, icon:FaWheelchair, color:"bg-blue-100" },
     { title: "", value: "", description: "", icon: undefined, color:"bg-gray-100" },
     { title: "입원", value: todayadm, description: "오늘 입원 환자 수", icon: FaUserPlus, color: "bg-green-100" },
     { title: "퇴원", value: todaydc, description: "오늘 퇴원 환자 수", icon: FaUserMinus, color: "bg-yellow-100" },
@@ -58,6 +64,13 @@ export default function RightSection({ stats, date }: RightSectionProps) {
       {/* 파이차트 */}
       <div className="mb-6">
         <DonutChart data={pieData} labels={pieLabels} />
+      </div>
+
+      {/* 라인차트 */}
+      <h2 className="text-xl font-bold mb-4">입원 추이</h2>
+      <div className="mb-6"
+      style={{ height: "250px", width: "710px", backgroundColor: "white" }}>
+        <LineChart stats={stats} date={date} />
       </div>
 
       {/* 리스트 */}
