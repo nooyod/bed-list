@@ -294,6 +294,8 @@ export default function HomePage() {
     switch (insurance) {
       case "급1":
         return "bg-blue-200 text-blue-800";
+      case "급2":
+        return "bg-blue-200 text-blue-800";
       case "산재":
         return "bg-red-200 text-red-800";
       case "자보":
@@ -326,7 +328,7 @@ export default function HomePage() {
         return "bg-violet-800 text-white";
         // return { backgroundImage: "linear-gradient(to right, #34D399,rgb(97, 82, 231))", color: "white" };
       case "이":
-        return "bg-pink-400 text-white";
+        return "bg-slate-500 text-white";
         // return { backgroundImage: "linear-gradient(to right, #FB7185, #F43F5E)", color: "white" };
       case "임":
         return "bg-cyan-600 text-white";
