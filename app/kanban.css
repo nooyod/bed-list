@@ -87,6 +87,7 @@
     text-align: left;
     font-family: 'GmarketSans';
     color: black;
+    font-size: small;
   }
 
   .kanban-card-description {

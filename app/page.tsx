@@ -17,9 +17,12 @@ interface Card {
   name: string;
   number: string;
   date_dc: string;
-  dcte_dc_check: string;
+  date_dc_check: string;
   doct: string;
   insurance: string;
+  memo: string;
+  funnel: string;
+  date_stay: number;
 }
 
 interface AdditionalCard {
@@ -317,6 +320,20 @@ export default function HomePage() {
     }
   };
 
+  const funnelClass = (funnel: string) => {
+    switch (funnel) {
+      case "전":
+        return "bg-violet-800 text-white";
+        // return { backgroundImage: "linear-gradient(to right, #34D399,rgb(97, 82, 231))", color: "white" };
+      case "이":
+        return "bg-pink-400 text-white";
+        // return { backgroundImage: "linear-gradient(to right, #FB7185, #F43F5E)", color: "white" };
+      case "임":
+        return "bg-cyan-600 text-white";
+        // return { backgroundImage: "linear-gradient(to right, #FDE68A, #FCD34D)", color: "black" };
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (!board || Object.keys(board).length === 0) return <p>No board data available</p>;
 
@@ -358,11 +375,26 @@ export default function HomePage() {
                 </div>
 
                 {card.row2 === " " ? <br /> : <p className="kanban-card-date">{card.row2}</p>}
-                <div className="flex items-center row3">                
-                <span className={`inline-flex items-center justify-center rounded-full custom-circle
-                   ${doctorClass(card.doct)}`}>{card.doct}</span>
-                <span className={`inline-flex items-center px-2 py-0.4 rounded-full text-xs font-semibold
-                   ${insuranceClass(card.insurance)}`}>{card.insurance}</span>
+                <div className="flex items-center justify-between row3">                
+                <div className="flex items-center">
+                  <span className={`inline-flex items-left justify-center rounded-full custom-circle
+                    ${doctorClass(card.doct)}`}>{card.doct}</span>
+                  <span className={`inline-flex items-left px-2 py-0.4 rounded-full text-xs font-semibold
+                    ${insuranceClass(card.insurance)}`}>{card.insurance}</span>
+                <span className="inline-flex items-left">{card.memo}</span>
+
+                </div>
+                <div className="flex items-center">
+                <span className={`inline-flex items-right px-0.5 py-0.4 text-xs font-semibold ${funnelClass(card.funnel)}`}>
+                  {card.funnel}
+                </span>
+              </div>
+                {/* <span
+  className="inline-flex items-right px-0.5 py-0.4 text-xs font-semibold"
+  style={funnelClass(card.funnel)}
+>
+  {card.funnel}
+</span> */}
                 </div>
                 </>
     ) : (
