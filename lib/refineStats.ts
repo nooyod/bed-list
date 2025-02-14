@@ -6,36 +6,7 @@ interface JubData {
     partName: string;
     chamMemo2: string;
   }
-  
-  export const refineJubData = (jubData: JubData[]) => {
-    const uniqueData = (rows: JubData[], filter?: (row: JubData) => boolean) => {
-      const filteredRows = filter ? rows.filter(filter) : rows;
-      return Array.from(new Map(filteredRows.map((row) => [row.jubCham, row])).values());
-    };
-  
-    return {
-      in_total: uniqueData(jubData).length,
-      in_new: uniqueData(jubData, (row) => row.jubChoJae === 0).length,
-      in_first: uniqueData(jubData, (row) => row.jubChoJae === 1).length,
-      in_again: uniqueData(jubData, (row) =>
-        [2, 3, 4, 5].includes(row.jubChoJae)
-      ).length,
-      in_total_0: uniqueData(jubData, (row) => row.jubTprt === 0).length,
-      in_total_1: uniqueData(jubData, (row) => row.jubTprt === 1).length,
-      in_total_2: uniqueData(jubData, (row) => row.jubTprt === 2).length,
-      filteredList: uniqueData(
-        jubData,
-        (row) => row.jubChoJae === 0 || row.jubChoJae === 1
-      ).map((row) => ({
-        jubCham: row.jubCham,
-        chamWhanja: row.chamWhanja,
-        partName: row.partName,
-        jubTprt: row.jubTprt,
-        chamMemo2: row.chamMemo2,
-      })),
-    };
-  };
-  
+    
   interface RawInpatientData {
     INDAT: string;  // 입원 날짜 (yyyymmdd 형식)
     OUTDAT: string; // 퇴원 날짜 (yyyymmdd 형식 또는 공백)
@@ -122,47 +93,69 @@ interface JubData {
     return stats;
   };
   
-  function generateDateRange(startDate: string, endDate: string): string[] {
-    const dates: string[] = [];
-    let currentDate = new Date(startDate);
+  export const refineOutpatientData = (
+    outpatientData: (JubData & { jubDate: string })[]
+  ): {
+    date: string;
+    in_total: number;
+    in_new: number;
+    in_first: number;
+    in_again: number;
+    in_total_0: number;
+    in_total_1: number;
+    in_total_2: number;
+    filteredList: {
+      jubCham: string;
+      jubChoJae: number;
+      chamWhanja: string;
+      partName: string;
+      jubTprt: number;
+      chamMemo2: string;
+    }[];
+  }[] => {
+    // 날짜별로 데이터를 그룹화 (jubDate 기준)
+    const groupedByDate: { [key: string]: JubData[] } = outpatientData.reduce(
+      (acc, row) => {
+        const date = row.jubDate; // 날짜 필드 사용
+        if (!acc[date]) {
+          acc[date] = [];
+        }
+        acc[date].push(row);
+        return acc;
+      },
+      {} as { [key: string]: JubData[] }
+    );
   
-    while (currentDate <= new Date(endDate)) {
-      dates.push(currentDate.toISOString().split("T")[0].replace(/-/g, ""));
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    
-    return dates;
-  }
-
-  export function refineOutpatientData(
-    outPatientData: any[],
-    startDate: string,
-    date: string
-  ) {
-
-    // 날짜별 데이터를 저장할 객체 초기화
-    const refinedData: { date: string; in_total: number; in_new: number; in_first: number; in_again: number; in_total_0: number; in_total_1: number; in_total_2: number; filteredList: any[] }[] = [];
+    // 날짜별로 refineJubData와 동일한 구조로 변환
+    return Object.entries(groupedByDate).map(([date, data]) => {
+      const uniqueData = (rows: JubData[], filter?: (row: JubData) => boolean) => {
+        const filteredRows = filter ? rows.filter(filter) : rows;
+        return Array.from(new Map(filteredRows.map((row) => [row.jubCham, row])).values());
+      };
   
-    // startDate부터 date까지의 날짜 목록 생성
-    const dateList = generateDateRange(startDate, date);
-  
-    // 날짜별 데이터를 매핑
-    dateList.forEach((currentDate) => {
-      const dailyData = outPatientData.find((item) => item.date === currentDate);
-  
-      refinedData.push({
-        date: currentDate,
-        in_total: dailyData?.in_total || 0,
-        in_new: dailyData?.in_new || 0,
-        in_first: dailyData?.in_first || 0,
-        in_again: dailyData?.in_again || 0,
-        in_total_0: dailyData?.in_total_0 || 0,
-        in_total_1: dailyData?.in_total_1 || 0,
-        in_total_2: dailyData?.in_total_2 || 0,
-        filteredList: dailyData?.filteredList || [],
-      });
+      return {
+        date, // 날짜 추가
+        in_total: uniqueData(data).length,
+        in_new: uniqueData(data, (row) => row.jubChoJae === 0).length,
+        in_first: uniqueData(data, (row) => row.jubChoJae === 1).length,
+        in_again: uniqueData(data, (row) =>
+          [2, 3, 4, 5].includes(row.jubChoJae)
+        ).length,
+        in_total_0: uniqueData(data, (row) => row.jubTprt === 0).length,
+        in_total_1: uniqueData(data, (row) => row.jubTprt === 1).length,
+        in_total_2: uniqueData(data, (row) => row.jubTprt === 2).length,
+        filteredList: uniqueData(
+          data,
+          (row) => row.jubChoJae === 0 || row.jubChoJae === 1
+        ).map((row) => ({
+          jubCham: row.jubCham,
+          jubChoJae: row.jubChoJae, // ✅ 누락된 필드 추가
+          chamWhanja: row.chamWhanja,
+          partName: row.partName,
+          jubTprt: row.jubTprt,
+          chamMemo2: row.chamMemo2,
+        })),
+      };
     });
-  
-    return refinedData;
-  }
+  };
   

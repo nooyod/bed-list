@@ -3,36 +3,49 @@ import { PatientStats } from "@/types/PatientStats";
 import Card from "@/components/StatCard";
 import DonutChart from "@/components/PieChart";
 import Table from "@/components/Table";
+import LineChart from "@/components/LineChart2";
 import { FaHospitalAlt, FaHospitalUser, FaUserCheck } from "react-icons/fa";
 
 interface LeftSectionProps {
   stats: PatientStats | null;
   date: string;
-  // patientCounts: number[];
 }
 
-export default function LeftSection({ stats }: LeftSectionProps) {
+export default function LeftSection({ stats, date }: LeftSectionProps) {
   if (!stats) {
     return <p>데이터를 불러오는 중입니다...</p>;
   }
 
+  const selectedData = stats.outPatientStats.find((item) => item.date === date)
+  const in_total = selectedData ? selectedData.in_total : 0;
+  const in_new = selectedData ? selectedData.in_new : 0;
+  const in_first = selectedData ? selectedData.in_first : 0;
+  const in_again = selectedData ? selectedData.in_again : 0;
+  const in_total_0 = selectedData ? selectedData.in_total_0 : 0;
+  const in_total_1 = selectedData ? selectedData.in_total_1 : 0;
+  const in_total_2 = selectedData ? selectedData.in_total_2 : 0;
+  const filteredList = selectedData ? selectedData.filteredList : [];
+
+  const yesterdayData = stats?.outPatientStats.find((item) => item.date === (parseInt(date) - 1).toString());
+  const in_total_yesterday = yesterdayData ? yesterdayData.in_total : 0;
+  const difference = in_total - in_total_yesterday;
+  const differenceText = difference === 0 ? "변동 없음" : difference > 0 ? `${difference}명 증가` : `${Math.abs(difference)}명 감소`;
+  
   // 카드 데이터
   const outpatientCards = [
-    { title: "총 외래", value: stats.jubStats.in_total, description:"총 외래 환자 수", icon:FaHospitalAlt, color:"bg-blue-100" },
-    { title: "재진", value: stats.jubStats.in_again, description: "오늘 재진 환자 수", icon: FaUserCheck, color: "bg-red-100" },
-    { title: "신규", value: stats.jubStats.in_new, description: "오늘 신규 환자 수", icon: FaHospitalUser, color: "bg-green-100" },
-    { title: "초진", value: stats.jubStats.in_first, description: "오늘 초진 환자 수", icon: FaUserCheck, color: "bg-yellow-100" },
+    { title: "총 외래", value: in_total, description:`총 외래 환자 수 [전일 대비 ${differenceText}]`, icon:FaHospitalAlt, color:"bg-blue-100" },
+    { title: "재진", value: in_again, description: "재진 환자 수", icon: FaUserCheck, color: "bg-red-100" },
+    { title: "신규", value: in_new, description: "신규 환자 수", icon: FaHospitalUser, color: "bg-green-100" },
+    { title: "초진", value: in_first, description: "초진 환자 수", icon: FaUserCheck, color: "bg-yellow-100" },
   ];
 
   // 파이차트 데이터
   const pieLabels = ["건보", "산재", "자보"];
   const pieData = [
-    stats.jubStats.in_total_0,
-    stats.jubStats.in_total_1,
-    stats.jubStats.in_total_2,
+    in_total_0,
+    in_total_1,
+    in_total_2,
   ];
-
-  const filteredList = stats.jubStats.filteredList;
 
   return (
     <section className="left-section p-4 bg-gray-100 rounded-md">
@@ -50,9 +63,10 @@ export default function LeftSection({ stats }: LeftSectionProps) {
         <DonutChart data={pieData} labels={pieLabels} />
       </div>
 
-      <h2 className="text-xl font-bold mb-4">외래 통계</h2>
-      <div className="mb-6">
-        {/* <LineChart dates={date} patientCounts={patientCounts} /> */}
+      <h2 className="text-xl font-bold mb-4">입원 추이</h2>
+      <div className="mb-6"
+      style={{ height: "250px", width: "710px", backgroundColor: "white" }}>
+        <LineChart stats={stats} date={date} />
       </div>
 
       {/* 리스트 */}

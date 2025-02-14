@@ -1,5 +1,17 @@
 export interface PatientStats {
-    jubStats: {
+    inPatientStats: {
+      date: string;
+      totalinpatient: number;
+      todayadm: number;
+      todaydc: number;
+      insurance00: number;
+      insurance10: number;
+      insurance20: number;
+      insurance30: number;
+      insurance50: number;
+    }[];
+    outPatientStats: {
+      date: string;
       in_total: number;
       in_new: number;
       in_first: number;
@@ -15,17 +27,6 @@ export interface PatientStats {
         jubTprt: number;
         chamMemo2: string;
       }[];
-    };
-    inPatientStats: {
-      date: string;
-      totalinpatient: number;
-      todayadm: number;
-      todaydc: number;
-      insurance00: number;
-      insurance10: number;
-      insurance20: number;
-      insurance30: number;
-      insurance50: number;
     }[];
   }
   

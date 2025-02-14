@@ -34,8 +34,8 @@ export default function RightSection({ stats, date }: RightSectionProps) {
   const inpatientCards = [
     { title: "현재", value: totalinpatient, description: `현재 입원 환자 수 [전일 대비 ${differenceText}]`, icon:FaWheelchair, color:"bg-blue-100" },
     { title: "", value: "", description: "", icon: undefined, color:"bg-gray-100" },
-    { title: "입원", value: todayadm, description: "오늘 입원 환자 수", icon: FaUserPlus, color: "bg-green-100" },
-    { title: "퇴원", value: todaydc, description: "오늘 퇴원 환자 수", icon: FaUserMinus, color: "bg-yellow-100" },
+    { title: "입원", value: todayadm, description: "입원 환자 수", icon: FaUserPlus, color: "bg-green-100" },
+    { title: "퇴원", value: todaydc, description: "퇴원 환자 수", icon: FaUserMinus, color: "bg-yellow-100" },
   ];
 
   // 파이차트 데이터

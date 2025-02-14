@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getDbPool } from "@/lib/db";
-import { refineJubData } from "@/lib/refineStats";
 import { refineInpatientData } from "@/lib/refineStats";
 import { refineOutpatientData } from "@/lib/refineStats";
 
@@ -41,30 +40,11 @@ export async function GET(request: Request) {
 
     const inPatientStats = refineInpatientData(inPatientData, startDate, date);
 
-    // 두 번째 쿼리: VIEWJUBLIST 데이터 처리
-    const viewJubListQuery = `
+    const outPatientQuery = `
       SELECT *
       FROM VIEWJUBLIST
-      WHERE jubDate = @date AND jubInDate = '        ';
-    `;
-
-    const viewJubListResult = await pool
-      .request()
-      .input("date", date)
-      .query(viewJubListQuery);
-
-    const jubData = viewJubListResult.recordset;
-
-    // 데이터 후처리
-    const jubStats = refineJubData(jubData);
-
-    const outPatientQuery = `
-      SELECT jubDate AS date, COUNT(*) AS totaloutpatient
-      FROM VIEWJUBLIST
       WHERE jubDate BETWEEN @startDate AND @date 
-        AND jubInDate = '        '
-      GROUP BY jubDate
-      ORDER BY jubDate ASC;
+        AND jubInDate = '        ';
     `;
 
     const outPatientResult = await pool
@@ -75,14 +55,12 @@ export async function GET(request: Request) {
 
     const outPatientData = outPatientResult.recordset;
 
-    const outpatientStats = refineOutpatientData(outPatientData, startDate, date);
-
+    const outPatientStats = refineOutpatientData(outPatientData);
 
     // 최종 통계 데이터 통합
     const stats = {
-      jubStats,
       inPatientStats,
-      outpatientStats,
+      outPatientStats,
     };
 
     return NextResponse.json(stats);
