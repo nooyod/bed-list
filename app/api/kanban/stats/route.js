@@ -106,6 +106,7 @@ export async function GET() {
       acc[date].push({
         name: item.chart_name,
         gender: item.chart_gender,
+        insurance: item.chart_insurance,
       });
       return acc;
     }, {});

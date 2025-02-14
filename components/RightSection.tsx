@@ -42,9 +42,9 @@ export default function RightSection({ stats, date }: RightSectionProps) {
   const pieLabels = ["건보", "산재", "자보", "급여", "일반"];
   const pieData = [
     insurance00,
-    insurance10,
-    insurance20,
     insurance30,
+    insurance20,
+    insurance10,
     insurance50,
   ];
 

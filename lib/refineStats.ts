@@ -122,3 +122,47 @@ interface JubData {
     return stats;
   };
   
+  function generateDateRange(startDate: string, endDate: string): string[] {
+    const dates: string[] = [];
+    let currentDate = new Date(startDate);
+  
+    while (currentDate <= new Date(endDate)) {
+      dates.push(currentDate.toISOString().split("T")[0].replace(/-/g, ""));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    return dates;
+  }
+
+  export function refineOutpatientData(
+    outPatientData: any[],
+    startDate: string,
+    date: string
+  ) {
+
+    // 날짜별 데이터를 저장할 객체 초기화
+    const refinedData: { date: string; in_total: number; in_new: number; in_first: number; in_again: number; in_total_0: number; in_total_1: number; in_total_2: number; filteredList: any[] }[] = [];
+  
+    // startDate부터 date까지의 날짜 목록 생성
+    const dateList = generateDateRange(startDate, date);
+  
+    // 날짜별 데이터를 매핑
+    dateList.forEach((currentDate) => {
+      const dailyData = outPatientData.find((item) => item.date === currentDate);
+  
+      refinedData.push({
+        date: currentDate,
+        in_total: dailyData?.in_total || 0,
+        in_new: dailyData?.in_new || 0,
+        in_first: dailyData?.in_first || 0,
+        in_again: dailyData?.in_again || 0,
+        in_total_0: dailyData?.in_total_0 || 0,
+        in_total_1: dailyData?.in_total_1 || 0,
+        in_total_2: dailyData?.in_total_2 || 0,
+        filteredList: dailyData?.filteredList || [],
+      });
+    });
+  
+    return refinedData;
+  }
+  
