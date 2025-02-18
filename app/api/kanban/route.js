@@ -40,7 +40,7 @@ export async function GET() {
         date_stay: row.chart_date_stay, // 입원 날짜
         doct: doctorIconMap[row.chart_doct], // 담당 의사
         insurance: insusubMap[row.chart_insurance], // 보험 정보
-        memo: row.chart_memo ? '🧣' : ' ', // 메모
+        memo: row.chart_memo ? '🧧' : ' ', // 메모
         funnel: funnelMap[row.chart_funnel.slice(0,3)], // 퍼널 정보
       };
       if (kanbanData[row.chart_room]) {

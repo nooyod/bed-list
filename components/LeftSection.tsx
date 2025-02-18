@@ -63,7 +63,7 @@ export default function LeftSection({ stats, date }: LeftSectionProps) {
         <DonutChart data={pieData} labels={pieLabels} />
       </div>
 
-      <h2 className="text-xl font-bold mb-4">입원 추이</h2>
+      <h2 className="text-xl font-bold mb-4">외래 추이</h2>
       <div className="mb-6"
       style={{ height: "250px", width: "710px", backgroundColor: "white" }}>
         <LineChart stats={stats} date={date} />
