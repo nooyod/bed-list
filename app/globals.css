@@ -38,7 +38,7 @@ header {
   text-align: left;
   width: 100%;
   display: flex;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 }
 
 footer {
@@ -56,10 +56,9 @@ main {
 }
 
 .header-image {
-  width: 250px; /* 원하는 크기로 조정 가능 */
+  width: 200px; /* 원하는 크기로 조정 가능 */
   height: auto; /* 비율을 유지 */
   margin-right: 10px;
-  object-fit: cover;
   padding-left: 10px;
 }
 

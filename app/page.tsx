@@ -327,10 +327,10 @@ export default function HomePage() {
       case "전":
         return "bg-violet-800 text-white";
         // return { backgroundImage: "linear-gradient(to right, #34D399,rgb(97, 82, 231))", color: "white" };
-      case "이":
+      case "J":
         return "bg-slate-500 text-white";
         // return { backgroundImage: "linear-gradient(to right, #FB7185, #F43F5E)", color: "white" };
-      case "임":
+      case "K":
         return "bg-cyan-600 text-white";
         // return { backgroundImage: "linear-gradient(to right, #FDE68A, #FCD34D)", color: "black" };
     }
@@ -387,7 +387,7 @@ export default function HomePage() {
 
                 </div>
                 <div className="flex items-center">
-                <span className={`inline-flex items-right px-0.5 py-0.4 text-xs font-semibold ${funnelClass(card.funnel)}`}>
+                <span className={`inline-flex items-right px-1 py-0.4 text-xs font-semibold ${funnelClass(card.funnel)}`}>
                   {card.funnel}
                 </span>
               </div>
