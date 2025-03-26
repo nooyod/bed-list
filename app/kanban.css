@@ -4,73 +4,98 @@
   font-weight: normal;
   font-style: normal;
 }
+.kanban-add-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5%;
+  height: 5%;
+  background-color: #046a38;
+  color: white;
+  font-size: 1.0rem;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  z-index: 100;
+  border-radius: 8px;
+  margin-top: 100px;
+  margin-left: 1250px;
+}
+
+.stats-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5%;
+  height: 5%;
+  background-color: #046a38;
+  color: white;
+  font-size: 1.0rem;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  z-index: 100;
+  border-radius: 8px;
+  margin-top: 100px;
+  margin-left: 1400px;
+}
 
 .kanban-container {
-    display: flex;
+    display: inline-block;
     flex-wrap: nowrap;
     overflow-x: auto;
-    padding: 10px;
+    /* padding: 10px; */
     position: relative;
+    /* margin-top: 30px; */
+  }
+.kanban-header {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* 버튼과 표 사이 간격 */
+  margin-left: 100px;
+}
+
+.kanban-board {
+  display: inline-block;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  /* padding: 10px; */
+  position: relative;
+  /* margin-top: 10px;  */
+}
+
+  .column-name {
+    /* writing-mode: vertical-rl;
+    text-orientation: upright; */
+    display: inline-block;
+    margin-left: -45px;
   }
   
-  .kanban-add-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 5%;
-    height: 5%;
-    background-color: #046a38;
-    color: white;
-    font-size: 1.0rem;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    z-index: 100;
-    border-radius: 8px;
-    margin-top: 0px;
-    margin-left: 10px;
-  }
 
-  .stats-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 5%;
-    height: 5%;
-    background-color: #046a38;
-    color: white;
-    font-size: 1.0rem;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    z-index: 100;
-    border-radius: 8px;
-    margin-top: 0px;
-    margin-left: 170px;
-  }
   
   .kanban-column {
-    width: 145px;
+    /* width: 145px; */
     background-color: #F5F5F5;
     background-image: 
-    linear-gradient(#5a2d81 30px, transparent 0px);
+    linear-gradient(to right, #5a2d81 50px, transparent 0px);
     /* repeating-linear-gradient(to bottom, #bc3a3a 70px, #ceb6b6 70px); */
-    margin-right: 5px;
-    padding: 5px;
-    border-radius: 8px;
-    margin-top: 60px; 
-    text-align: center;
+    /* margin-right: 5px; */
+    padding-left: 50px;
+    /* border-radius: 8px; */
+    /* margin-top: 60px;  */
+    /* text-align: left; */
     color: white;
+    border: 1px solid #ffffff;
   }
 
   .kanban-column-male {
     background-image: 
-    linear-gradient(#005a9c 30px, transparent 0px);
+    linear-gradient(to right, #005a9c 50px, transparent 0px);
   }
 
   .kanban-column-female {
     background-image: 
-    linear-gradient(#ef3e42 30px, transparent 0px);
+    linear-gradient(to right, #ef3e42 50px, transparent 0px);
   }
 
   .kanban-card-title {
@@ -99,32 +124,43 @@
 
   .kanban-card {
     background-color: white;
-    margin-top: 5px;
+    /* margin-left: 50px; */
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
-    transition: transform 0.2s;
-    border-top: 3px solid #2fd44b; /* 구분선 추가 */
-    padding-bottom: 8px; /* 카드 간격 조정 */
+    /* transition: transform 0.2s; */
+    border-top: 3px solid #2fd44b;
+    /* padding-bottom: 8px; 카드 간격 조정 */
     /* margin-bottom: 8px; */
     width: 8.6rem;
-    height: 5.0rem;
+    height: 80px;
     color : black;
+    display: inline-block;
+    margin-top: -24px;
+    margin-right: 4px
   }
-  .kanban-card-ghost {
-    opacity: 0.7;
-    border: 2px dashed #232323;
-  }
-  
+
 
 .kanban-card-male {
   border: 1px solid #1E90FF;
-  border-top: 3px solid #1E90FF; /* 구분선 추가 */
+  border-top: 3px solid #1E90FF;
 
 }
 .kanban-card-female {
   border: 1px solid #ff4500;
-  border-top: 3px solid #ff4500; /* 구분선 추가 */
+  border-top: 3px solid #ff4500;
+}
+
+.kanban-card-ghost {
+  opacity: 0.7;
+  border: 1px dashed #232323;
+  background-color: white;
+  border-radius: 4px;
+  width: 8.6rem;
+  height: 62px;
+  display: inline-flex;
+  margin-top: -24px;
+  margin-right: 4px
 }
 
   .kanban-divider {
@@ -135,6 +171,8 @@
 
   .kanban-card-reserve {
     background-color: #FFEB3B;
+    border: 1px solid #000000;
+
   }
 
   .kanban-card-today {
@@ -144,6 +182,8 @@
 
   .kanban-card-change {
     background-color: #E0F8EC;
+    border: 1px solid #000000;
+
   }
   
   .kanban-card:hover {
@@ -201,24 +241,17 @@
     vertical-align: top;
   }
 
-  .kanban-header {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* 버튼과 표 사이 간격 */
-    margin-bottom: 0px;
-  }
-
   .stats-table-container {
     flex-grow: 0; /* 표가 남은 공간을 차지하도록 설정 */
     max-width: 800px; /* 표의 최대 너비 설정 */
-    /* margin-top: -1000px; */
     position: absolute;
     top: 0;
     left: 0;
     z-index: 100;
     width: 25%;
     height: 10%;
-    margin-left: 480px;
+    margin-top: 170px;
+    margin-left: 1250px;
   }
   
   .stats-table {

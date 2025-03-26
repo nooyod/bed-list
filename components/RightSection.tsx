@@ -2,7 +2,7 @@ import React from "react";
 import { PatientStats } from "@/types/PatientStats";
 import Card from "@/components/StatCard";
 import DonutChart from "@/components/PieChart";
-import LineChart from "@/components/LineChart";
+import BarChart from "@/components/BarChart";
 import { FaWheelchair, FaUserPlus, FaUserMinus } from "react-icons/fa";
 
 interface RightSectionProps {
@@ -68,7 +68,7 @@ export default function RightSection({ stats, date }: RightSectionProps) {
       <h2 className="text-xl font-bold mb-4">입원 추이</h2>
       <div className="mb-6"
       style={{ height: "250px", width: "710px", backgroundColor: "white" }}>
-        <LineChart stats={stats} date={date} />
+        <BarChart stats={stats} date={date} />
       </div>
     </section>
   );

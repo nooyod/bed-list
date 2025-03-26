@@ -340,14 +340,15 @@ export default function HomePage() {
   if (!board || Object.keys(board).length === 0) return <p>No board data available</p>;
 
   return (
-    <div className="kanban-container">
-    <div className="kanban-header flex items-center justify-between gap-4">
+    <div>
+    <div>
     <div className="flex gap-2">
       <button onClick={handleAddCard} className="kanban-add-button">추가</button>
       <button onClick={handleShowStats} className="stats-button">통계</button>
     </div>
       <div className="stats-table-container"><StatsTable data={statistics.sortedDoctors} /></div>
       </div>
+      <div className="kanban-board">
       {Object.entries(board).map(([column, cards]) => (
           <div 
           key={column} 
@@ -356,7 +357,7 @@ export default function HomePage() {
             (statistics.rooms.find((room) => room.room === column)?.gender === "여자") ? "kanban-column-female" : ""
           }`}
         >
-          <h2>{column}</h2>
+          <div className='column-name'>{column}</div>
           <div>
             {cards.map((card) => (
               <div
@@ -412,19 +413,21 @@ export default function HomePage() {
     )}
               </div>
             ))}
-          </div>
             {/* 고스트 카드 추가 */}
   {(() => {
     const roomData = statistics.rooms.find((room) => room.room === column);
     const remainingSlots = roomData && roomData.remaining !== null ? roomData.remaining : 0;
     return Array.from({ length: remainingSlots }).map((_, index) => (
-      <div key={`ghost-${column}-${index}`} className="kanban-card kanban-card-ghost">
+      <div key={`ghost-${column}-${index}`} className="kanban-card-ghost">
         {/* 빈 카드 형태만 표시 */}
       </div>
     ));
   })()}
+          </div>
+
         </div>
       ))}
+      </div>
       {showStatsPopup && (
         <div className="popup">
           <div className="kanban-popup">
