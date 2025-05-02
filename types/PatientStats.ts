@@ -13,6 +13,7 @@ export interface PatientStats {
     outPatientStats: {
       date: string;
       in_total: number;
+      in_total_ya: number;
       in_new: number;
       in_first: number;
       in_again: number;

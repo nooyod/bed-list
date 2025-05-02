@@ -29,7 +29,7 @@ export default function Barchart({ stats, date }: BarChartProps) {
 
   // x축: 날짜, y축: 총 입원 환자 수
   const dates = filteredStats.map((stat) => `${stat.date.slice(4, 6)}/${stat.date.slice(6, 8)}`);
-  const patientCounts = filteredStats.map((stat) => stat.totalinpatient);
+  const patientCounts = filteredStats.map((stat) => stat.totalinpatient - stat.insurance00 - stat.insurance20);
   const insurance00 = filteredStats.map((stat) => stat.insurance00);
   const insurance20 = filteredStats.map((stat) => stat.insurance20);
 
@@ -45,6 +45,14 @@ export default function Barchart({ stats, date }: BarChartProps) {
         barThickness: 20,
       },
       {
+        label: "기타",
+        data: patientCounts,
+        backgroundColor: "rgba(168, 162, 158, 0.6)",
+        borderColor: "rgba(168, 162, 158, 1)",
+        borderWidth: 1,
+        barThickness: 20,
+      },
+      {
         label: "자보",
         data: insurance20,
         backgroundColor: "rgba(251, 191, 36, 0.6)",
@@ -52,14 +60,7 @@ export default function Barchart({ stats, date }: BarChartProps) {
         borderWidth: 1,
         barThickness: 20,
       },
-      {
-        label: "총 입원",
-        data: patientCounts,
-        backgroundColor: "rgba(168, 162, 158, 0.6)",
-        borderColor: "rgba(168, 162, 158, 1)",
-        borderWidth: 1,
-        barThickness: 20,
-      }
+
     ],
   };
 

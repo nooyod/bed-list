@@ -34,6 +34,20 @@ export default function LineChart({ stats, date }: LineChartProps) {
   // const in_again = filteredStats.map((stat) => stat.in_again);
   // const in_firstnew = filteredStats.map((stat) => stat.in_first + stat.in_new);
 
+  // 🔹 요일별 색상 지정
+  const backgroundColors = filteredStats.map((stat) => {
+    const dateStr = `${stat.date.slice(0, 4)}-${stat.date.slice(4, 6)}-${stat.date.slice(6, 8)}`;
+    const day = new Date(dateStr).getDay(); // 0(일) ~ 6(토)
+
+    switch (day) {
+      case 0: return "#DC2626"; // 일 - 빨강
+      case 1: return "#60A5FA"; // 월 - 파랑
+      case 3: return "#60A5FA"; // 수 - 파랑
+      case 5: return "#60A5FA"; // 금 - 파랑
+      default: return "#a8a29e"; // 평일
+    }
+  });
+
   const data = {
     labels: dates,
     datasets: [
@@ -41,9 +55,11 @@ export default function LineChart({ stats, date }: LineChartProps) {
         label: "총 외래",
         data: in_total,
         borderColor: "#a8a29e",
-        backgroundColor: "#a8a29e",
+        backgroundColor: backgroundColors,
         fill: true,
         tension: 0.4,
+        pointRadius: 5,
+        pointHoverRadius: 8, // hover 시 확대되는 크기
       },
       // {
       //   label: "재진",

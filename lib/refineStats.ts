@@ -2,6 +2,7 @@ interface JubData {
     jubCham: string;
     jubChoJae: number;
     jubTprt: number;
+    jubJuya: number;
     chamWhanja: string;
     partName: string;
     chamMemo2: string;
@@ -98,6 +99,7 @@ interface JubData {
   ): {
     date: string;
     in_total: number;
+    in_total_ya: number;
     in_new: number;
     in_first: number;
     in_again: number;
@@ -136,6 +138,7 @@ interface JubData {
       return {
         date, // 날짜 추가
         in_total: uniqueData(data).length,
+        in_total_ya: uniqueData(data, (row) => row.jubJuya === 1).length,
         in_new: uniqueData(data, (row) => row.jubChoJae === 0).length,
         in_first: uniqueData(data, (row) => row.jubChoJae === 1).length,
         in_again: uniqueData(data, (row) =>
