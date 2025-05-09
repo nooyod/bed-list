@@ -5,12 +5,13 @@ import { IconType } from "react-icons";
 interface StatCardProps {
   title: string;
   value: string | number;
+  value_night: string | number | undefined;
   description?: string;
   icon?: IconType;
   color?: string;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, description, icon, color }) => {
+const StatCard: React.FC<StatCardProps> = ({ title, value, value_night, description, icon, color }) => {
   return (
     <div
       className={`flex items-center gap-4 p-4 rounded-lg shadow-md ${
@@ -22,7 +23,8 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, description, icon, co
       </div>
       <div>
         <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="text-2xl font-bold">{value}</p>
+        <p className="inline text-2xl font-bold mr-2">{value}</p>
+        <p className="inline text-l text-gray-500t">{value_night}</p>
         {description && <p className="text-sm text-gray-500">{description}</p>}
       </div>
     </div>

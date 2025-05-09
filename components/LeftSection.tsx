@@ -34,7 +34,7 @@ export default function LeftSection({ stats, date }: LeftSectionProps) {
   
   // 카드 데이터
   const outpatientCards = [
-    { title: "총 외래", value: `${in_total}    (${in_total_ya})`, description:`총 외래 환자 수 [전일 대비 ${differenceText}]`, icon:FaHospitalAlt, color:"bg-blue-100" },
+    { title: "총 외래", value: in_total, value_night: `(야간 ${in_total_ya})`, description:`총 외래 환자 수 [전일 대비 ${differenceText}]`, icon:FaHospitalAlt, color:"bg-blue-100" },
     { title: "재진", value: in_again, description: "재진 환자 수", icon: FaUserCheck, color: "bg-red-100" },
     { title: "신규", value: in_new, description: "신규 환자 수", icon: FaHospitalUser, color: "bg-green-100" },
     { title: "초진", value: in_first, description: "초진 환자 수", icon: FaUserCheck, color: "bg-yellow-100" },
@@ -55,7 +55,7 @@ export default function LeftSection({ stats, date }: LeftSectionProps) {
       {/* 카드들 */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         {outpatientCards.map((card, index) => (
-          <Card key={index} title={card.title} value={card.value} description={card.description} icon={card.icon} color={card.color}/>
+          <Card key={index} title={card.title} value={card.value} value_night={card.value_night} description={card.description} icon={card.icon} color={card.color}/>
         ))}
       </div>
 
