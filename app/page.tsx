@@ -63,7 +63,7 @@ interface Statistics {
   sortedDoctors: Record<string, number>;
   rooms: RoomStatistics[];
   total: Total[];
-  reserve: { date: string; patients: { name: string; gender: string; insurance: string }[] }[];
+  reserve: { date: string; patients: { name: string; gender: string; insurance: string; funnel:string; }[] }[];
 }
 
 export default function HomePage() {
@@ -458,7 +458,7 @@ export default function HomePage() {
               })}
               <br></br>
               <h1>[입원 예정]</h1>
-                {statistics.reserve.map((entry: { date: string; patients: { name: string; gender: string; insurance: string }[] }) => (
+                {statistics.reserve.map((entry: { date: string; patients: { name: string; gender: string; insurance: string; funnel: string }[] }) => (
                 <li key={entry.date}>
                   {/* 날짜 출력 */}
                   {entry.date ? `${entry.date.slice(4, 6)}/${entry.date.slice(6, 8)}` : "[대기]"}
@@ -467,7 +467,7 @@ export default function HomePage() {
                     {/* 해당 날짜의 환자 목록 출력 */}
                     {entry.patients.map((patient, index) => (
                       <li key={index}>
-                        {patient.name}({patient.gender} {patient.insurance})
+                        [{patient.funnel}]{patient.name}({patient.gender} {patient.insurance})
                       </li>
                     ))}
                     <br></br>

@@ -107,6 +107,7 @@ export async function GET() {
         name: item.chart_name,
         gender: item.chart_gender,
         insurance: item.chart_insurance,
+        funnel: item.chart_funnel,
       });
       return acc;
     }, {});

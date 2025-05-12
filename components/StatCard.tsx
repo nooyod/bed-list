@@ -5,7 +5,7 @@ import { IconType } from "react-icons";
 interface StatCardProps {
   title: string;
   value: string | number;
-  value_night: string | number | undefined;
+  value_night?: string | number;
   description?: string;
   icon?: IconType;
   color?: string;
