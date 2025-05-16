@@ -23,6 +23,8 @@ interface Card {
   memo: string;
   funnel: string;
   date_stay: number;
+  dis_code: string;
+  dis_name: string;
 }
 
 interface AdditionalCard {
@@ -40,6 +42,8 @@ interface AdditionalCard {
   chart_check_dc: string;
   chart_doct2: string;
   chart_memo: string;
+  chart_dis_code: string;
+  chart_dis_name: string;
 }
 
 interface KanbanBoard {
@@ -96,6 +100,8 @@ export default function HomePage() {
     chart_date_dc: '',
     chart_doct2: '',
     chart_memo: '',
+    chart_dis_code: '',
+    chart_dis_name: '',
   });
 
   // fetchBoard 함수 정의
@@ -159,7 +165,7 @@ export default function HomePage() {
   };
 
   const handleSaveCard = async () => {
-    const { chart_name, chart_room, chart_insurance, chart_date_adm, chart_doct, chart_funnel, chart_gender, chart_age, chart_date_dc, chart_doct2, chart_memo, } = newCard;
+    const { chart_name, chart_room, chart_insurance, chart_date_adm, chart_doct, chart_funnel, chart_gender, chart_age, chart_date_dc, chart_doct2, chart_memo, chart_dis_code, chart_dis_name } = newCard;
     if (!chart_name || !chart_room ) {
       alert('이름과 병실은 입력해야 합니다.');
       return;
@@ -180,6 +186,8 @@ export default function HomePage() {
       chart_check_dc: '',
       chart_doct2,
       chart_memo,
+      chart_dis_code,
+      chart_dis_name,
     };
 
     try {
@@ -195,7 +203,7 @@ export default function HomePage() {
         const savedCard = await response.json(); // 서버에서 저장된 카드 데이터
         setAdditionalCards((prevCards) => [...prevCards, { ...savedCard, index: prevCards.length + 1 }]);
         setShowPopup(false);
-        setNewCard({ chart_name: '', chart_room: '', chart_insurance: '', chart_date_adm: '', chart_doct: '', chart_funnel: '', chart_gender: '', chart_age: '', chart_date_dc: '', chart_doct2: '', chart_memo: '', }); // 입력 초기화
+        setNewCard({ chart_name: '', chart_room: '', chart_insurance: '', chart_date_adm: '', chart_doct: '', chart_funnel: '', chart_gender: '', chart_age: '', chart_date_dc: '', chart_doct2: '', chart_memo: '', chart_dis_code: '', chart_dis_name: '',}); // 입력 초기화
         await fetchBoard(); // 보드 데이터 다시 가져오기
       } else {
         console.error('Failed to save card');
@@ -638,6 +646,16 @@ export default function HomePage() {
                       value={editedDetails.chart_insurance || ''}
                       onChange={(e) =>
                         setEditedDetails((prev) => ({ ...prev, chart_insurance: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    주상병: 
+                    <input
+                      type="text"
+                      value={editedDetails.chart_dis_name || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_dis_name: e.target.value }))
                       }
                     />
                   </label>

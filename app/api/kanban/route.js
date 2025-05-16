@@ -42,6 +42,8 @@ export async function GET() {
         insurance: insusubMap[row.chart_insurance], // 보험 정보
         memo: row.chart_memo ? '🧧' : ' ', // 메모
         funnel: funnelMap[row.chart_funnel.slice(0,3)], // 퍼널 정보
+        dis_code: row.chart_dis_code,
+        dis_name: row.chart_dis_name,
       };
       if (kanbanData[row.chart_room]) {
         kanbanData[row.chart_room].push(card);
