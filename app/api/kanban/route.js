@@ -44,6 +44,8 @@ export async function GET() {
         funnel: funnelMap[row.chart_funnel.slice(0,3)], // 퍼널 정보
         dis_code: row.chart_dis_code,
         dis_name: row.chart_dis_name,
+        xray_count: row.chart_xray_count,
+        xray_last: row.chart_xray_last,
       };
       if (kanbanData[row.chart_room]) {
         kanbanData[row.chart_room].push(card);

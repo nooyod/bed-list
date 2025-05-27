@@ -189,11 +189,26 @@
   .kanban-card:hover {
     transform: scale(1.05);
   }
+
+/* 팝업 박스: 중앙 정렬 및 모던한 그림자 효과 */
+.kanbancard-popup {
+  position: fixed;
+  top: 20%;
+  left: 65%;
+  background-color: #fff;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  padding: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  animation: popupIn 0.3s ease both;
+  z-index: 1000;
+}
   
-  .kanban-popup {
+  .kanban-popup {    
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 40%;
+    left: 78%;
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 20px;

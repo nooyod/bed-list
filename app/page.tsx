@@ -25,6 +25,8 @@ interface Card {
   date_stay: number;
   dis_code: string;
   dis_name: string;
+  xray_count: number;
+  xray_last: string;
 }
 
 interface AdditionalCard {
@@ -44,6 +46,8 @@ interface AdditionalCard {
   chart_memo: string;
   chart_dis_code: string;
   chart_dis_name: string;
+  chart_xray_count?: number | string;
+  chart_xray_last: string;
 }
 
 interface KanbanBoard {
@@ -102,6 +106,8 @@ export default function HomePage() {
     chart_memo: '',
     chart_dis_code: '',
     chart_dis_name: '',
+    chart_xray_count: '',
+    chart_xray_last: '',
   });
 
   // fetchBoard 함수 정의
@@ -165,7 +171,7 @@ export default function HomePage() {
   };
 
   const handleSaveCard = async () => {
-    const { chart_name, chart_room, chart_insurance, chart_date_adm, chart_doct, chart_funnel, chart_gender, chart_age, chart_date_dc, chart_doct2, chart_memo, chart_dis_code, chart_dis_name } = newCard;
+    const { chart_name, chart_room, chart_insurance, chart_date_adm, chart_doct, chart_funnel, chart_gender, chart_age, chart_date_dc, chart_doct2, chart_memo, chart_dis_code, chart_dis_name, chart_xray_count, chart_xray_last } = newCard;
     if (!chart_name || !chart_room ) {
       alert('이름과 병실은 입력해야 합니다.');
       return;
@@ -188,6 +194,8 @@ export default function HomePage() {
       chart_memo,
       chart_dis_code,
       chart_dis_name,
+      chart_xray_count : Number(chart_xray_count),
+      chart_xray_last,
     };
 
     try {
@@ -203,7 +211,7 @@ export default function HomePage() {
         const savedCard = await response.json(); // 서버에서 저장된 카드 데이터
         setAdditionalCards((prevCards) => [...prevCards, { ...savedCard, index: prevCards.length + 1 }]);
         setShowPopup(false);
-        setNewCard({ chart_name: '', chart_room: '', chart_insurance: '', chart_date_adm: '', chart_doct: '', chart_funnel: '', chart_gender: '', chart_age: '', chart_date_dc: '', chart_doct2: '', chart_memo: '', chart_dis_code: '', chart_dis_name: '',}); // 입력 초기화
+        setNewCard({ chart_name: '', chart_room: '', chart_insurance: '', chart_date_adm: '', chart_doct: '', chart_funnel: '', chart_gender: '', chart_age: '', chart_date_dc: '', chart_doct2: '', chart_memo: '', chart_dis_code: '', chart_dis_name: '', chart_xray_count: '', chart_xray_last: '',}); // 입력 초기화
         await fetchBoard(); // 보드 데이터 다시 가져오기
       } else {
         console.error('Failed to save card');
@@ -561,17 +569,17 @@ export default function HomePage() {
         </div>
       )}
       {showCardPopup && selectedCard && (
-        <div className="kanban-popup">
-          <h2>환자 세부 정보</h2>
+        <div className="kanbancard-popup">
           {popupLoading ? (
             <p>Loading...</p>
           ) : cardDetails ? ( 
             <div>
               {isEditing ? (
                 <div>
+                  <div className="flex justify-between">
                   <label>
-                    이름: 
-                    <input
+                    {/* <span className="font-semibold text-gray-600">이름: </span> */}
+                    <input className="font-semibold text-2xl text-gray-700 w-[150px]"                    
                       type="text"
                       value={editedDetails.chart_name || ''}
                       onChange={(e) =>
@@ -579,9 +587,11 @@ export default function HomePage() {
                       }
                     />
                   </label>
+                  </div>
+                  <div className="flex justify-start">
                   <label>
-                    나이: 
-                    <input
+                    나이：
+                    <input className="font-semibold text-l text-gray-500 w-[40px]"
                       type="number"
                       value={editedDetails.chart_age || ''}
                       onChange={(e) =>
@@ -590,8 +600,8 @@ export default function HomePage() {
                     />
                   </label>
                   <label>
-                    성별: 
-                    <select
+                    성별： 
+                    <select className="font-semibold text-l text-gray-500 w-[40px]"
                       value={editedDetails.chart_gender}
                       onChange={(e) => setEditedDetails((prev) => ({ ...prev, chart_gender: e.target.value }))}
                       >
@@ -601,9 +611,12 @@ export default function HomePage() {
                         <option value="모름">모름</option>
                     </select>
                   </label>
+                  </div>
+                   <hr className="border-t border-gray-300 my-4" />
+                  <div className="flex justify-start space-x-14">
                   <label>
-                    병실: 
-                    <select
+                    병실： 
+                    <select className="font-semibold text-xl text-gray-700 w-[80px]"
                       value={editedDetails.chart_room}
                       onChange={(e) => setEditedDetails((prev) => ({ ...prev, chart_room: e.target.value }))}
                       >
@@ -616,8 +629,8 @@ export default function HomePage() {
                     </select>
                   </label>
                   <label>
-                    담당: 
-                    <select
+                    담당：
+                    <select className="text-l text-gray-700 w-[70px]"
                       value={editedDetails.chart_doct2}
                       onChange={(e) => setEditedDetails((prev) => ({ ...prev, chart_doct2: e.target.value }))}
                       >
@@ -629,52 +642,11 @@ export default function HomePage() {
                       ))}
                     </select>
                   </label>
+                  </div>                  
+                  <div className="flex justify-start space-x-3">
                   <label>
-                    유입: 
-                    <input
-                      type="text"
-                      value={editedDetails.chart_funnel || ''}
-                      onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_funnel: e.target.value }))
-                      }
-                    />
-                  </label>
-                  <label>
-                    유형: 
-                    <input
-                      type="text"
-                      value={editedDetails.chart_insurance || ''}
-                      onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_insurance: e.target.value }))
-                      }
-                    />
-                  </label>
-                  <label>
-                    주상병: 
-                    <input
-                      type="text"
-                      value={editedDetails.chart_dis_name || ''}
-                      onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_dis_name: e.target.value }))
-                      }
-                    />
-                  </label>
-                  <label>
-                    기간: 
-                    <input
-                      type="number"
-                      value={editedDetails.chart_date_stay || ''}
-                      onChange={(e) =>
-                        setEditedDetails((prev) => ({ ...prev, chart_date_stay: Number(e.target.value) }))
-                      }
-                      className='stay-input'
-                      disabled
-                    />
-                    일
-                  </label>
-                  <label>
-                    입원:
-                    <input
+                    입원일：
+                    <input className="font-semibold text-l text-gray-700 w-[110px]"
                       type="date"
                       value={
                         editedDetails.chart_date_adm
@@ -690,8 +662,8 @@ export default function HomePage() {
                     />
                   </label>
                   <label>
-                    퇴원: 
-                    <input
+                    퇴원예정일： 
+                    <input className="font-semibold text-l text-gray-700 w-[110px]"
                       type="date"
                       value={editedDetails.chart_date_dc || ''}
                       onChange={(e) =>
@@ -699,9 +671,22 @@ export default function HomePage() {
                       }
                     />
                   </label>
+                  </div>                  
+                  <div className="flex justify-start space-x-20">                  
+                    <label>
+                    기간： 
+                    <input className="text-l text-gray-700 w-[57px]"
+                      type="number"
+                      value={editedDetails.chart_date_stay || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_date_stay: Number(e.target.value) }))
+                      }
+                      disabled
+                    />
+                  </label>
                   <label>
-                    퇴원확정:
-                    <input
+                    퇴원확정：
+                    <input className="text-l text-gray-700 w-[20px]"
                       type="checkbox"
                       checked={!!editedDetails.chart_check_dc}
                       onChange={(e) =>
@@ -712,8 +697,75 @@ export default function HomePage() {
                       }
                     />
                   </label>
+                  </div>     
+                   <hr className="border-t border-gray-300 my-4" />
+                  <div className="flex justify-start space-x-20">                  
                   <label>
-                    메모: 
+                    유입： 
+                    <input className="text-l text-gray-700 w-[200px]"
+                      type="text"
+                      value={editedDetails.chart_funnel || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_funnel: e.target.value }))
+                      }
+                    />
+                  </label>
+                  </div>
+                  <div className="flex justify-start">          
+                  <label>
+                    유형：
+                    <input
+                      type="text"
+                      value={editedDetails.chart_insurance || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_insurance: e.target.value }))
+                      }
+                    />
+                  </label>
+                  </div>
+                  <div className="flex justify-start">   
+                  <label>
+                    주상병： 
+                    <input className="text-l text-gray-700 w-[450px]"
+                      type="text"
+                      value={editedDetails.chart_dis_name || ''}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_dis_name: e.target.value }))
+                      }
+                    />
+                  </label>
+                  </div>                  
+                  <div className="flex justify-start space-x-10">   
+                  <label>
+                    X-RAY 횟수： 
+                    <input className="text-l text-gray-700 w-[50px]"
+                      type="text"
+                      value={editedDetails.chart_xray_count || '0'}
+                      onChange={(e) =>
+                        setEditedDetails((prev) => ({ ...prev, chart_xray_count: e.target.value }))
+                      }
+                    />
+                  </label>                  
+                  <label>
+                    마지막 X-RAY： 
+                    <input className="text-l text-gray-700 w-[100px]"
+                            type="text"
+                            value={
+                              editedDetails.chart_xray_last
+                                ? editedDetails.chart_xray_last.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3')
+                                : '없음'
+                            }
+                            onChange={(e) =>
+                              setEditedDetails((prev) => ({
+                                ...prev,
+                                chart_xray_last: e.target.value.replace(/-/g, '')
+                              }))
+                            }
+                    />
+                  </label>
+                  </div>
+                  <label>
+                    메모：
                     <textarea
                       value={editedDetails.chart_memo || ''}
                       onChange={(e) =>
