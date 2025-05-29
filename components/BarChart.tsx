@@ -29,9 +29,12 @@ export default function Barchart({ stats, date }: BarChartProps) {
 
   // x축: 날짜, y축: 총 입원 환자 수
   const dates = filteredStats.map((stat) => `${stat.date.slice(4, 6)}/${stat.date.slice(6, 8)}`);
-  const patientCounts = filteredStats.map((stat) => stat.totalinpatient - stat.insurance00 - stat.insurance20);
+  // const patientCounts = filteredStats.map((stat) => stat.totalinpatient - stat.insurance00 - stat.insurance20);
   const insurance00 = filteredStats.map((stat) => stat.insurance00);
+  const insurance10 = filteredStats.map((stat) => stat.insurance10);
   const insurance20 = filteredStats.map((stat) => stat.insurance20);
+  const insurance30 = filteredStats.map((stat) => stat.insurance30);
+  const insurance50 = filteredStats.map((stat) => stat.insurance50);
 
   const data = {
     labels: dates,
@@ -45,10 +48,26 @@ export default function Barchart({ stats, date }: BarChartProps) {
         barThickness: 20,
       },
       {
-        label: "기타",
-        data: patientCounts,
-        backgroundColor: "rgba(168, 162, 158, 0.6)",
-        borderColor: "rgba(168, 162, 158, 1)",
+        label: "산재",
+        data: insurance30,
+        backgroundColor: "rgba(218, 58, 58, 0.6)",
+        borderColor: "rgba(218, 58, 58, 1)",
+        borderWidth: 1,
+        barThickness: 20,
+      },
+      {
+        label: "급여",
+        data: insurance10,
+        backgroundColor: "rgba(58, 167, 218, 0.6)",
+        borderColor: "rgba(58, 167, 218, 1)",
+        borderWidth: 1,
+        barThickness: 20,
+      },
+      {
+        label: "일반",
+        data: insurance50,
+        backgroundColor: "rgba(186, 58, 218, 0.6)",
+        borderColor: "rgba(186, 58, 218, 1)",
         borderWidth: 1,
         barThickness: 20,
       },

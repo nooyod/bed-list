@@ -25,6 +25,8 @@ export default function LeftSection({ stats, date }: LeftSectionProps) {
   const in_total_0 = selectedData ? selectedData.in_total_0 : 0;
   const in_total_1 = selectedData ? selectedData.in_total_1 : 0;
   const in_total_2 = selectedData ? selectedData.in_total_2 : 0;
+  const in_total_3 = selectedData ? selectedData.in_total_3 : 0;
+  const in_total_4 = selectedData ? selectedData.in_total_4 : 0;
   const filteredList = selectedData ? selectedData.filteredList : [];
 
   const yesterdayData = stats?.outPatientStats.find((item) => item.date === (parseInt(date) - 1).toString());
@@ -41,11 +43,13 @@ export default function LeftSection({ stats, date }: LeftSectionProps) {
   ];
 
   // 파이차트 데이터
-  const pieLabels = ["건보", "산재", "자보"];
+  const pieLabels = ["건보", "산재", "자보", "급여", "기타"];
   const pieData = [
     in_total_0,
     in_total_1,
     in_total_2,
+    in_total_3,
+    in_total_4,
   ];
 
   return (

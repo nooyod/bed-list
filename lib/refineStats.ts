@@ -6,6 +6,7 @@ interface JubData {
     chamWhanja: string;
     partName: string;
     chamMemo2: string;
+    partkey: number;
   }
     
   interface RawInpatientData {
@@ -106,6 +107,8 @@ interface JubData {
     in_total_0: number;
     in_total_1: number;
     in_total_2: number;
+    in_total_3: number;
+    in_total_4: number;
     filteredList: {
       jubCham: string;
       jubChoJae: number;
@@ -144,9 +147,11 @@ interface JubData {
         in_again: uniqueData(data, (row) =>
           [2, 3, 4, 5].includes(row.jubChoJae)
         ).length,
-        in_total_0: uniqueData(data, (row) => row.jubTprt === 0).length,
-        in_total_1: uniqueData(data, (row) => row.jubTprt === 1).length,
-        in_total_2: uniqueData(data, (row) => row.jubTprt === 2).length,
+        in_total_0: uniqueData(data, (row) => row.partkey === 4).length,
+        in_total_1: uniqueData(data, (row) => row.partkey === 6 || row.partkey === 61 || row.partkey === 62).length,
+        in_total_2: uniqueData(data, (row) => row.partkey === 7 || row.partkey === 71).length,
+        in_total_3: uniqueData(data, (row) => row.partkey === 5 || row.partkey === 3).length,
+        in_total_4: uniqueData(data, (row) => row.partkey === 1 || row.partkey === 2 || row.partkey === 8 || row.partkey === 9).length,
         filteredList: uniqueData(
           data,
           (row) => row.jubChoJae === 0 || row.jubChoJae === 1
@@ -157,6 +162,7 @@ interface JubData {
           partName: row.partName,
           jubTprt: row.jubTprt,
           chamMemo2: row.chamMemo2,
+          partkey: row.partkey,
         })),
       };
     });

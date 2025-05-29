@@ -31,6 +31,7 @@ export default function LineChart({ stats, date }: LineChartProps) {
   // x축: 날짜, y축: 총 입원 환자 수
   const dates = filteredStats.map((stat) => `${stat.date.slice(4, 6)}/${stat.date.slice(6, 8)}`);
   const in_total = filteredStats.map((stat) => stat.in_total);
+  // const insurance00 = filteredStats.map((stat) => stat.insurance00);
   // const in_again = filteredStats.map((stat) => stat.in_again);
   // const in_firstnew = filteredStats.map((stat) => stat.in_first + stat.in_new);
 

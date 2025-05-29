@@ -20,6 +20,8 @@ export interface PatientStats {
       in_total_0: number;
       in_total_1: number;
       in_total_2: number;
+      in_total_3: number;
+      in_total_4: number;
       filteredList: {
         jubCham: string;
         jubChoJae: number;

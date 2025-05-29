@@ -767,7 +767,7 @@ export default function HomePage() {
                   <label>
                     메모：
                     <textarea
-                      value={editedDetails.chart_memo || ''}
+                      value={editedDetails.chart_memo || '1.\n2.\n3.\n4.'}
                       onChange={(e) =>
                         setEditedDetails((prev) => ({ ...prev, chart_memo: e.target.value }))
                       }
