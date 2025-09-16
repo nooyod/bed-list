@@ -10,11 +10,21 @@ interface JubData {
   }
     
   interface RawInpatientData {
+    CHARTNO: number;   // 환자 번호
+    PATNAME: string;   // 환자 이름
     INDAT: string;  // 입원 날짜 (yyyymmdd 형식)
     OUTDAT: string; // 퇴원 날짜 (yyyymmdd 형식 또는 공백)
     INSUCLS: string; // 보험 코드
     OUTKIND: string; // 입원 종류 (e.g., "99" for 입원)
   }
+
+  interface FilteredPatient {
+  CHARTNO: number;
+  PATNAME: string;
+  INDAT: string;
+  OUTDAT: string;
+  OUTKIND: string;
+}
   
   interface InpatientStats {
     date: string; // 날짜 (yyyymmdd 형식)
@@ -26,6 +36,10 @@ interface JubData {
     insurance20: number; // 보험 종류 2
     insurance30: number; // 보험 종류 3
     insurance50: number; // 보험 종류 5
+    filteredList: {
+    admitted: FilteredPatient[]; // 당일 입원자 목록
+    discharged: FilteredPatient[]; // 당일 퇴원자 목록
+    };
   }
   
   export const refineInpatientData = (
@@ -58,6 +72,9 @@ interface JubData {
         (item.OUTDAT > currentDate || item.OUTDAT.trim() === "")
       );
       
+      const admittedList = rawData.filter((item) => item.INDAT === currentDate);
+      const dischargedList = rawData.filter((item) => item.OUTDAT === currentDate);
+
       const todayAdm = rawData.filter(item => item.INDAT === currentDate).length;
       const todayDc = rawData.filter(item => item.OUTDAT === currentDate).length;
 
@@ -89,8 +106,25 @@ interface JubData {
         insurance20: insuranceCounts.insurance20,
         insurance30: insuranceCounts.insurance30,
         insurance50: insuranceCounts.insurance50,
+        filteredList: {
+          admitted: admittedList.map((p) => ({
+            CHARTNO: p.CHARTNO,
+            PATNAME: p.PATNAME,
+            INDAT: p.INDAT,
+            OUTDAT: p.OUTDAT,
+            OUTKIND: p.OUTKIND,
+          })),
+          discharged: dischargedList.map((p) => ({
+            CHARTNO: p.CHARTNO,
+            PATNAME: p.PATNAME,
+            INDAT: p.INDAT,
+            OUTDAT: p.OUTDAT,
+            OUTKIND: p.OUTKIND,
+          })),
+        },
       });
     }
+
   
     return stats;
   };

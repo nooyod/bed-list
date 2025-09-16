@@ -343,10 +343,10 @@ export default function HomePage() {
       case "전":
         return "bg-violet-800 text-white";
         // return { backgroundImage: "linear-gradient(to right, #34D399,rgb(97, 82, 231))", color: "white" };
-      case "J":
+      case "한":
         return "bg-slate-500 text-white";
         // return { backgroundImage: "linear-gradient(to right, #FB7185, #F43F5E)", color: "white" };
-      case "K":
+      case "임":
         return "bg-cyan-600 text-white";
         // return { backgroundImage: "linear-gradient(to right, #FDE68A, #FCD34D)", color: "black" };
     }
