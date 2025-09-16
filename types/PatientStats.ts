@@ -1,3 +1,11 @@
+interface FilteredPatient {
+  CHARTNO: string;
+  PATNAME: string;
+  INDAT: string;
+  OUTDAT: string;
+  OUTKIND: string;   // string 으로 변경
+}
+
 export interface PatientStats {
     inPatientStats: {
       date: string;
@@ -9,6 +17,10 @@ export interface PatientStats {
       insurance20: number;
       insurance30: number;
       insurance50: number;
+      filteredList: {
+        admitted: FilteredPatient[];   // 당일 입원자 목록
+        discharged: FilteredPatient[]; // 당일 퇴원자 목록
+  };
     }[];
     outPatientStats: {
       date: string;

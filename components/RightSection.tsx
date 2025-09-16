@@ -3,6 +3,7 @@ import { PatientStats } from "@/types/PatientStats";
 import Card from "@/components/StatCard";
 import DonutChart from "@/components/PieChart";
 import BarChart from "@/components/BarChart";
+import Table from "@/components/Table";
 import { FaWheelchair, FaUserPlus, FaUserMinus } from "react-icons/fa";
 
 interface RightSectionProps {
@@ -24,6 +25,7 @@ export default function RightSection({ stats, date }: RightSectionProps) {
   const insurance20 = selectedData ? selectedData.insurance20 : 0;
   const insurance30 = selectedData ? selectedData.insurance30 : 0;
   const insurance50 = selectedData ? selectedData.insurance50 : 0;
+  const filteredList = selectedData?.filteredList ?? { admitted: [], discharged: [] };
 
   const yesterdayData = stats?.inPatientStats.find((item) => item.date === (parseInt(date) - 1).toString());
   const totalinpatient_yesterday = yesterdayData ? yesterdayData.totalinpatient : 0;
@@ -70,6 +72,44 @@ export default function RightSection({ stats, date }: RightSectionProps) {
       style={{ height: "250px", width: "710px", backgroundColor: "white" }}>
         <BarChart stats={stats} date={date} />
       </div>
+
+      {/* 리스트 */}
+      {/* <h3 className="text-lg font-semibold mb-2">입원 목록</h3>
+        <div className="mt-4">
+          <Table
+            headers={["번호", "이름"]}
+            rows={(filteredList?.admitted ?? []).map((item) => [
+              item.CHARTNO.slice(-5),
+              (item.PATNAME ?? "").trim(),
+            ])}
+          />
+        </div> */}
+      {/* <h3 className="text-lg font-semibold mb-2">당일 입원/퇴원 목록</h3> */}
+        <div className="mt-4 grid grid-cols-2 gap-4">
+          {/* 좌측: 당일 입원자 목록 */}
+          <div>
+            <h3 className="text-lg font-semibold mb-2">입원 목록</h3>
+            <Table
+              headers={["번호", "이름"]}
+              rows={(filteredList?.admitted ?? []).map((item) => [
+                item.CHARTNO.slice(-5),
+                (item.PATNAME ?? "").trim(),
+              ])}
+            />
+          </div>
+
+          {/* 우측: 당일 퇴원자 목록 */}
+          <div>
+            <h3 className="text-lg font-semibold mb-2">퇴원 목록</h3>
+            <Table
+              headers={["번호", "이름"]}
+              rows={(filteredList?.discharged ?? []).map((item) => [
+                item.CHARTNO.slice(-5),
+                (item.PATNAME ?? "").trim(),
+              ])}
+            />
+          </div>
+        </div>
     </section>
   );
 }

@@ -34,7 +34,7 @@ export default function Table({ headers, rows }: TableProps) {
             className="border border-gray-300 px-4 py-2 text-center"
             colSpan={4}
           >
-            선택된 날짜에 해당하는 데이터가 없습니다.
+            데이터가 없습니다.
           </td>
         </tr>
       )}

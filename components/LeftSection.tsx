@@ -75,7 +75,7 @@ export default function LeftSection({ stats, date }: LeftSectionProps) {
       </div>
 
       {/* 리스트 */}
-      <h3 className="text-lg font-semibold mb-2">초진 환자 목록 </h3>
+      <h3 className="text-lg font-semibold mb-2">초진 환자 목록</h3>
         <div className="mt-4">
           <Table
             headers={["번호", "이름", "유형", "유입"]}
