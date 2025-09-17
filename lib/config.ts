@@ -1,4 +1,4 @@
-export const insusubMap = {
+export const insusubMap: Record<string, string> = {
     '010': '건보',
     '020': '희귀',
     '040': '차1',

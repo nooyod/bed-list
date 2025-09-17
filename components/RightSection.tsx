@@ -5,6 +5,7 @@ import DonutChart from "@/components/PieChart";
 import BarChart from "@/components/BarChart";
 import Table from "@/components/Table";
 import { FaWheelchair, FaUserPlus, FaUserMinus } from "react-icons/fa";
+import { insusubMap } from '@/lib/config';
 
 interface RightSectionProps {
   stats: PatientStats | null;
@@ -74,42 +75,38 @@ export default function RightSection({ stats, date }: RightSectionProps) {
       </div>
 
       {/* 리스트 */}
-      {/* <h3 className="text-lg font-semibold mb-2">입원 목록</h3>
-        <div className="mt-4">
-          <Table
-            headers={["번호", "이름"]}
-            rows={(filteredList?.admitted ?? []).map((item) => [
-              item.CHARTNO.slice(-5),
-              (item.PATNAME ?? "").trim(),
-            ])}
-          />
-        </div> */}
       {/* <h3 className="text-lg font-semibold mb-2">당일 입원/퇴원 목록</h3> */}
-        <div className="mt-4 grid grid-cols-2 gap-4">
+        {/* <div className="mt-4 grid grid-cols-2 gap-4"> */}
           {/* 좌측: 당일 입원자 목록 */}
-          <div>
+          <div className="mt-4">
             <h3 className="text-lg font-semibold mb-2">입원 목록</h3>
             <Table
-              headers={["번호", "이름"]}
+              headers={["병실", "번호", "이름", "유형", "유입"]}
               rows={(filteredList?.admitted ?? []).map((item) => [
+                item.ROOM,
                 item.CHARTNO.slice(-5),
                 (item.PATNAME ?? "").trim(),
+                insusubMap[item.INSUSUB.trim()],
+                item.FUNNEL.replace("/SMS거부","").replace("/sms거부",""),
               ])}
             />
           </div>
 
           {/* 우측: 당일 퇴원자 목록 */}
-          <div>
+          <div className="mt-4">
             <h3 className="text-lg font-semibold mb-2">퇴원 목록</h3>
             <Table
-              headers={["번호", "이름"]}
+              headers={["병실", "번호", "이름", "유형", "유입"]}
               rows={(filteredList?.discharged ?? []).map((item) => [
+                item.ROOM,
                 item.CHARTNO.slice(-5),
                 (item.PATNAME ?? "").trim(),
+                insusubMap[item.INSUSUB.trim()],
+                item.FUNNEL.replace("/SMS거부","").replace("/sms거부",""),
               ])}
             />
           </div>
-        </div>
+        {/* </div> */}
     </section>
   );
 }

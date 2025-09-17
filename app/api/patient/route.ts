@@ -24,11 +24,22 @@ export async function GET(request: Request) {
     const pool = await getDbPool();
 
     // 첫 번째 쿼리: SILVER_PATIENT_INFO 데이터 처리
+    // const inPatientQuery = `
+    //   SELECT *
+    //   FROM SILVER_PATIENT_INFO
+    //   WHERE INDAT <= @date AND (OUTDAT >= @startDate OR OUTDAT = '        ');
+    //   `;
+
     const inPatientQuery = `
-      SELECT *
-      FROM SILVER_PATIENT_INFO
-      WHERE INDAT <= @date AND (OUTDAT >= @startDate OR OUTDAT = '        ');
-      `;
+      SELECT 
+          s.*,
+          w.cham_memo2 AS FUNNEL
+      FROM SILVER_PATIENT_INFO s
+      LEFT JOIN Wcham w
+        ON s.CHARTNO = w.cham_key
+      WHERE s.INDAT <= @date 
+        AND (s.OUTDAT >= @startDate OR s.OUTDAT = '        ');
+    `;
 
     const inPatientResult = await pool
       .request()

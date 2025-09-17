@@ -4,6 +4,9 @@ interface FilteredPatient {
   INDAT: string;
   OUTDAT: string;
   OUTKIND: string;   // string 으로 변경
+  INSUSUB: string;
+  FUNNEL: string;
+  ROOM: string;
 }
 
 export interface PatientStats {

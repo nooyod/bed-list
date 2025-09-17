@@ -16,6 +16,9 @@ interface JubData {
     OUTDAT: string; // 퇴원 날짜 (yyyymmdd 형식 또는 공백)
     INSUCLS: string; // 보험 코드
     OUTKIND: string; // 입원 종류 (e.g., "99" for 입원)
+    FUNNEL: string;
+    ROOM: string;
+    INSUSUB: string;
   }
 
   interface FilteredPatient {
@@ -24,6 +27,9 @@ interface JubData {
   INDAT: string;
   OUTDAT: string;
   OUTKIND: string;
+  INSUSUB: string;
+  FUNNEL: string;
+  ROOM: string;
 }
   
   interface InpatientStats {
@@ -113,6 +119,9 @@ interface JubData {
             INDAT: p.INDAT,
             OUTDAT: p.OUTDAT,
             OUTKIND: p.OUTKIND,
+            INSUSUB: p.INSUSUB,
+            FUNNEL: p.FUNNEL,
+            ROOM: p.ROOM,
           })),
           discharged: dischargedList.map((p) => ({
             CHARTNO: p.CHARTNO,
@@ -120,6 +129,9 @@ interface JubData {
             INDAT: p.INDAT,
             OUTDAT: p.OUTDAT,
             OUTKIND: p.OUTKIND,
+            INSUSUB: p.INSUSUB,
+            FUNNEL: p.FUNNEL,
+            ROOM: p.ROOM,
           })),
         },
       });
