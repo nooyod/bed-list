@@ -1,3 +1,6 @@
+import { InSalesStat, OutSalesStat } from "@/types/SalesStats";
+// import { parseYYYYMMDD } from "@/lib/date";
+
 interface JubData {
     jubCham: string;
     jubChoJae: number;
@@ -214,3 +217,49 @@ interface JubData {
     });
   };
   
+  export const refineInSalesData = (
+    inSalesData: { isum_date: string; isum_su_amt: number }[]
+  ): { salesStats: InSalesStat[] } => {
+    const grouped: Record<string, number> = {};
+
+    inSalesData.forEach((row) => {
+      const date = row.isum_date;
+      const amount = Number(row.isum_su_amt) || 0;
+      grouped[date] = (grouped[date] || 0) + amount;
+    });
+
+    const salesStats: InSalesStat[] = Object.entries(grouped).map(([date, total]) => ({
+      date,
+      inSales: total,
+    }));
+
+    return { salesStats };
+  };
+
+  export const refineOutSalesData = (
+    outSalesData: { osum_date: string; osum_jin_date: string; osum_suamt: number; osum_user: string; osum_delete: number }[]
+  ): { salesStats: OutSalesStat[] } => {
+    const grouped: Record<string, number> = {};
+
+    outSalesData.forEach((row) => {
+      if (row.osum_user.trim() === "WON01") return; // osum_user 가 "WON01"이면 제외
+      if (row.osum_delete === 1) return; // 취소된 거래 제외
+
+      // 3. 날짜 비교 (진료일자가 계산일보다 늦으면 제외)
+      // const osumDate = parseYYYYMMDD(row.osum_date);
+      // const jinDate = parseYYYYMMDD(row.osum_jin_date);
+
+      // if (jinDate > osumDate) return;
+
+      const date = row.osum_date;
+      const amount = Number(row.osum_suamt) || 0;
+      grouped[date] = (grouped[date] || 0) + amount;
+    });
+
+    const salesStats: OutSalesStat[] = Object.entries(grouped).map(([date, total]) => ({
+      date,
+      outSales: total,
+    }));
+
+    return { salesStats };
+  };

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getDbPool } from "@/lib/db";
 import { refineInpatientData } from "@/lib/refineStats";
 import { refineOutpatientData } from "@/lib/refineStats";
+import { refineInSalesData } from "@/lib/refineStats";
+import { refineOutSalesData } from "@/lib/refineStats";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -68,10 +70,44 @@ export async function GET(request: Request) {
 
     const outPatientStats = refineOutpatientData(outPatientData);
 
+    const inSalesQuery = `
+      SELECT isum_date, isum_su_amt
+      FROM Wisum
+      WHERE isum_date BETWEEN @startDate AND @date;
+      `;
+
+    const inSalesResult = await pool
+      .request()
+      .input("startDate", startDate)
+      .input("date", date)
+      .query(inSalesQuery);
+
+    const inSalesData = inSalesResult.recordset;
+
+    const inSalesStats = refineInSalesData(inSalesData);
+
+    const outSalesQuery = `
+      SELECT osum_date, osum_jin_date, osum_suamt, osum_user, osum_delete
+      FROM Wosum
+      WHERE osum_date BETWEEN @startDate AND @date;
+      `;
+
+    const outSalesResult = await pool
+      .request()
+      .input("startDate", startDate)
+      .input("date", date)
+      .query(outSalesQuery);
+
+    const outSalesData = outSalesResult.recordset;
+      
+    const outSalesStats = refineOutSalesData(outSalesData);
+
     // 최종 통계 데이터 통합
     const stats = {
       inPatientStats,
       outPatientStats,
+      inSalesStats,
+      outSalesStats,
     };
 
     return NextResponse.json(stats);
